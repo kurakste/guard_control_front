@@ -1,5 +1,5 @@
 import React from 'react';
-
+/* Это нужно для хлебных крошек */
 const Breadcrumbs = React.lazy(() => import('./views/Base/Breadcrumbs'));
 const Cards = React.lazy(() => import('./views/Base/Cards'));
 const Carousels = React.lazy(() => import('./views/Base/Carousels'));
