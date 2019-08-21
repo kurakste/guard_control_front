@@ -1,6 +1,8 @@
 import React, { Suspense } from 'react';
 import { Container } from 'reactstrap';
 
+import Header from 'components/layouts/Header'
+
 import {
   AppAside,
   AppFooter,
@@ -15,7 +17,11 @@ import {
 } from '@coreui/react';
 
 const Main = () => {
-  return null
+  return (
+    <div className="app">
+      <Header />
+    </div>
+  )
 }
 
 export default Main
