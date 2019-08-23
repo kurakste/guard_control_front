@@ -1,14 +1,11 @@
 import React, { Suspense } from 'react';
-import { Container, Nav, NavItem} from 'reactstrap';
+import { Nav, NavItem} from 'reactstrap';
 import { Link, NavLink, Switch, Redirect, Route } from 'react-router-dom'; 
 import navigation from '_nav';
 import * as router from 'react-router-dom';
 // routes config
 
 import Header from 'components/layouts/Header'
-import Aside from 'components/layouts/Aside'
-import Loading from 'components/common/Loading'
-import ControlPanel from 'components/layouts/ControlPanel'
 
 import './Main.scss'
 
@@ -16,7 +13,6 @@ import routes from 'routes';
 
 
 import {
-  AppAside,
   AppSidebar,
   AppSidebarNav,
   AppHeader,
