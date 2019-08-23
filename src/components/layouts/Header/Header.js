@@ -19,7 +19,7 @@ const Header = ( {onLogout} ) => {
  
   return (
     <Suspense  fallback={Loading}>
-      <AppHeader fixed>
+      <AppHeader>
         <AppSidebarToggler className="d-lg-none" display="md" mobile />
         <AppNavbarBrand
           full={{ src: logo, width: 89, height: 25, alt: 'CoreUI Logo' }}

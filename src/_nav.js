@@ -2,27 +2,27 @@ export default {
   items: [
     {
       name: 'Тревоги',
-      url: '/',
+      url: '/main',
       icon: 'icon-bell',
     },
     {
       name: 'Регистрация',
-      url: '/main',
+      url: '/reg',
       icon: 'icon-user',
     },
     {
       name: 'Статистика',
-      url: '/',
+      url: '/chart',
       icon: 'icon-chart',
     },
     {
       name: 'Настройки',
-      url: '/',
+      url: '/settings',
       icon: 'icon-wrench',
     },
     {
       name: 'Пользователи',
-      url: '/',
+      url: '/users',
       icon: 'icon-people'
     },
   ],

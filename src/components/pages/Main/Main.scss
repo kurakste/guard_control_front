@@ -1,4 +1,12 @@
+.app-body {
+  margin-top:0;
+}
 .main-header {
   height: 45px;
   padding: 0.75rem 0rem;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
 }
