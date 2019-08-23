@@ -1,9 +1,29 @@
 export default {
   items: [
     {
-      name: 'Main',
+      name: 'Тревоги',
       url: '/',
-      icon: 'icon-globe',
+      icon: 'icon-bell',
+    },
+    {
+      name: 'Регистрация',
+      url: '/main',
+      icon: 'icon-user',
+    },
+    {
+      name: 'Статистика',
+      url: '/',
+      icon: 'icon-chart',
+    },
+    {
+      name: 'Настройки',
+      url: '/',
+      icon: 'icon-wrench',
+    },
+    {
+      name: 'Пользователи',
+      url: '/',
+      icon: 'icon-people'
     },
   ],
 };

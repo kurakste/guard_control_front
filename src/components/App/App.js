@@ -17,9 +17,9 @@ const App = () => {
     <Router>
         <React.Suspense fallback={Loading}>
           <Switch>
-            <Route exact path="/" name="Home" render={props => <Main {...props}/>} />
-            <Route path="/login" name="Login Page" render={props => <Login {...props}/>} />
-            <Route path="/register" name="Register Page" render={props => <Register {...props}/>} />
+            <Route exact path="/login" name="Login Page" render={props => <Login {...props}/>} />
+            <Route exact path="/register" name="Register Page" render={props => <Register {...props}/>} />
+            <Route path="/" name="Home" render={props => <Main {...props}/>} />
           </Switch>
         </React.Suspense>
     </Router>
