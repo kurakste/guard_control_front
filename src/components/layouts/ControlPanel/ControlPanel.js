@@ -6,9 +6,9 @@ import {
   Container,
 } from 'reactstrap';
 
-import './ControlDesc.scss'
+import './ControlPanel.scss'
 
-const ControlDesc = () => {
+const ControlPanel = () => {
   return  (
     <React.Fragment>
       <Container fluid className="main-container">
@@ -19,13 +19,13 @@ const ControlDesc = () => {
                 Here will be a map
               </div>
             </Row>
-            <Row>
-              <div className="map"> 
+            <Row className="info-container">
+              <div> 
                 Here will be a CHOP info
               </div>
             </Row>
           </Col>
-          <Col>
+          <Col className="status-container">
             Here will be status
           </Col>
         </Row>
@@ -34,4 +34,4 @@ const ControlDesc = () => {
   )
 }
 
-export default ControlDesc
+export default ControlPanel

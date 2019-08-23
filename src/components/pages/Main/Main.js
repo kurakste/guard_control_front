@@ -8,7 +8,7 @@ import * as router from 'react-router-dom';
 import Header from 'components/layouts/Header'
 import Aside from 'components/layouts/Aside'
 import Loading from 'components/common/Loading'
-import ControlDesc from 'components/layouts/ControlDesc'
+import ControlPanel from 'components/layouts/ControlPanel'
 
 import './Main.scss'
 

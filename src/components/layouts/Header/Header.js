@@ -32,7 +32,7 @@ const Header = ( {onLogout} ) => {
             <NavLink to="#" className="nav-link"><i className="icon-bell"></i><Badge pill color="danger">1</Badge></NavLink>
           </NavItem>
           <NavItem className="d-md-down-none">
-            <NavLink to="#" className="nav-link"><i className="icon-location-pin"><Badge pill color="warning">5</Badge></i></NavLink>
+            <NavLink to="#" className="nav-link"><i className="icon-people"><Badge pill color="warning">5</Badge></i></NavLink>
           </NavItem>
         </Nav>
         <Nav className="ml-auto mr-3" navbar>
