@@ -58,7 +58,7 @@ const RegistrationPanel = ( {withControls, location: { pathname }} ) => {
                 Фото
               </CardHeader>
               <CardBody className='image-container'>
-                <img src={user.img} alt="user's face" className="card-image" />
+                {user && <img src={user.img} alt="user's face" className="card-image" />}
               </CardBody>
             </Card>
           </Col>
@@ -82,7 +82,7 @@ const RegistrationPanel = ( {withControls, location: { pathname }} ) => {
                 Паспорт, первый разворот
               </CardHeader>
               <CardBody className='image-container'>
-                <img src={user.pasImg1} alt="user's face" className="card-image" />
+                {user && <img src={user.pasImg1} alt="user's face" className="card-image" />}
               </CardBody>
             </Card>
           </Col>
@@ -92,7 +92,7 @@ const RegistrationPanel = ( {withControls, location: { pathname }} ) => {
                 Паспорт, второй разворот
               </CardHeader>
               <CardBody>
-                <img src={user.pasImg1} alt="user's face" className="card-image"/>
+                {user && <img src={user.pasImg2} alt="user's face" className="card-image"/>}
                 
               </CardBody>
             </Card>
