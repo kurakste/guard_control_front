@@ -24,7 +24,6 @@ const RegistrationPanel = ( {withControls, location: { pathname }} ) => {
   
   const id = Number.parseInt(pathname.replace('/reg/', '')) 
   const user = users.filter(user => user.id === id)[0]
-  console.log(user)
 
   const [isOpen, toggleIsOpen] = useState()
   return (

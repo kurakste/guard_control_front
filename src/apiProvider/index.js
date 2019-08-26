@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { async } from 'q';
+import logger from 'logger'
+
 const api_url = process.env.REACT_APP_API_URL;
 
 const param = {
@@ -18,7 +19,7 @@ const getAllUsers = async () => {
 
     return response
   } catch (e) {
-
+    logger.log('info', e.message);
   }
 }
 
@@ -34,7 +35,7 @@ const getUser = async (id) => {
 
     return response
   } catch (e) {
-
+    logger.log('info', e.message);
   }
 }
 
@@ -50,7 +51,7 @@ const getAllAlarms = async () => {
 
     return response
   } catch (e) {
-
+    logger.log('info', e.message);
   }
 }
 
@@ -66,7 +67,7 @@ const getAlarmStatus = async (id) => {
 
     return response
   } catch (e) {
-
+    logger.log('info', e.message);
   }
 }
 
@@ -82,7 +83,7 @@ const getSecurityCompanys = async () => {
 
     return response
   } catch (e) {
-
+    logger.log('info', e.message);
   }
 }
 
@@ -98,7 +99,7 @@ const getSecurityCompanyInfo = async (id) => {
 
     return response
   } catch (e) {
-
+    logger.log('info', e.message);
   }
 }
 
@@ -119,7 +120,7 @@ const changeRequestStatus = async (id, status) => {
 
     return response
   } catch (e) {
-
+    logger.log('info', e.message);
   }
 }
 
@@ -138,7 +139,7 @@ const changeAlarmStatus = async (id, status) => {
 
     return response
   } catch (e) {
-
+    logger.log('info', e.message);
   }
 }
 
@@ -154,6 +155,6 @@ const deleteUser = async (id) => {
 
     return response
   } catch (e) {
-
+    logger.log('info', e.message);
   }
 }
