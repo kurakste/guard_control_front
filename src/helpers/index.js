@@ -1,5 +1,5 @@
 import roleChecker from './roleChecker'
 
 export {
-  roleChecker
+  roleChecker,
 }
