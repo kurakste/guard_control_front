@@ -6,21 +6,75 @@ import {
   Card,
   CardHeader,
   CardBody,
-  Table,
-  Button
+  Button,
 } from 'reactstrap';
-
+import ReactTable from 'react-table'
+import { ReactTableDefaults } from 'react-table'
 import './RegRequests.scss'
+import 'react-table/react-table.css'
 
-const users = [
-  {id: "1", name:"Алевтина", surname:"Фихтенгольц", fathername:"Олеговна", company:"Перетёрочка"},
-  {id: "2", name:"Сергей", surname:"Коровин", fathername:"Сергеевич", company:"Промрыбзавторг"},
-]
+
+import { roleChecker } from 'helpers'
+
+/* Заглушка */
+import generateUsers from './_users'
+
+const users = generateUsers(100)
+/* Конец временной заглушки */
+
+
 
 const RegRequests = ( {history} ) => {
-  
+
   const onRegCheck = (id) => {
     history.push(`/reg/${id}`)
+  }
+
+  const columns =[
+    {
+      Header: 'Имя',
+      accessor: 'firstName'
+    }, 
+    {
+      Header: 'Фамилия',
+      accessor: 'lastName'
+    }, 
+    {
+      Header: 'Адрес эл. почты',
+      accessor: 'email'
+    },
+    {
+      Header: 'Роль',
+      accessor: 'role',
+      Cell: role => {
+        return <span>
+        {
+          roleChecker(role.value)
+        }
+        </span>
+      }
+    },  
+    {
+      Header: 'Действия',
+      accessor: 'id',
+      Cell: id => {
+        return (
+          <Button color="ghost-success" onClick={()=>{onRegCheck(id.value)}}>
+            <i className="fa fa-check"></i>&nbsp;Проверить
+          </Button>
+        )
+      }
+    },  
+  ]
+
+  const column = {...ReactTableDefaults,
+    previousText: 'Предыдущая страница',
+    nextText: 'Следующая страница',
+    loadingText: 'Загрузка...',
+    noDataText: 'Строки не найдены',
+    pageText: 'Страница',
+    ofText: 'из',
+    rowsText: 'строк',
   }
 
   return (
@@ -32,34 +86,15 @@ const RegRequests = ( {history} ) => {
               <i className="fa fa-clock-o"></i> Ожидают подтверждения
             </CardHeader>
             <CardBody>
-              <Table responsive> 
-                <thead>
-                  <tr>
-                    <th>Фамилия</th>
-                    <th>Имя</th>
-                    <th>Отчество</th>
-                    <th>Название организации</th>
-                    <th>Действия</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {users.map(user => {
-                    return (
-                      <tr key={user.id} onDoubleClick={()=>{onRegCheck(user.id)}}>
-                        <td>{user.surname}</td>
-                        <td>{user.name}</td>
-                        <td>{user.fathername}</td>
-                        <td>{user.company}</td>
-                        <td>
-                          <Button color="ghost-success" onClick={()=>{onRegCheck(user.id)}}>
-                            <i className="fa fa-check"></i>&nbsp;Проверить
-                          </Button>
-                        </td>
-                      </tr>
-                    )
-                  })}
-                </tbody>
-              </Table>
+              <ReactTable
+                data={users}
+                columns={columns}
+                previousText='Предыдущая страница'
+                nextText='Следующая страница'
+                pageText= 'Страница'
+                ofText= 'из'
+                rowsText= 'строк'
+              />
             </CardBody>
           </Card>
         </Col>
