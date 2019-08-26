@@ -6,6 +6,7 @@ import * as router from 'react-router-dom';
 // routes config
 
 import Header from 'components/layouts/Header'
+import Footer from 'components/layouts/Footer'
 
 import './Main.scss'
 
@@ -59,6 +60,7 @@ const Main = ( {history, ...props} ) => {
             })}
             <Redirect from="/" to="/main" />
           </Switch>
+          <Footer />
         </main>
       </div>
     </div>

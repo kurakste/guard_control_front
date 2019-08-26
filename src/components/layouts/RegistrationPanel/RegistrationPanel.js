@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { withRouter } from 'react-router-dom'
 
 import {
   Col,
@@ -15,8 +16,15 @@ import {
 } from 'reactstrap';
 
 import './RegistrationPanel.scss'
+import users from '../RegRequests/_users'
 
-const RegistrationPanel = ( {withControls} ) => {
+/* я бы предложил брать id активного юзера из стэйта */
+
+const RegistrationPanel = ( {withControls, location: { pathname }} ) => {
+  
+  const id = Number.parseInt(pathname.replace('/reg/', '')) 
+  const user = users.filter(user => user.id === id)[0]
+
   const [isOpen, toggleIsOpen] = useState()
   return (
     <React.Fragment>
@@ -48,10 +56,8 @@ const RegistrationPanel = ( {withControls} ) => {
               <CardHeader>
                 Фото
               </CardHeader>
-              <CardBody>
-                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut
-                laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation
-                ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
+              <CardBody className='image-container'>
+                {user && <img src={user.img} alt="user's face" className="card-image" />}
               </CardBody>
             </Card>
           </Col>
@@ -74,10 +80,8 @@ const RegistrationPanel = ( {withControls} ) => {
               <CardHeader>
                 Паспорт, первый разворот
               </CardHeader>
-              <CardBody>
-                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut
-                laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation
-                ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
+              <CardBody className='image-container'>
+                {user && <img src={user.pasImg1} alt="user's face" className="card-image" />}
               </CardBody>
             </Card>
           </Col>
@@ -87,9 +91,8 @@ const RegistrationPanel = ( {withControls} ) => {
                 Паспорт, второй разворот
               </CardHeader>
               <CardBody>
-                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut
-                laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation
-                ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
+                {user && <img src={user.pasImg2} alt="user's face" className="card-image"/>}
+                
               </CardBody>
             </Card>
           </Col>
@@ -99,4 +102,4 @@ const RegistrationPanel = ( {withControls} ) => {
   )
 }
 
-export default RegistrationPanel
+export default withRouter(RegistrationPanel)

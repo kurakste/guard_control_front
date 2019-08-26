@@ -9,10 +9,13 @@
 .card-container {
   display: flex;
   flex-direction: column;
-  flex: 1;
   .card {
     flex: 1;
   }
+}
+
+.cards-container {
+  flex:auto;
 }
 
 .buttons-container {
@@ -22,5 +25,11 @@
   .btn {
     margin: 0 20px;
   }
+}
+
+.card-image {
+  display: block;
+  max-width: 100%;
+  margin: 0 auto;
 }
 
