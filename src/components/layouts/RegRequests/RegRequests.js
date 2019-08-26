@@ -9,20 +9,13 @@ import {
   Button,
 } from 'reactstrap';
 import ReactTable from 'react-table'
-import { ReactTableDefaults } from 'react-table'
 import './RegRequests.scss'
 import 'react-table/react-table.css'
 
 
 import { roleChecker } from 'helpers'
-
-/* Заглушка */
-import generateUsers from './_users'
-
-const users = generateUsers(100)
-/* Конец временной заглушки */
-
-
+/* Заглушка юзеров */
+import users from './_users'
 
 const RegRequests = ( {history} ) => {
 
@@ -66,16 +59,6 @@ const RegRequests = ( {history} ) => {
       }
     },  
   ]
-
-  const column = {...ReactTableDefaults,
-    previousText: 'Предыдущая страница',
-    nextText: 'Следующая страница',
-    loadingText: 'Загрузка...',
-    noDataText: 'Строки не найдены',
-    pageText: 'Страница',
-    ofText: 'из',
-    rowsText: 'строк',
-  }
 
   return (
     <div className="animated fadeIn table-container">
