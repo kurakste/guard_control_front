@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 import {
   Col,
@@ -8,57 +8,48 @@ import {
   CardBody,
   Button,
 } from 'reactstrap';
-import ReactTable from 'react-table'
-import './RegRequests.scss'
-import 'react-table/react-table.css'
+import ReactTable from 'react-table';
+import './RegRequests.scss';
+import 'react-table/react-table.css';
+import PropTypes from 'prop-types';
 
-
-import { roleChecker } from 'helpers'
+import { roleChecker } from 'helpers';
 /* Заглушка юзеров */
-import users from './_users'
+import users from './_users';
 
-const RegRequests = ( {history} ) => {
-
+const RegRequests = ({ history }) => {
   const onRegCheck = (id) => {
-    history.push(`/reg/${id}`)
-  }
+    history.push(`/reg/${id}`);
+  };
 
-  const columns =[
+  const columns = [
     {
       Header: 'Имя',
-      accessor: 'firstName'
-    }, 
+      accessor: 'firstName',
+    },
     {
       Header: 'Фамилия',
-      accessor: 'lastName'
-    }, 
+      accessor: 'lastName',
+    },
     {
       Header: 'Адрес эл. почты',
-      accessor: 'email'
+      accessor: 'email',
     },
     {
       Header: 'Роль',
       accessor: 'role',
-      Cell: role => {
-        return <span>
-        {
-          roleChecker(role.value)
-        }
-        </span>
-      }
-    },  
+      Cell: role => <span>{roleChecker(role.value)}</span>,
+    },
     {
       Header: 'Действия',
       accessor: 'id',
-      Cell: id => {
-        return (
-          <Button color="ghost-success" onClick={()=>{onRegCheck(id.value)}}>
-            <i className="fa fa-check"></i>&nbsp;Проверить
-          </Button>
-        )
-      }
-    },  
-  ]
+      Cell: id => (
+        <Button color="ghost-success" onClick={() => { onRegCheck(id.value); }}>
+          <i className="fa fa-check"></i>&nbsp;Проверить
+        </Button>
+      ),
+    },
+  ];
 
   return (
     <div className="animated fadeIn table-container">
@@ -83,7 +74,12 @@ const RegRequests = ( {history} ) => {
         </Col>
       </Row>
     </div>
-  )
-}
+  );
+};
 
-export default RegRequests
+RegRequests.propTypes = {
+  history: PropTypes.object.isRequired,
+};
+
+
+export default RegRequests;

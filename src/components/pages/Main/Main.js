@@ -1,14 +1,21 @@
 import React, { Suspense } from 'react';
-import { Nav, NavItem} from 'reactstrap';
-import { Link, NavLink, Switch, Redirect, Route } from 'react-router-dom'; 
+import { Nav, NavItem } from 'reactstrap';
+import PropTypes from 'prop-types';
+import {
+  Link,
+  NavLink,
+  Switch,
+  Redirect,
+  Route,
+} from 'react-router-dom';
 import navigation from '_nav';
 import * as router from 'react-router-dom';
 // routes config
 
-import Header from 'components/layouts/Header'
-import Footer from 'components/layouts/Footer'
+import Header from 'components/layouts/Header';
+import Footer from 'components/layouts/Footer';
 
-import './Main.scss'
+import './Main.scss';
 
 import routes from 'routes';
 
@@ -19,11 +26,11 @@ import {
   AppHeader,
 } from '@coreui/react';
 
-const Main = ( {history, ...props} ) => {
+const Main = ({ history, ...props }) => {
   const signOut = (e) => {
-    e.preventDefault()
-    history.push('/login')
-  }
+    e.preventDefault();
+    history.push('/login');
+  };
 
   return (
     <div className="app">
@@ -43,29 +50,30 @@ const Main = ( {history, ...props} ) => {
               <NavItem className="px-3">
                 <Link to="/data" className="nav-link">Данные</Link>
               </NavItem>
-            </Nav>           
+            </Nav>
           </AppHeader>
           <Switch>
-            {routes.map((route, idx) => {
-              return route.component ? (
+            {routes.map((route, idx) => (route.component ? (
                 <Route
                   key={idx}
                   path={route.path}
                   exact={route.exact}
                   name={route.name}
-                  render={props => (
-                    <route.component {...props} />
+                  render={renderProps => (
+                    <route.component {...renderProps} />
                   )} />
-              ) : (null);
-            })}
+            ) : (null)))}
             <Redirect from="/" to="/main" />
           </Switch>
           <Footer />
         </main>
       </div>
     </div>
+  );
+};
 
-  )
-}
+Main.propTypes = {
+  history: PropTypes.object.isRequired,
+};
 
-export default Main
+export default Main;

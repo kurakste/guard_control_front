@@ -1,2 +1,3 @@
-import ControlPanel from './ControlPanel'
-export default ControlPanel
+import ControlPanel from './ControlPanel';
+
+export default ControlPanel;
