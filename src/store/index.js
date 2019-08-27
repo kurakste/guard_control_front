@@ -1,2 +1,7 @@
-import store from './store'
-export default store
+import users from './users';
+import alarms from './alarms';
+
+export {
+  users,
+  alarms,
+};

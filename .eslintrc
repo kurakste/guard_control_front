@@ -1,8 +1,20 @@
 {
-  "extends": "airbnb-base",
+  "extends": [
+    "airbnb-base",
+    "plugin:react/recommended",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:jsx-a11y/recommended",
+  ],
+  "plugins": [
+    "react-hooks",
+    "import"
+  ],
   "rules": {
     "no-console":"off",
     "arrow-parens":"off",
     "no-use-before-define": "off",
+    "import/no-unresolved": "off",
+    "react/display-name": "off",
   }
 }

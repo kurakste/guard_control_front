@@ -1,0 +1,21 @@
+
+.map-container {
+  display: flex;
+  flex-direction: column;
+  padding-left: 30px;
+  .map {
+    flex: 0 0 75%;
+    padding-left: 1rem;
+  }
+}
+
+.info-container {
+  background-color: white;
+  border-top: 1px solid #c8ced3;
+  padding-left: 1rem;
+}
+
+.status-container {
+  background-color: white;
+  border-left: 1px solid #c8ced3;
+}

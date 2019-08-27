@@ -4,8 +4,17 @@
   display: flex;
   flex-wrap: wrap;
   border-top: none;
+  .row {
+    flex:auto;
+  }
 }
 
+.main .main-container {
+  .info-container {
+    padding-top: 45px;
+    margin-top: 1rem;
+  }
+}
 .card-container {
   display: flex;
   flex-direction: column;

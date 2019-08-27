@@ -1,2 +1,3 @@
-import RegRequests from './RegRequests'
-export default RegRequests
+import RegRequests from './RegRequests';
+
+export default RegRequests;

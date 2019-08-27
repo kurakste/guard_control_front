@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import { useStore } from 'effector-react';
 
 import {
   Col,
@@ -8,57 +9,51 @@ import {
   CardBody,
   Button,
 } from 'reactstrap';
-import ReactTable from 'react-table'
-import './RegRequests.scss'
-import 'react-table/react-table.css'
 
+import ReactTable from 'react-table';
+import PropTypes from 'prop-types';
 
-import { roleChecker } from 'helpers'
+import { roleChecker } from 'helpers';
 /* Заглушка юзеров */
-import users from './_users'
+import { users } from 'store';
 
-const RegRequests = ( {history} ) => {
+import './RegRequests.scss';
+import 'react-table/react-table.css';
 
+const RegRequests = ({ history }) => {
+  const usersFromStore = useStore(users);
   const onRegCheck = (id) => {
-    history.push(`/reg/${id}`)
-  }
+    history.push(`/reg/${id}`);
+  };
 
-  const columns =[
+  const columns = [
     {
       Header: 'Имя',
-      accessor: 'firstName'
-    }, 
+      accessor: 'firstName',
+    },
     {
       Header: 'Фамилия',
-      accessor: 'lastName'
-    }, 
+      accessor: 'lastName',
+    },
     {
       Header: 'Адрес эл. почты',
-      accessor: 'email'
+      accessor: 'email',
     },
     {
       Header: 'Роль',
       accessor: 'role',
-      Cell: role => {
-        return <span>
-        {
-          roleChecker(role.value)
-        }
-        </span>
-      }
-    },  
+      Cell: role => <span>{roleChecker(role.value)}</span>,
+    },
     {
       Header: 'Действия',
       accessor: 'id',
-      Cell: id => {
-        return (
-          <Button color="ghost-success" onClick={()=>{onRegCheck(id.value)}}>
-            <i className="fa fa-check"></i>&nbsp;Проверить
-          </Button>
-        )
-      }
-    },  
-  ]
+      Cell: id => (
+        <Button color="ghost-success" onClick={() => { onRegCheck(id.value); }}>
+          <i className="fa fa-check"></i>&nbsp;Проверить
+        </Button>
+      ),
+    },
+  ];
 
   return (
     <div className="animated fadeIn table-container">
@@ -70,7 +65,7 @@ const RegRequests = ( {history} ) => {
             </CardHeader>
             <CardBody>
               <ReactTable
-                data={users}
+                data={usersFromStore}
                 columns={columns}
                 previousText='Предыдущая страница'
                 nextText='Следующая страница'
@@ -83,7 +78,12 @@ const RegRequests = ( {history} ) => {
         </Col>
       </Row>
     </div>
-  )
-}
+  );
+};
 
-export default RegRequests
+RegRequests.propTypes = {
+  history: PropTypes.object.isRequired,
+};
+
+
+export default RegRequests;

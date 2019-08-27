@@ -1,5 +1,7 @@
-import React, { useState } from 'react'
-import { withRouter } from 'react-router-dom'
+import React, { useState } from 'react';
+import { useStore } from 'effector-react';
+import { withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 import {
   Col,
@@ -12,28 +14,28 @@ import {
   ButtonDropdown,
   DropdownToggle,
   DropdownMenu,
-  DropdownItem
+  DropdownItem,
 } from 'reactstrap';
 
-import './RegistrationPanel.scss'
-import users from '../RegRequests/_users'
+import { users } from 'store';
+import './RegistrationPanel.scss';
 
 /* я бы предложил брать id активного юзера из стэйта */
 
-const RegistrationPanel = ( {withControls, location: { pathname }} ) => {
-  
-  const id = Number.parseInt(pathname.replace('/reg/', '')) 
-  const user = users.filter(user => user.id === id)[0]
+const RegistrationPanel = ({ withControls, location: { pathname } }) => {
+  const usersFromStore = useStore(users);
+  const id = Number.parseInt(pathname.replace('/reg/', ''), 10);
+  const user = usersFromStore.filter(person => person.id === id)[0];
 
-  const [isOpen, toggleIsOpen] = useState()
+  const [isOpen, toggleIsOpen] = useState();
   return (
     <React.Fragment>
-      {withControls && 
-        <Row className='buttons-container'>
+      {withControls
+        && <Row className='buttons-container'>
           <Button color="ghost-success">
             <i className="fa fa-check"></i>&nbsp;Подтвердить
           </Button>
-          <ButtonDropdown  isOpen={isOpen} toggle={()=>toggleIsOpen(!isOpen)}>
+          <ButtonDropdown isOpen={isOpen} toggle={() => toggleIsOpen(!isOpen)}>
             <DropdownToggle caret color="ghost-warning">
               Отклонить
             </DropdownToggle>
@@ -47,7 +49,7 @@ const RegistrationPanel = ( {withControls, location: { pathname }} ) => {
           <Button color="ghost-danger">
             <i className="fa fa-close"></i>&nbsp;Отменить
           </Button>
-        </Row>      
+        </Row>
       }
       <Container fluid className="info-container">
         <Row className='cards-container'>
@@ -67,8 +69,10 @@ const RegistrationPanel = ( {withControls, location: { pathname }} ) => {
                 ФИО, контактные данные
               </CardHeader>
               <CardBody>
-                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut
-                laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation
+                Lorem ipsum dolor sit amet, consectetuer adipiscing elit,
+                sed diam nonummy nibh euismod tincidunt ut
+                laoreet dolore magna aliquam erat volutpat.
+                Ut wisi enim ad minim veniam, quis nostrud exerci tation
                 ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
               </CardBody>
             </Card>
@@ -92,14 +96,19 @@ const RegistrationPanel = ( {withControls, location: { pathname }} ) => {
               </CardHeader>
               <CardBody>
                 {user && <img src={user.pasImg2} alt="user's face" className="card-image"/>}
-                
+
               </CardBody>
             </Card>
           </Col>
         </Row>
       </Container>
     </React.Fragment>
-  )
-}
+  );
+};
 
-export default withRouter(RegistrationPanel)
+RegistrationPanel.propTypes = {
+  withControls: PropTypes.bool,
+  location: PropTypes.object.isRequired,
+};
+
+export default withRouter(RegistrationPanel);

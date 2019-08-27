@@ -21,6 +21,8 @@
     "chart.js": "^2.8.0",
     "classnames": "^2.2.6",
     "core-js": "^3.1.4",
+    "effector": "^20.1.2",
+    "effector-react": "^20.3.0",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",
     "flag-icon-css": "^3.3.0",
@@ -40,7 +42,7 @@
     "winston": "^3.2.1"
   },
   "devDependencies": {
-    "eslint": "^6.1.0",
+    "eslint": "^5.16.0",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-jsx-a11y": "^6.2.3",

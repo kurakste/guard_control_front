@@ -1,13 +1,17 @@
 import React, { Suspense } from 'react';
 import { NavLink } from 'react-router-dom';
-import { Badge, UncontrolledDropdown, DropdownItem, DropdownMenu, DropdownToggle, Nav, NavItem } from 'reactstrap';
+
+import {
+  Badge, UncontrolledDropdown, DropdownItem, DropdownMenu, DropdownToggle, Nav, NavItem,
+} from 'reactstrap';
+
 import PropTypes from 'prop-types';
 
 import { AppHeader, AppNavbarBrand, AppSidebarToggler } from '@coreui/react';
-import Loading from 'components/common/Loading'
+import Loading from 'components/common/Loading';
 
-import logo from 'assets/img/brand/logo.svg'
-import sygnet from 'assets/img/brand/sygnet.svg'
+import logo from 'assets/img/brand/logo.svg';
+import sygnet from 'assets/img/brand/sygnet.svg';
 
 const propTypes = {
   children: PropTypes.node,
@@ -15,15 +19,21 @@ const propTypes = {
 
 const defaultProps = {};
 
-const Header = ( {onLogout} ) => {
- 
-  return (
-    <Suspense  fallback={Loading}>
-      <AppHeader>
+const Header = ({ onLogout }) => (
+    <Suspense fallback={Loading}>
+      <AppHeader fixed>
         <AppSidebarToggler className="d-lg-none" display="md" mobile />
         <AppNavbarBrand
-          full={{ src: logo, width: 89, height: 25, alt: 'CoreUI Logo' }}
-          minimized={{ src: sygnet, width: 30, height: 30, alt: 'CoreUI Logo' }}
+          full={
+            {
+              src: logo, width: 89, height: 25, alt: 'CoreUI Logo',
+            }
+          }
+          minimized={
+            {
+              src: sygnet, width: 30, height: 30, alt: 'CoreUI Logo',
+            }
+          }
         />
         <AppSidebarToggler className="d-md-down-none" display="lg" />
 
@@ -36,7 +46,7 @@ const Header = ( {onLogout} ) => {
           </NavItem>
         </Nav>
         <Nav className="ml-auto mr-3" navbar>
-          <UncontrolledDropdown  nav inNavbar>
+          <UncontrolledDropdown nav inNavbar>
             <DropdownToggle className="text-primary" nav caret>
               username@guardcontrol.ru
             </DropdownToggle>
@@ -49,10 +59,14 @@ const Header = ( {onLogout} ) => {
         </Nav>
       </AppHeader>
     </Suspense>
-  );
-}
+);
 
 Header.propTypes = propTypes;
 Header.defaultProps = defaultProps;
+
+
+Header.propTypes = {
+  onLogout: PropTypes.func.isRequired,
+};
 
 export default Header;
