@@ -2,12 +2,13 @@ import React from 'react';
 
 import {
   Container,
+  Row,
+  Col,
   Nav,
   NavItem,
 } from 'reactstrap';
 
 import { AppHeader } from '@coreui/react';
-
 
 import {
   Link,
@@ -19,9 +20,23 @@ import {
 
 import Map from '../Map';
 import RegistrationPanel from '../RegistrationPanel';
+import Alarms from '../Alarms';
 
 import './ControlPanel.scss';
 
+const ControlPanel = () => (
+  <React.Fragment>
+    <Container fluid className="main-container">
+      <Row>
+        <Col lg='2' className='alarms-container'>
+          <Alarms />
+        </Col>
+        <Col></Col>
+      </Row>
+    </Container>
+  </React.Fragment>
+);
+/*
 const ControlPanel = () => (
   <React.Fragment>
       <Container fluid className="main-container">
@@ -43,5 +58,5 @@ const ControlPanel = () => (
       </Container>
     </React.Fragment>
 );
-
+*/
 export default ControlPanel;

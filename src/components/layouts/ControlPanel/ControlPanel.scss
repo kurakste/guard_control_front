@@ -2,9 +2,14 @@
   .main-container {
     padding: 0px;
   }
+  .alarms-container {
+    background-color: white;
+    border-right: 1px solid #c8ced3;
+    .list-group {
+      margin-top: 1rem;
+      margin-left: 15px;
+    }
+  }
 }
 
-.status-container {
-  background-color: white;
-  border-left: 1px solid #c8ced3;
-}
+

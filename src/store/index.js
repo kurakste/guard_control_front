@@ -1,6 +1,7 @@
 import users from './users';
+import alarms from './alarms';
 
 export {
-  // eslint-disable-next-line import/prefer-default-export
   users,
+  alarms,
 };
