@@ -14,9 +14,9 @@ const Alarms = () => {
   return (
     <ListGroup>
       {alarmsFromStore.map(alarm => (
-          <ListGroupItem className="justify-content-between"  tag="button" action key={alarm.id}>
-            {`Событие у ${alarm.user.lastName}`}
-            <Badge className="float-right" pill color="warning">1</Badge>
+          <ListGroupItem className="justify-content-between" tag="button" action key={alarm.id}>
+            {`Событие у ${alarm.user.lastName}, тел. ${alarm.user.tel}`}
+            <Badge className="float-right" pill color="warning">!</Badge>
           </ListGroupItem>
       ))}
     </ListGroup>
