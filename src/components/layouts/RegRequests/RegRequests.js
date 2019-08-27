@@ -1,5 +1,5 @@
 import React from 'react';
-// import { useStore } from 'effector-react';
+import { useStore } from 'effector-react';
 
 import {
   Col,
@@ -15,7 +15,7 @@ import PropTypes from 'prop-types';
 
 import { roleChecker } from 'helpers';
 /* Заглушка юзеров */
-// import { users } from 'store';
+import { users } from 'store';
 import usersFromFile from './_users';
 
 
@@ -23,8 +23,8 @@ import './RegRequests.scss';
 import 'react-table/react-table.css';
 
 const RegRequests = ({ history }) => {
-  // const usersFromStore= useStore(users);
-
+  const usersFromStore = useStore(users);
+  console.log(usersFromStore);
   const onRegCheck = (id) => {
     history.push(`/reg/${id}`);
   };

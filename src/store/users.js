@@ -25,7 +25,8 @@ getUsers.fail.watch(({ error, params }) => {
 
 const defaultState = [];
 
-const users = createStore(defaultState);
+const users = createStore(defaultState)
+  .on(getUsers.done, (state, { result }) => [...state, ...result]);
 
 getUsers();
 

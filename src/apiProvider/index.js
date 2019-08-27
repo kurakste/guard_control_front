@@ -8,17 +8,19 @@ const param = {
 
 };
 
+
 const getAllUsers = async () => {
-  const url = `${apiUrl}/users`;
+  const url = 'https:/api2.kurakste.ru/users';
 
   return new Promise((resolve, reject) => {
     axios.get(url, param)
       .then(response => {
-        if (!response.success) {
+        console.log(response);
+        if (!response.data.success) {
           logger.log('error', response.statusText);
           reject(response.statusText);
         }
-        resolve(response);
+        resolve(response.data.payload);
       })
       .catch(e => {
         logger.log('info', e.message);
