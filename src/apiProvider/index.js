@@ -2,7 +2,7 @@
 import axios from 'axios';
 import logger from 'logger';
 
-const apiUrl = process.env.REACT_APP_apiUrl;
+const apiUrl = process.env.REACT_APP_URL;
 
 const param = {
 
@@ -11,18 +11,22 @@ const param = {
 const getAllUsers = async () => {
   const url = `${apiUrl}/users`;
 
-  try {
-    const response = await axios.get(url, param);
-
-    if (!response.success) {
-      throw new Error(response.statusText);
-    }
-
-    return response;
-  } catch (e) {
-    logger.log('info', e.message);
-  }
+  return new Promise((resolve, reject) => {
+    axios.get(url, param)
+      .then(response => {
+        if (!response.success) {
+          logger.log('error', response.statusText);
+          reject(response.statusText);
+        }
+        resolve(response);
+      })
+      .catch(e => {
+        logger.log('info', e.message);
+        reject(e);
+      });
+  });
 };
+
 
 const getUser = async (id) => {
   const url = `${apiUrl}/users?id=${id}`;
@@ -158,7 +162,7 @@ const deleteUser = async (id) => {
   }
 };
 
-export default {
+export {
   getAllUsers,
   getUser,
   getAllAlarms,

@@ -1,12 +1,12 @@
-import winston from 'winston'
+import winston from 'winston';
 
-/*const options = {
+/* const options = {
   file: {
     level: 'info',
     filename: `logs/app.log`,
     handleExceptions: true,
     json: true,
-    maxsize: 5242880, 
+    maxsize: 5242880,
     maxFiles: 5,
     colorize: false,
   },
@@ -16,14 +16,14 @@ import winston from 'winston'
     json: false,
     colorize: true,
   },
-};*/
+}; */
 
 const logger = winston.createLogger({
   transports: [new winston.transports.Console()],
   format: winston.format.combine(
     winston.format.colorize({ all: true }),
-    winston.format.simple()
-  )
+    winston.format.simple(),
+  ),
 });
 
 export default logger;

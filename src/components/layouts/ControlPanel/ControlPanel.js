@@ -23,7 +23,7 @@ import RegistrationPanel from '../RegistrationPanel';
 import './ControlPanel.scss';
 
 const ControlPanel = () => (
-    <React.Fragment>
+  <React.Fragment>
       <Container fluid className="main-container">
         <AppHeader className="main-header">
           <Nav className="d-md-down-none" navbar>
