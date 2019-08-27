@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useStore } from 'effector-react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
@@ -16,15 +17,15 @@ import {
   DropdownItem,
 } from 'reactstrap';
 
+import { users } from 'store';
 import './RegistrationPanel.scss';
-import users from '../RegRequests/_users';
-
 
 /* я бы предложил брать id активного юзера из стэйта */
 
 const RegistrationPanel = ({ withControls, location: { pathname } }) => {
+  const usersFromStore = useStore(users);
   const id = Number.parseInt(pathname.replace('/reg/', ''), 10);
-  const user = users.filter(person => person.id === id)[0];
+  const user = usersFromStore.filter(person => person.id === id)[0];
 
   const [isOpen, toggleIsOpen] = useState();
   return (

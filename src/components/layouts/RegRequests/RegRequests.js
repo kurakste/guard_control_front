@@ -16,15 +16,12 @@ import PropTypes from 'prop-types';
 import { roleChecker } from 'helpers';
 /* Заглушка юзеров */
 import { users } from 'store';
-import usersFromFile from './_users';
-
 
 import './RegRequests.scss';
 import 'react-table/react-table.css';
 
 const RegRequests = ({ history }) => {
   const usersFromStore = useStore(users);
-  console.log(usersFromStore);
   const onRegCheck = (id) => {
     history.push(`/reg/${id}`);
   };
@@ -68,7 +65,7 @@ const RegRequests = ({ history }) => {
             </CardHeader>
             <CardBody>
               <ReactTable
-                data={usersFromFile}
+                data={usersFromStore}
                 columns={columns}
                 previousText='Предыдущая страница'
                 nextText='Следующая страница'
