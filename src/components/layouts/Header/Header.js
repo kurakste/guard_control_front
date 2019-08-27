@@ -21,7 +21,7 @@ const defaultProps = {};
 
 const Header = ({ onLogout }) => (
     <Suspense fallback={Loading}>
-      <AppHeader>
+      <AppHeader fixed>
         <AppSidebarToggler className="d-lg-none" display="md" mobile />
         <AppNavbarBrand
           full={
