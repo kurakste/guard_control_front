@@ -17,18 +17,29 @@ import './ControlPanel.scss';
 
 const ControlPanel = () => {
   const alarmsFromStore = useStore(alarms);
-  const [activeTab, setActive] = useState(0);
+  const [activeTab, setActiveTab] = useState(0);
+  const [activeAlarm, setActiveAlarm] = useState(alarmsFromStore[0]);
+
+  const onClick = (id) => {
+    const newAlarm = alarmsFromStore.filter(alarm => alarm.id === id)[0]
+    setActiveAlarm(newAlarm)
+  };
+
   return (
     <React.Fragment>
       <Container fluid className="main-container">
         <Row>
           <Col lg='2' className='alarms-container'>
-            <ControlPanelAlarms alarms={alarmsFromStore}/>
+            <ControlPanelAlarms
+              alarms={alarmsFromStore}
+              alarmId={activeAlarm.id}
+              onClick={onClick}
+            />
           </Col>
           <Col className="px-0 d-flex flex-column">
-            <ControlPanelHeader onClick={setActive} activeTab={activeTab} />
-            {activeTab ? <UserPanel user={alarmsFromStore[activeTab].user}/>
-              : <ControlPanelTracking alarm={alarmsFromStore[activeTab]}/>}
+            <ControlPanelHeader onClick={setActiveTab} activeTab={activeTab} />
+            {activeTab ? <UserPanel user={activeAlarm.user}/>
+              : <ControlPanelTracking alarm={activeAlarm}/>}
           </Col>
           <Col lg='2' className='events-container'>
           </Col>

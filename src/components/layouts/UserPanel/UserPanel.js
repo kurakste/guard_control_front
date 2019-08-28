@@ -50,7 +50,7 @@ const UserPanel = ({ withControls, user }) => {
         }
         <Container fluid className="info-container">
           <Row className='cards-container'>
-            <Col md="6" lg="6" className="card-container">
+            <Col className="card-container col-6">
               <Card>
                 <CardHeader>
                   Фото
@@ -60,7 +60,7 @@ const UserPanel = ({ withControls, user }) => {
                 </CardBody>
               </Card>
             </Col>
-            <Col md="6" lg="6" className="card-container">
+            <Col className="card-container col-6">
               <Card>
                 <CardHeader>
                   ФИО, контактные данные
@@ -93,7 +93,7 @@ const UserPanel = ({ withControls, user }) => {
             </Col>
           </Row>
           <Row className='cards-container'>
-            <Col md="6" className="card-container">
+            <Col className="card-container col-6">
               <Card>
                 <CardHeader>
                   Паспорт, первый разворот
@@ -103,7 +103,7 @@ const UserPanel = ({ withControls, user }) => {
                 </CardBody>
               </Card>
             </Col>
-            <Col md="6" className="card-container">
+            <Col className="card-container col-6">
               <Card>
                 <CardHeader>
                   Паспорт, второй разворот
