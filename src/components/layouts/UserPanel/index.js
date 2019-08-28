@@ -1,3 +1,3 @@
-import RegistrationPanel from './UserPanel';
+import UserPanel from './UserPanel';
 
-export default RegistrationPanel;
+export default UserPanel;

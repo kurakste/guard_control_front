@@ -1,6 +1,5 @@
 import React from 'react';
-import { useStore } from 'effector-react';
-import { alarms } from 'store';
+import PropTypes from 'prop-types';
 import {
   ListGroup,
   ListGroupItem,
@@ -8,19 +7,19 @@ import {
 } from 'reactstrap';
 import './ControlPanelAlarms.scss';
 
-const Alarms = () => {
-  const alarmsFromStore = useStore(alarms);
+const Alarms = ({ alarms }) => (
+  <ListGroup>
+    {alarms.map(alarm => (
+        <ListGroupItem className="justify-content-between" tag="button" action key={alarm.id}>
+          {`Событие у ${alarm.user.lastName}, тел. ${alarm.user.tel}`}
+          <Badge className="float-right" pill color="warning">!</Badge>
+        </ListGroupItem>
+    ))}
+  </ListGroup>
+);
 
-  return (
-    <ListGroup>
-      {alarmsFromStore.map(alarm => (
-          <ListGroupItem className="justify-content-between" tag="button" action key={alarm.id}>
-            {`Событие у ${alarm.user.lastName}, тел. ${alarm.user.tel}`}
-            <Badge className="float-right" pill color="warning">!</Badge>
-          </ListGroupItem>
-      ))}
-    </ListGroup>
-  );
+Alarms.propTypes = {
+  alarms: PropTypes.array.isRequired,
 };
 
 export default Alarms;

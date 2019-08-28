@@ -8,7 +8,7 @@ getUsers.use(async () => {
   const res = await getAllUsers();
   return res;
 });
-
+/*
 getUsers.done.watch(({ result, params }) => {
   console.log(params);
   console.log(result);

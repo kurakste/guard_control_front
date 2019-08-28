@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import { useStore } from 'effector-react';
-import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import {
@@ -15,100 +13,116 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
+  ListGroup,
+  ListGroupItem,
 } from 'reactstrap';
 
-import { users } from 'store';
+import Loading from 'components/common/Loading';
+
 import './UserPanel.scss';
 
-/* я бы предложил брать id активного юзера из стэйта */
-
-const UserPanel = ({ withControls, location: { pathname } }) => {
-  const usersFromStore = useStore(users);
-  const id = Number.parseInt(pathname.replace('/reg/', ''), 10);
-  const user = usersFromStore.filter(person => person.id === id)[0];
-
+const UserPanel = ({ withControls, user }) => {
   const [isOpen, toggleIsOpen] = useState();
+  const apiUrl = process.env.REACT_APP_URL;
   return (
-    <React.Fragment>
-      {withControls
-        && <Row className='buttons-container'>
-          <Button color="ghost-success">
-            <i className="fa fa-check"></i>&nbsp;Подтвердить
-          </Button>
-          <ButtonDropdown isOpen={isOpen} toggle={() => toggleIsOpen(!isOpen)}>
-            <DropdownToggle caret color="ghost-warning">
-              Отклонить
-            </DropdownToggle>
-            <DropdownMenu>
-              <DropdownItem header>Укажите причину</DropdownItem>
-              <DropdownItem disabled>Не понравился</DropdownItem>
-              <DropdownItem>Плохой скан паспорта</DropdownItem>
-              <DropdownItem>Паспорт не соответствет данным</DropdownItem>
-            </DropdownMenu>
-          </ButtonDropdown>
-          <Button color="ghost-danger">
-            <i className="fa fa-close"></i>&nbsp;Отменить
-          </Button>
-        </Row>
-      }
-      <Container fluid className="info-container">
-        <Row className='cards-container'>
-          <Col md="6" className="card-container">
-            <Card>
-              <CardHeader>
-                Фото
-              </CardHeader>
-              <CardBody className='image-container'>
-                {user && <img src={user.img} alt="user's face" className="card-image" />}
-              </CardBody>
-            </Card>
-          </Col>
-          <Col md="6" className="card-container">
-            <Card>
-              <CardHeader>
-                ФИО, контактные данные
-              </CardHeader>
-              <CardBody>
-                Lorem ipsum dolor sit amet, consectetuer adipiscing elit,
-                sed diam nonummy nibh euismod tincidunt ut
-                laoreet dolore magna aliquam erat volutpat.
-                Ut wisi enim ad minim veniam, quis nostrud exerci tation
-                ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
-              </CardBody>
-            </Card>
-          </Col>
-        </Row>
-        <Row className='cards-container'>
-          <Col md="6" className="card-container">
-            <Card>
-              <CardHeader>
-                Паспорт, первый разворот
-              </CardHeader>
-              <CardBody className='image-container'>
-                {user && <img src={user.pasImg1} alt="user's face" className="card-image" />}
-              </CardBody>
-            </Card>
-          </Col>
-          <Col md="6" className="card-container">
-            <Card>
-              <CardHeader>
-                Паспорт, второй разворот
-              </CardHeader>
-              <CardBody>
-                {user && <img src={user.pasImg2} alt="user's face" className="card-image"/>}
-
-              </CardBody>
-            </Card>
-          </Col>
-        </Row>
-      </Container>
-    </React.Fragment>
+    <React.Suspense fallback={<Loading />}>
+      <React.Fragment>
+        {withControls
+          && <Row className='buttons-container'>
+            <Button color="ghost-success">
+              <i className="fa fa-check"></i>&nbsp;Подтвердить
+            </Button>
+            <ButtonDropdown isOpen={isOpen} toggle={() => toggleIsOpen(!isOpen)}>
+              <DropdownToggle caret color="ghost-warning">
+                Отклонить
+              </DropdownToggle>
+              <DropdownMenu>
+                <DropdownItem header>Укажите причину</DropdownItem>
+                <DropdownItem disabled>Не понравился</DropdownItem>
+                <DropdownItem>Плохой скан паспорта</DropdownItem>
+                <DropdownItem>Паспорт не соответствет данным</DropdownItem>
+              </DropdownMenu>
+            </ButtonDropdown>
+            <Button color="ghost-danger">
+              <i className="fa fa-close"></i>&nbsp;Отменить
+            </Button>
+          </Row>
+        }
+        <Container fluid className="info-container">
+          <Row className='cards-container'>
+            <Col md="6" lg="6" className="card-container">
+              <Card>
+                <CardHeader>
+                  Фото
+                </CardHeader>
+                <CardBody className='image-container'>
+                  {user && <img src={`${apiUrl}img/${user.img}`} alt="user's face" className="card-image" />}
+                </CardBody>
+              </Card>
+            </Col>
+            <Col md="6" lg="6" className="card-container">
+              <Card>
+                <CardHeader>
+                  ФИО, контактные данные
+                </CardHeader>
+                <CardBody>
+                  <ListGroup flush>
+                    <ListGroupItem>
+                      <strong>Фамилия: </strong>
+                      {user.lastName}
+                    </ListGroupItem>
+                    <ListGroupItem>
+                      <strong>Имя: </strong>
+                      {user.firstName}
+                    </ListGroupItem>
+                    <ListGroupItem>
+                      <strong>Адрес эл. почты: </strong>
+                      <a href={`mailto:${user.email}`}>
+                        {user.email}
+                      </a>
+                    </ListGroupItem>
+                    <ListGroupItem>
+                      <strong>Телефон: </strong>
+                      <a href={`tel:${user.tel}`}>
+                        {user.tel}
+                      </a>
+                    </ListGroupItem>
+                  </ListGroup>
+                </CardBody>
+              </Card>
+            </Col>
+          </Row>
+          <Row className='cards-container'>
+            <Col md="6" className="card-container">
+              <Card>
+                <CardHeader>
+                  Паспорт, первый разворот
+                </CardHeader>
+                <CardBody className='image-container'>
+                  <img src={`${apiUrl}img/${user.pasImg1}`} alt="user's passport, 1st page" className="card-image" />
+                </CardBody>
+              </Card>
+            </Col>
+            <Col md="6" className="card-container">
+              <Card>
+                <CardHeader>
+                  Паспорт, второй разворот
+                </CardHeader>
+                <CardBody>
+                  <img src={`${apiUrl}img/${user.pasImg2}`} alt="user's passport, 1st page" className="card-image"/>
+                </CardBody>
+              </Card>
+            </Col>
+          </Row>
+        </Container>
+      </React.Fragment>
+    </React.Suspense>
   );
 };
 
 UserPanel.propTypes = {
   withControls: PropTypes.bool,
-  location: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
 };
 
-export default withRouter(UserPanel);
+export default UserPanel;
