@@ -6,7 +6,7 @@ import {
   ListGroupItem,
   Badge,
 } from 'reactstrap';
-import './Alarms.scss';
+import './ControlPanelAlarms.scss';
 
 const Alarms = () => {
   const alarmsFromStore = useStore(alarms);

@@ -4,23 +4,19 @@ import {
   Container,
   Row,
   Col,
-  Nav,
-  NavItem,
 } from 'reactstrap';
-
-import { AppHeader } from '@coreui/react';
-
+/*
 import {
-  Link,
-  NavLink,
   Switch,
   Redirect,
   Route,
 } from 'react-router-dom';
-
-import Map from '../Map';
-import RegistrationPanel from '../RegistrationPanel';
-import Alarms from '../Alarms';
+*/
+// import UserPanel from '../UserPanel';
+import ControlPanelAlarms from './components/ControlPanelAlarms';
+import ControlPanelHeader from './components/ControlPanelHeader';
+import ControlPanelMap from './components/ControlPanelMap';
+import ControlPanelInfo from './components/ControlPanelInfo';
 
 import './ControlPanel.scss';
 
@@ -29,9 +25,15 @@ const ControlPanel = () => (
     <Container fluid className="main-container">
       <Row>
         <Col lg='2' className='alarms-container'>
-          <Alarms />
+          <ControlPanelAlarms />
         </Col>
-        <Col></Col>
+        <Col className="px-0 d-flex flex-column">
+          <ControlPanelHeader />
+          <ControlPanelMap />
+          <ControlPanelInfo />
+        </Col>
+        <Col lg='2' className='events-container'>
+        </Col>
       </Row>
     </Container>
   </React.Fragment>

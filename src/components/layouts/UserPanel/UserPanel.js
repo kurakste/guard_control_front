@@ -18,11 +18,11 @@ import {
 } from 'reactstrap';
 
 import { users } from 'store';
-import './RegistrationPanel.scss';
+import './UserPanel.scss';
 
 /* я бы предложил брать id активного юзера из стэйта */
 
-const RegistrationPanel = ({ withControls, location: { pathname } }) => {
+const UserPanel = ({ withControls, location: { pathname } }) => {
   const usersFromStore = useStore(users);
   const id = Number.parseInt(pathname.replace('/reg/', ''), 10);
   const user = usersFromStore.filter(person => person.id === id)[0];
@@ -106,9 +106,9 @@ const RegistrationPanel = ({ withControls, location: { pathname } }) => {
   );
 };
 
-RegistrationPanel.propTypes = {
+UserPanel.propTypes = {
   withControls: PropTypes.bool,
   location: PropTypes.object.isRequired,
 };
 
-export default withRouter(RegistrationPanel);
+export default withRouter(UserPanel);
