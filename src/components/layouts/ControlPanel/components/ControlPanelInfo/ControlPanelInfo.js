@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import './ControlPanelInfo.scss';
 
@@ -11,6 +11,10 @@ const ControlPanelInfo = ({ chops }) => {
   const onClick = (index) => {
     selectChop(chops[index]);
   };
+
+  useEffect(() => {
+    selectChop(chops[0]);
+  }, [chops]);
 
   return (
     <div className="chops-container d-flex">
