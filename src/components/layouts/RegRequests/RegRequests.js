@@ -11,19 +11,18 @@ import {
 } from 'reactstrap';
 
 import ReactTable from 'react-table';
-import PropTypes from 'prop-types';
 
 import { roleChecker } from 'helpers';
-/* Заглушка юзеров */
+
 import { users } from 'store';
 
 import './RegRequests.scss';
 import 'react-table/react-table.css';
 
-const RegRequests = ({ history }) => {
+const RegRequests = () => {
   const usersFromStore = useStore(users);
   const onRegCheck = (id) => {
-    history.push(`/reg/${id}`);
+    console.log(id);
   };
 
   const columns = [
@@ -80,10 +79,5 @@ const RegRequests = ({ history }) => {
     </div>
   );
 };
-
-RegRequests.propTypes = {
-  history: PropTypes.object.isRequired,
-};
-
 
 export default RegRequests;

@@ -1,62 +1,52 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useStore } from 'effector-react';
+import { alarms } from 'store';
 
 import {
   Container,
   Row,
   Col,
-  Nav,
-  NavItem,
 } from 'reactstrap';
 
-import { AppHeader } from '@coreui/react';
-
-import {
-  Link,
-  NavLink,
-  Switch,
-  Redirect,
-  Route,
-} from 'react-router-dom';
-
-import Map from '../Map';
-import RegistrationPanel from '../RegistrationPanel';
-import Alarms from '../Alarms';
+import UserPanel from '../UserPanel';
+import ControlPanelAlarms from './components/ControlPanelAlarms';
+import ControlPanelHeader from './components/ControlPanelHeader';
+import ControlPanelTracking from './components/ControlPanelTracking';
 
 import './ControlPanel.scss';
 
-const ControlPanel = () => (
-  <React.Fragment>
-    <Container fluid className="main-container">
-      <Row>
-        <Col lg='2' className='alarms-container'>
-          <Alarms />
-        </Col>
-        <Col></Col>
-      </Row>
-    </Container>
-  </React.Fragment>
-);
-/*
-const ControlPanel = () => (
-  <React.Fragment>
+const ControlPanel = () => {
+  const alarmsFromStore = useStore(alarms);
+  const [activeTab, setActiveTab] = useState(0);
+  const [activeAlarm, setActiveAlarm] = useState(alarmsFromStore[0]);
+
+  const onClick = (id) => {
+    const newAlarm = alarmsFromStore.filter(alarm => alarm.id === id)[0]
+    setActiveAlarm(newAlarm)
+  };
+
+  return (
+    <React.Fragment>
       <Container fluid className="main-container">
-        <AppHeader className="main-header">
-          <Nav className="d-md-down-none" navbar>
-            <NavItem className="px-3">
-              <NavLink to="/main" className="nav-link" >Главный</NavLink>
-            </NavItem>
-            <NavItem className="px-3">
-              <Link to="/main/data" className="nav-link">Данные</Link>
-            </NavItem>
-          </Nav>
-        </AppHeader>
-        <Switch>
-          <Route path="/main/data" name="data" component={RegistrationPanel} />
-          <Route exact path="/main" name="map" component={Map} />
-          <Redirect from="/" to="/main" />
-        </Switch>
+        <Row>
+          <Col lg='2' className='alarms-container'>
+            <ControlPanelAlarms
+              alarms={alarmsFromStore}
+              alarmId={activeAlarm.id}
+              onClick={onClick}
+            />
+          </Col>
+          <Col className="px-0 d-flex flex-column">
+            <ControlPanelHeader onClick={setActiveTab} activeTab={activeTab} />
+            {activeTab ? <UserPanel user={activeAlarm.user}/>
+              : <ControlPanelTracking alarm={activeAlarm}/>}
+          </Col>
+          <Col lg='2' className='events-container'>
+          </Col>
+        </Row>
       </Container>
     </React.Fragment>
-);
-*/
+  );
+};
+
 export default ControlPanel;

@@ -15,7 +15,6 @@ const getAllUsers = async () => {
   return new Promise((resolve, reject) => {
     axios.get(url, param)
       .then(response => {
-        console.log(response);
         if (!response.data.success) {
           logger.log('error', response.statusText);
           reject(response.statusText);
