@@ -28,7 +28,7 @@ const Alarms = ({ alarms, alarmId, onClick }) => (
 Alarms.propTypes = {
   alarms: PropTypes.array.isRequired,
   alarmId: PropTypes.number.isRequired,
-  onClick: PropTypes.func.isRequired
+  onClick: PropTypes.func.isRequired,
 };
 
 export default Alarms;

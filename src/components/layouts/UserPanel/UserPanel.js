@@ -2,9 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import {
-  Col,
   Row,
-  Container,
   Card,
   CardHeader,
   CardBody,
@@ -48,19 +46,18 @@ const UserPanel = ({ withControls, user }) => {
             </Button>
           </Row>
         }
-        <Container fluid className="info-container">
-          <Row className='cards-container'>
-            <Col className="card-container col-6">
+          <div className='cards-container'>
+            <div className="card-container pt-2 pl-2 pr-1 pb-1">
               <Card>
                 <CardHeader>
                   Фото
                 </CardHeader>
-                <CardBody className='image-container'>
+                <CardBody >
                   {user && <img src={`${apiUrl}img/${user.img}`} alt="user's face" className="card-image" />}
                 </CardBody>
               </Card>
-            </Col>
-            <Col className="card-container col-6">
+            </div>
+            <div className="card-container pt-2 pb-1 pl-1 pr-2">
               <Card>
                 <CardHeader>
                   ФИО, контактные данные
@@ -90,20 +87,18 @@ const UserPanel = ({ withControls, user }) => {
                   </ListGroup>
                 </CardBody>
               </Card>
-            </Col>
-          </Row>
-          <Row className='cards-container'>
-            <Col className="card-container col-6">
+            </div>
+            <div className="card-container pt-1 pl-2 pr-1 pb-2">
               <Card>
                 <CardHeader>
                   Паспорт, первый разворот
                 </CardHeader>
-                <CardBody className='image-container'>
+                <CardBody >
                   <img src={`${apiUrl}img/${user.pasImg1}`} alt="user's passport, 1st page" className="card-image" />
                 </CardBody>
               </Card>
-            </Col>
-            <Col className="card-container col-6">
+            </div>
+            <div className="card-container card-container pt-1 pb-2 pl-1 pr-2">
               <Card>
                 <CardHeader>
                   Паспорт, второй разворот
@@ -112,9 +107,8 @@ const UserPanel = ({ withControls, user }) => {
                   <img src={`${apiUrl}img/${user.pasImg2}`} alt="user's passport, 1st page" className="card-image"/>
                 </CardBody>
               </Card>
-            </Col>
-          </Row>
-        </Container>
+            </div>
+          </div>
       </React.Fragment>
     </React.Suspense>
   );

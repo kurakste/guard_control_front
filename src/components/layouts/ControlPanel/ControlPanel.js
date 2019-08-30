@@ -21,8 +21,8 @@ const ControlPanel = () => {
   const [activeAlarm, setActiveAlarm] = useState(alarmsFromStore[0]);
 
   const onClick = (id) => {
-    const newAlarm = alarmsFromStore.filter(alarm => alarm.id === id)[0]
-    setActiveAlarm(newAlarm)
+    const newAlarm = alarmsFromStore.filter(alarm => alarm.id === id)[0];
+    setActiveAlarm(newAlarm);
   };
 
   return (
