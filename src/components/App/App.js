@@ -1,9 +1,11 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import io from 'socket.io-client';
+import logger from 'logger';
 // import { renderRoutes } from 'react-router-config';
 import './App.scss';
 import Loading from 'components/common/Loading';
+import { onConnect, onDisconnect } from 'store';
 
 const Main = React.lazy(() => import('../pages/Main'))
 const Login = React.lazy(() => import('../pages/Login'));
@@ -17,15 +19,17 @@ const App = () => {
     const socketUrl = process.env.REACT_APP_SOCKET;
     const socket = io(socketUrl);
     socket.on('open', () => {
-      console.log('socket connection succesfull');
+      
     });
   
     socket.on('connect', () => {
-      console.log('successfull connected');
+      logger.log('info', 'Successfuly connected')
+      onConnect();
     });
   
-    socket.on('disconnect', () => {
-      console.log('connection loose');
+    socket.on('disconnect', (msg) => {
+      logger.log('error', msg)
+      onDisconnect();
     });
   },[])
   return (

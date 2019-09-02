@@ -3,10 +3,14 @@ import { createStore, createEvent } from 'effector';
 const onConnect = createEvent();
 const onDisconnect = createEvent();
 
-const defaultState = false;
+const defaultState = 'disconnected';
 
 const status = createStore(defaultState)
-  .on(onConnect, () => true)
-  .on(onDisconnect, () => false);
+  .on(onConnect, () => 'connected')
+  .on(onDisconnect, () => 'disconnecting');
 
-export { status, onConnect, onDisconnect };
+export {
+  status,
+  onConnect,
+  onDisconnect,
+};
