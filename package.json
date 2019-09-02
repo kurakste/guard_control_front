@@ -41,6 +41,7 @@
     "react-yandex-maps": "^4.0.1",
     "reactstrap": "^8.0.0",
     "simple-line-icons": "^2.4.1",
+    "socket.io": "^2.2.0",
     "winston": "^3.2.1"
   },
   "devDependencies": {
