@@ -1,9 +1,6 @@
 import React, { Suspense } from 'react';
-import { Nav, NavItem } from 'reactstrap';
 import PropTypes from 'prop-types';
 import {
-  Link,
-  NavLink,
   Switch,
   Redirect,
   Route,
@@ -23,7 +20,6 @@ import routes from 'routes';
 import {
   AppSidebar,
   AppSidebarNav,
-  AppHeader,
 } from '@coreui/react';
 
 const Main = ({ history, ...props }) => {
@@ -42,16 +38,6 @@ const Main = ({ history, ...props }) => {
           </Suspense>
         </AppSidebar>
         <main className="main">
-          <AppHeader className="main-header">
-            <Nav className="d-md-down-none" navbar>
-              <NavItem className="px-3">
-                <NavLink to="/main" className="nav-link" >Главный</NavLink>
-              </NavItem>
-              <NavItem className="px-3">
-                <Link to="/data" className="nav-link">Данные</Link>
-              </NavItem>
-            </Nav>
-          </AppHeader>
           <Switch>
             {routes.map((route, idx) => (route.component ? (
                 <Route

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useStore } from 'effector-react';
 
 import {
   Col,
@@ -8,18 +9,20 @@ import {
   CardBody,
   Button,
 } from 'reactstrap';
+
 import ReactTable from 'react-table';
-import './RegRequests.scss';
-import 'react-table/react-table.css';
-import PropTypes from 'prop-types';
 
 import { roleChecker } from 'helpers';
-/* Заглушка юзеров */
-import users from './_users';
 
-const RegRequests = ({ history }) => {
+import { users } from 'store';
+
+import './RegRequests.scss';
+import 'react-table/react-table.css';
+
+const RegRequests = () => {
+  const usersFromStore = useStore(users);
   const onRegCheck = (id) => {
-    history.push(`/reg/${id}`);
+    console.log(id);
   };
 
   const columns = [
@@ -61,7 +64,7 @@ const RegRequests = ({ history }) => {
             </CardHeader>
             <CardBody>
               <ReactTable
-                data={users}
+                data={usersFromStore}
                 columns={columns}
                 previousText='Предыдущая страница'
                 nextText='Следующая страница'
@@ -76,10 +79,5 @@ const RegRequests = ({ history }) => {
     </div>
   );
 };
-
-RegRequests.propTypes = {
-  history: PropTypes.object.isRequired,
-};
-
 
 export default RegRequests;

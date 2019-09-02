@@ -1,64 +1,52 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useStore } from 'effector-react';
+import { alarms } from 'store';
 
 import {
-  Col,
-  Row,
   Container,
-  ListGroup,
-  ListGroupItem,
+  Row,
+  Col,
 } from 'reactstrap';
+
+import UserPanel from '../UserPanel';
+import ControlPanelAlarms from './components/ControlPanelAlarms';
+import ControlPanelHeader from './components/ControlPanelHeader';
+import ControlPanelTracking from './components/ControlPanelTracking';
 
 import './ControlPanel.scss';
 
-const ControlPanel = () => (
+const ControlPanel = () => {
+  const alarmsFromStore = useStore(alarms);
+  const [activeTab, setActiveTab] = useState(0);
+  const [activeAlarm, setActiveAlarm] = useState(alarmsFromStore[0]);
+
+  const onClick = (id) => {
+    const newAlarm = alarmsFromStore.filter(alarm => alarm.id === id)[0];
+    setActiveAlarm(newAlarm);
+  };
+
+  return (
     <React.Fragment>
       <Container fluid className="main-container">
         <Row>
-          <Col lg='10' className="map-container">
-            <Row className="map">
-              <div>
-                Here will be a map
-              </div>
-            </Row>
-            <Row className="info-container">
-              <div>
-                Here will be a CHOP info
-              </div>
-            </Row>
+          <Col lg='2' className='alarms-container'>
+            <ControlPanelAlarms
+              alarms={alarmsFromStore}
+              alarmId={activeAlarm.id}
+              onClick={onClick}
+            />
           </Col>
-          <Col className="status-container">
-            <ListGroup className="list-group-accent" tag={'div'}>
-              <ListGroupItem className="list-group-item-accent-secondary bg-light text-center font-weight-bold text-muted text-uppercase small">Статус события</ListGroupItem>
-                <ListGroupItem action tag="a" href="#" className="list-group-item-accent-success list-group-item-divider">
-                  <div> <strong>Заявка закрыта</strong> </div>
-                  <small className="text-muted mr-3">
-                    <i className="icon-calendar"></i>&nbsp; 14:30
-                  </small>
-                  <small className="text-muted">
-                    <i className="icon-location-pin"></i>ул. Гагарина
-                  </small>
-                </ListGroupItem>
-                <ListGroupItem action tag="a" href="#" className="list-group-item-accent-warning list-group-item-divider">
-                  <div>На место выдвинулся <strong> Бэтмэн </strong> </div>
-                  <small className="text-muted mr-3">
-                    <i className="icon-calendar"></i>&nbsp; 13:30
-                  </small>
-                  <small className="text-muted">
-                    <i className="icon-location-pin"></i> ул. Гагарина
-                  </small>
-                </ListGroupItem>
-                <ListGroupItem action tag="a" href="#" className="list-group-item-accent-danger list-group-item-divider">
-                  <div>Событие в <strong> магазин Перетёрочка </strong></div>
-                  <small className="text-muted mr-3"><i className="icon-calendar"></i>&nbsp; 12 - 13:00</small>
-                  <small className="text-muted">
-                    <i className="icon-location-pin"></i> ул. Гагарина
-                  </small>
-                </ListGroupItem>
-            </ListGroup>
+          <Col className="px-0 d-flex flex-column">
+            <ControlPanelHeader onClick={setActiveTab} activeTab={activeTab} />
+            {activeTab ? <UserPanel user={activeAlarm.user}/>
+              : <ControlPanelTracking alarm={activeAlarm}/>}
+          </Col>
+          <Col lg='2' className='events-container'>
           </Col>
         </Row>
       </Container>
     </React.Fragment>
-);
+  );
+};
 
 export default ControlPanel;

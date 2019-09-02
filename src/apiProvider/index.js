@@ -2,27 +2,32 @@
 import axios from 'axios';
 import logger from 'logger';
 
-const apiUrl = process.env.REACT_APP_apiUrl;
+const apiUrl = process.env.REACT_APP_URL;
 
 const param = {
 
 };
 
+
 const getAllUsers = async () => {
-  const url = `${apiUrl}/users`;
+  const url = 'https:/api2.kurakste.ru/users';
 
-  try {
-    const response = await axios.get(url, param);
-
-    if (!response.success) {
-      throw new Error(response.statusText);
-    }
-
-    return response;
-  } catch (e) {
-    logger.log('info', e.message);
-  }
+  return new Promise((resolve, reject) => {
+    axios.get(url, param)
+      .then(response => {
+        if (!response.data.success) {
+          logger.log('error', response.statusText);
+          reject(response.statusText);
+        }
+        resolve(response.data.payload);
+      })
+      .catch(e => {
+        logger.log('info', e.message);
+        reject(e);
+      });
+  });
 };
+
 
 const getUser = async (id) => {
   const url = `${apiUrl}/users?id=${id}`;
@@ -158,7 +163,7 @@ const deleteUser = async (id) => {
   }
 };
 
-export default {
+export {
   getAllUsers,
   getUser,
   getAllAlarms,
