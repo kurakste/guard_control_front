@@ -13,38 +13,79 @@ import {
   DropdownItem,
   ListGroup,
   ListGroupItem,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
 } from 'reactstrap';
 
 import Loading from 'components/common/Loading';
 
 import './UserPanel.scss';
 
-const UserPanel = ({ withControls, user }) => {
+const UserPanel = (props) => {
+  const {
+    withControls,
+    submitUser,
+    declineUser,
+    rejectUser,
+    user,
+  } = props;
   const [isOpen, toggleIsOpen] = useState();
+  const [isSubmitModalOpened, toggleSubmitModal] = useState(false);
+  const [isRejectModalOpened, toggleRejectModal] = useState(false);
   const apiUrl = process.env.REACT_APP_URL;
   return (
     <React.Suspense fallback={<Loading />}>
       <React.Fragment>
         {withControls
-          && <Row className='buttons-container'>
-            <Button color="ghost-success">
-              <i className="fa fa-check"></i>&nbsp;Подтвердить
-            </Button>
-            <ButtonDropdown isOpen={isOpen} toggle={() => toggleIsOpen(!isOpen)}>
-              <DropdownToggle caret color="ghost-warning">
-                Отклонить
-              </DropdownToggle>
-              <DropdownMenu>
-                <DropdownItem header>Укажите причину</DropdownItem>
-                <DropdownItem disabled>Не понравился</DropdownItem>
-                <DropdownItem>Плохой скан паспорта</DropdownItem>
-                <DropdownItem>Паспорт не соответствет данным</DropdownItem>
-              </DropdownMenu>
-            </ButtonDropdown>
-            <Button color="ghost-danger">
-              <i className="fa fa-close"></i>&nbsp;Отменить
-            </Button>
-          </Row>
+          && <React.Fragment>
+            <Row className='buttons-container'>
+              <Button color="ghost-success" onClick={toggleSubmitModal}>
+                <i className="fa fa-check"></i>&nbsp;Подтвердить
+              </Button>
+              <ButtonDropdown isOpen={isOpen} toggle={() => toggleIsOpen(!isOpen)}>
+                <DropdownToggle caret color="ghost-warning">
+                  Отклонить
+                </DropdownToggle>
+                <DropdownMenu>
+                  <DropdownItem header>Укажите причину</DropdownItem>
+                  <DropdownItem disabled>Не понравился</DropdownItem>
+                  <DropdownItem>Плохой скан паспорта</DropdownItem>
+                  <DropdownItem>Паспорт не соответствет данным</DropdownItem>
+                </DropdownMenu>
+              </ButtonDropdown>
+              <Button color="ghost-danger" onClick={toggleRejectModal}>
+                <i className="fa fa-close"></i>&nbsp;Отменить
+              </Button>
+            </Row>
+            <Modal
+                isOpen={Boolean(isSubmitModalOpened)}
+                toggle={toggleSubmitModal}
+                className={'modal-success'}>
+              <ModalHeader toggle={toggleSubmitModal}>Запрос подтверждения</ModalHeader>
+              <ModalBody>
+                Подтвердить согласование пользователя
+              </ModalBody>
+              <ModalFooter>
+                <Button color="primary" onClick={submitUser}>Подтвердить</Button>{' '}
+                <Button color="secondary" onClick={() => toggleSubmitModal(!isSubmitModalOpened)}>Отменить</Button>
+              </ModalFooter>
+            </Modal>
+            <Modal
+                isOpen={Boolean(isRejectModalOpened)}
+                toggle={toggleRejectModal}
+                className={'modal-danger'}>
+              <ModalHeader toggle={toggleRejectModal}>Запрос подтверждения</ModalHeader>
+              <ModalBody>
+                Подтвердить отклонение заявки пользователя
+              </ModalBody>
+              <ModalFooter>
+                <Button color="danger" onClick={rejectUser}>Подтвердить</Button>{' '}
+                <Button color="secondary" onClick={() => toggleRejectModal(!isRejectModalOpened)}>Отменить</Button>
+              </ModalFooter>
+            </Modal>
+          </React.Fragment>
         }
           <div className='cards-container'>
             <div className="card-container pt-2 pl-2 pr-1 pb-1">
@@ -117,6 +158,9 @@ const UserPanel = ({ withControls, user }) => {
 UserPanel.propTypes = {
   withControls: PropTypes.bool,
   user: PropTypes.object.isRequired,
+  submitUser: PropTypes.func,
+  declineUser: PropTypes.func,
+  rejectUser: PropTypes.func,
 };
 
 export default UserPanel;

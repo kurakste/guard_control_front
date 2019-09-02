@@ -1,83 +1,47 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { users } from 'store';
 import { useStore } from 'effector-react';
 
-import {
-  Col,
-  Row,
-  Card,
-  CardHeader,
-  CardBody,
-  Button,
-} from 'reactstrap';
-
-import ReactTable from 'react-table';
-
-import { roleChecker } from 'helpers';
-
-import { users } from 'store';
-
 import './RegRequests.scss';
-import 'react-table/react-table.css';
+
+import RegRequestsTable from './RegRequestsTable';
+import UserPanel from '../UserPanel';
+
 
 const RegRequests = () => {
   const usersFromStore = useStore(users);
+  const [onReview, setOnReview] = useState(null);
+
   const onRegCheck = (id) => {
-    console.log(id);
+    const userOnReview = usersFromStore.filter(user => user.id === id)[0];
+    setOnReview(userOnReview);
   };
 
-  const columns = [
-    {
-      Header: 'Имя',
-      accessor: 'firstName',
-    },
-    {
-      Header: 'Фамилия',
-      accessor: 'lastName',
-    },
-    {
-      Header: 'Адрес эл. почты',
-      accessor: 'email',
-    },
-    {
-      Header: 'Роль',
-      accessor: 'role',
-      Cell: role => <span>{roleChecker(role.value)}</span>,
-    },
-    {
-      Header: 'Действия',
-      accessor: 'id',
-      Cell: id => (
-        <Button color="ghost-success" onClick={() => { onRegCheck(id.value); }}>
-          <i className="fa fa-check"></i>&nbsp;Проверить
-        </Button>
-      ),
-    },
-  ];
+  const submitUser = () => {
+    console.log(`${onReview.lastName} подтверждён`);
+    setOnReview(null);
+  };
 
+  const declineUser = () => {
+    console.log(`${onReview.lastName} не подтверждён`);
+    setOnReview(null);
+  };
+
+  const rejectUser = () => {
+    console.log(`${onReview.lastName} отклонён`);
+  };
   return (
-    <div className="animated fadeIn table-container">
-      <Row>
-        <Col>
-          <Card>
-            <CardHeader>
-              <i className="fa fa-clock-o"></i> Ожидают подтверждения
-            </CardHeader>
-            <CardBody>
-              <ReactTable
-                data={usersFromStore}
-                columns={columns}
-                previousText='Предыдущая страница'
-                nextText='Следующая страница'
-                pageText= 'Страница'
-                ofText= 'из'
-                rowsText= 'строк'
-              />
-            </CardBody>
-          </Card>
-        </Col>
-      </Row>
-    </div>
+    !onReview
+      ? <RegRequestsTable onClick={onRegCheck} />
+      : <UserPanel
+          user={onReview}
+          withControls
+          submitUser={submitUser}
+          declineUser={declineUser}
+          rejectUser={rejectUser}
+        />
   );
 };
+
 
 export default RegRequests;
