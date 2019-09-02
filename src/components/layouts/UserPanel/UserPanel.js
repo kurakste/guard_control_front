@@ -81,7 +81,7 @@ const UserPanel = (props) => {
                 Подтвердить отклонение заявки пользователя
               </ModalBody>
               <ModalFooter>
-                <Button color="danger" onClick={rejectUser}>Подтвердить</Button>{' '}
+                <Button color="danger" onClick={declineUser}>Подтвердить</Button>{' '}
                 <Button color="secondary" onClick={() => toggleRejectModal(!isRejectModalOpened)}>Отменить</Button>
               </ModalFooter>
             </Modal>
