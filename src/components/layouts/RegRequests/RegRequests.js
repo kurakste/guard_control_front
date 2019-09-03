@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { appUsers, cpUsers } from 'store';
 import { useStore } from 'effector-react';
-// import { declineAppUser } from 'apiProvider';
 
 import './RegRequests.scss';
 
