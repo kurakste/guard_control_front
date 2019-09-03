@@ -10,6 +10,9 @@
     flex-direction: column;
     .card {
       flex: 1;
+      .nav-tabs {
+        border-bottom: 0;
+      }
     }
   }
 }

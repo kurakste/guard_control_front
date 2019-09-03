@@ -1,5 +1,5 @@
-import users from './users';
 import alarms from './alarms';
+import { appUsers, cpUsers } from './users';
 
 import {
   status,
@@ -8,7 +8,8 @@ import {
 } from './status';
 
 export {
-  users,
+  appUsers,
+  cpUsers,
   alarms,
   status,
   onConnect,

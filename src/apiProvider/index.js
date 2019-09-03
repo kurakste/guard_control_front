@@ -29,7 +29,7 @@ const getAllUsers = async () => {
 };
 
 const getAllAppUsers = async () => {
-  const url = `${apiUrl}/users/new-app-users`;
+  const url = `${apiUrl}users/new-app-users`;
 
   return new Promise((resolve, reject) => {
     axios.get(url, param)
@@ -47,7 +47,7 @@ const getAllAppUsers = async () => {
   });
 };
 const getAllCpUsers = async () => {
-  const url = `${apiUrl}/users/new-cp-users`;
+  const url = `${apiUrl}users/new-cp-users`;
 
   return new Promise((resolve, reject) => {
     axios.get(url, param)

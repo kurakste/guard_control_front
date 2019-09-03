@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { users } from 'store';
+import React, { useState, useEffect } from 'react';
+import { appUsers, cpUsers } from 'store';
 import { useStore } from 'effector-react';
 
 import './RegRequests.scss';
@@ -9,11 +9,23 @@ import UserPanel from '../UserPanel';
 
 
 const RegRequests = () => {
-  const usersFromStore = useStore(users);
+  const appUsersFromStore = useStore(appUsers);
+  const cpUsersFromStore = useStore(cpUsers);
+
   const [onReview, setOnReview] = useState(null);
+  const [users, setUsers] = useState(appUsersFromStore);
+  const [activeTab, switchTab] = useState('appUsers');
+
+  useEffect(() => {
+    if (activeTab === 'appUsers') {
+      setUsers(appUsersFromStore);
+    } else {
+      setUsers(cpUsersFromStore);
+    }
+  }, [activeTab]);
 
   const onRegCheck = (id) => {
-    const userOnReview = usersFromStore.filter(user => user.id === id)[0];
+    const userOnReview = users.filter(user => user.id === id)[0];
     setOnReview(userOnReview);
   };
 
@@ -32,7 +44,12 @@ const RegRequests = () => {
   };
   return (
     !onReview
-      ? <RegRequestsTable onClick={onRegCheck} />
+      ? <RegRequestsTable
+          onClick={onRegCheck}
+          users={users}
+          switchTab={switchTab}
+          active={activeTab}
+        />
       : <UserPanel
           user={onReview}
           withControls

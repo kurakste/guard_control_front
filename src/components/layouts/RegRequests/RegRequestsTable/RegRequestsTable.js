@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { useStore } from 'effector-react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import {
@@ -18,13 +17,15 @@ import ReactTable from 'react-table';
 
 import { roleChecker } from 'helpers';
 
-import { users } from 'store';
-
 import 'react-table/react-table.css';
 
-const RegRequestsTable = ({ onClick }) => {
-  const usersFromStore = useStore(users);
-  const [activeTab, swithcTab] = useState('appUsers');
+const RegRequestsTable = (props) => {
+  const {
+    onClick,
+    users,
+    switchTab,
+    active,
+  } = props;
 
   const columns = [
     {
@@ -65,15 +66,29 @@ const RegRequestsTable = ({ onClick }) => {
             </CardHeader>
             <CardBody>
               <Nav tabs>
-                <NavItem name="appUsers" onClick={(e) => swithcTab(e.target.name)}>
-                  <NavLink href="#" active = {activeTab === 'appUsers'}>Пользователи приложения</NavLink>
+                <NavItem>
+                  <NavLink href="#"
+                   active = {active === 'appUsers'}
+                   name="appUsers"
+                   onClick={(e) => {
+                     e.preventDefault();
+                     switchTab(e.target.name);
+                   }}
+                   >Пользователи приложения</NavLink>
                 </NavItem>
-                <NavItem name="сpUsers" onClick={(e) => swithcTab(e.target.name)}>
-                  <NavLink href="#" active = {activeTab === 'сpUsers'} >Пользователи контрольной панели</NavLink>
+                <NavItem>
+                  <NavLink href="#"
+                    active = {active === 'сpUsers'}
+                    name="cpUsers"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      switchTab(e.target.name);
+                    }}
+                  >Пользователи контрольной панели</NavLink>
                 </NavItem>
               </Nav>
               <ReactTable
-                data={usersFromStore}
+                data={users}
                 columns={columns}
                 previousText='Предыдущая страница'
                 nextText='Следующая страница'
@@ -91,6 +106,9 @@ const RegRequestsTable = ({ onClick }) => {
 
 RegRequestsTable.propTypes = {
   onClick: PropTypes.func.isRequired,
+  active: PropTypes.string.isRequired,
+  users: PropTypes.array.isRequired,
+  switchTab: PropTypes.func.isRequired,
 };
 
 
