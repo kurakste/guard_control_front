@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { appUsers, cpUsers } from 'store';
 import { useStore } from 'effector-react';
+// import { declineAppUser } from 'apiProvider';
 
 import './RegRequests.scss';
 
@@ -22,7 +23,8 @@ const RegRequests = () => {
     } else {
       setUsers(cpUsersFromStore);
     }
-  }, [activeTab]);
+  }, [activeTab, appUsersFromStore, cpUsersFromStore]);
+
 
   const onRegCheck = (id) => {
     const userOnReview = users.filter(user => user.id === id)[0];
@@ -34,8 +36,9 @@ const RegRequests = () => {
     setOnReview(null);
   };
 
-  const declineUser = () => {
+  const declineUser = (id) => {
     console.log(`${onReview.lastName} не подтверждён`);
+    // declineAppUser(id); // test
     setOnReview(null);
   };
 
