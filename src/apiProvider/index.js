@@ -28,7 +28,42 @@ const getAllUsers = async () => {
   });
 };
 
+const getAllAppUsers = async () => {
+  const url = `${apiUrl}/users/new-app-users`;
 
+  return new Promise((resolve, reject) => {
+    axios.get(url, param)
+      .then(response => {
+        if (!response.data.success) {
+          logger.log('error', response.statusText);
+          reject(response.statusText);
+        }
+        resolve(response.data.payload);
+      })
+      .catch(e => {
+        logger.log('info', e.message);
+        reject(e);
+      });
+  });
+};
+const getAllCpUsers = async () => {
+  const url = `${apiUrl}/users/new-cp-users`;
+
+  return new Promise((resolve, reject) => {
+    axios.get(url, param)
+      .then(response => {
+        if (!response.data.success) {
+          logger.log('error', response.statusText);
+          reject(response.statusText);
+        }
+        resolve(response.data.payload);
+      })
+      .catch(e => {
+        logger.log('info', e.message);
+        reject(e);
+      });
+  });
+};
 const getUser = async (id) => {
   const url = `${apiUrl}/users?id=${id}`;
 
@@ -165,6 +200,8 @@ const deleteUser = async (id) => {
 
 export {
   getAllUsers,
+  getAllAppUsers,
+  getAllCpUsers,
   getUser,
   getAllAlarms,
   getAlarmStatus,

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useStore } from 'effector-react';
 import PropTypes from 'prop-types';
 
@@ -9,6 +9,9 @@ import {
   CardHeader,
   CardBody,
   Button,
+  Nav,
+  NavItem,
+  NavLink,
 } from 'reactstrap';
 
 import ReactTable from 'react-table';
@@ -21,6 +24,7 @@ import 'react-table/react-table.css';
 
 const RegRequestsTable = ({ onClick }) => {
   const usersFromStore = useStore(users);
+  const [activeTab, swithcTab] = useState('appUsers');
 
   const columns = [
     {
@@ -60,6 +64,14 @@ const RegRequestsTable = ({ onClick }) => {
               <i className="fa fa-clock-o"></i> Ожидают подтверждения
             </CardHeader>
             <CardBody>
+              <Nav tabs>
+                <NavItem name="appUsers" onClick={(e) => swithcTab(e.target.name)}>
+                  <NavLink href="#" active = {activeTab === 'appUsers'}>Пользователи приложения</NavLink>
+                </NavItem>
+                <NavItem name="сpUsers" onClick={(e) => swithcTab(e.target.name)}>
+                  <NavLink href="#" active = {activeTab === 'сpUsers'} >Пользователи контрольной панели</NavLink>
+                </NavItem>
+              </Nav>
               <ReactTable
                 data={usersFromStore}
                 columns={columns}
