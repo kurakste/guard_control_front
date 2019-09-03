@@ -86,6 +86,26 @@ const verifyAppUser = async (id) => {
   });
 };
 
+const addAppUser = async (formData) => {
+  const url = `${apiUrl}users/user-new-ap`;
+
+  return new Promise((resolve, reject) => {
+    axios.post(url, formData, param)
+      .then(response => {
+        if (!response.data.success) {
+          logger.log('error', response.statusText);
+          reject(response.statusText);
+        }
+        resolve(response.data.payload);
+      })
+      .catch(e => {
+        logger.log('info', e.message);
+        reject(e);
+      });
+  });
+};
+
+
 /* Методы работы с пользователями командной панели */
 
 const getAllCpUsers = async () => {
@@ -304,10 +324,11 @@ export {
   getAllAppUsers,
   declineAppUser,
   verifyAppUser,
-  addCpUser,
+  addAppUser,
   getAllCpUsers,
   declineCpUser,
   verifyCpUser,
+  addCpUser,
   getUser,
   getAllAlarms,
   getAlarmStatus,

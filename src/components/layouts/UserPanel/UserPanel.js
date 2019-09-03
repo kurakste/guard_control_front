@@ -13,27 +13,15 @@ import {
   DropdownItem,
   ListGroup,
   ListGroupItem,
-  Modal,
-  ModalBody,
-  ModalFooter,
-  ModalHeader,
 } from 'reactstrap';
 
 import Loading from 'components/common/Loading';
 
 import './UserPanel.scss';
 
-const UserPanel = (props) => {
-  const {
-    withControls,
-    submitUser,
-    declineUser,
-    rejectUser,
-    user,
-  } = props;
+const UserPanel = ({ withControls, user }) => {
   const [isOpen, toggleIsOpen] = useState();
-  const [isSubmitModalOpened, toggleSubmitModal] = useState(false);
-  const [isRejectModalOpened, toggleRejectModal] = useState(false);
+
   const apiUrl = process.env.REACT_APP_URL;
   return (
     <React.Suspense fallback={<Loading />}>
@@ -41,7 +29,7 @@ const UserPanel = (props) => {
         {withControls
           && <React.Fragment>
             <Row className='buttons-container'>
-              <Button color="ghost-success" onClick={toggleSubmitModal}>
+              <Button color="ghost-success">
                 <i className="fa fa-check"></i>&nbsp;Подтвердить
               </Button>
               <ButtonDropdown isOpen={isOpen} toggle={() => toggleIsOpen(!isOpen)}>
@@ -55,36 +43,10 @@ const UserPanel = (props) => {
                   <DropdownItem>Паспорт не соответствет данным</DropdownItem>
                 </DropdownMenu>
               </ButtonDropdown>
-              <Button color="ghost-danger" onClick={toggleRejectModal}>
+              <Button color="ghost-danger">
                 <i className="fa fa-close"></i>&nbsp;Отменить
               </Button>
             </Row>
-            <Modal
-                isOpen={Boolean(isSubmitModalOpened)}
-                toggle={toggleSubmitModal}
-                className={'modal-success'}>
-              <ModalHeader toggle={toggleSubmitModal}>Запрос подтверждения</ModalHeader>
-              <ModalBody>
-                Подтвердить согласование пользователя
-              </ModalBody>
-              <ModalFooter>
-                <Button color="primary" onClick={submitUser}>Подтвердить</Button>{' '}
-                <Button color="secondary" onClick={() => toggleSubmitModal(!isSubmitModalOpened)}>Отменить</Button>
-              </ModalFooter>
-            </Modal>
-            <Modal
-                isOpen={Boolean(isRejectModalOpened)}
-                toggle={toggleRejectModal}
-                className={'modal-danger'}>
-              <ModalHeader toggle={toggleRejectModal}>Запрос подтверждения</ModalHeader>
-              <ModalBody>
-                Подтвердить отклонение заявки пользователя
-              </ModalBody>
-              <ModalFooter>
-                <Button color="danger" onClick={() => declineUser(user.id)}>Подтвердить</Button>{' '}
-                <Button color="secondary" onClick={() => toggleRejectModal(!isRejectModalOpened)}>Отменить</Button>
-              </ModalFooter>
-            </Modal>
           </React.Fragment>
         }
           <div className='cards-container'>
@@ -158,9 +120,6 @@ const UserPanel = (props) => {
 UserPanel.propTypes = {
   withControls: PropTypes.bool,
   user: PropTypes.object.isRequired,
-  submitUser: PropTypes.func,
-  declineUser: PropTypes.func,
-  rejectUser: PropTypes.func,
 };
 
 export default UserPanel;

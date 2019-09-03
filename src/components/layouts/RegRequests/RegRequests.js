@@ -10,55 +10,30 @@ import UserPanel from '../UserPanel';
 
 
 const RegRequests = () => {
-  const appUsersFromStore = useStore(appUsers);
-  const cpUsersFromStore = useStore(cpUsers);
+  const users = {
+    appUsers: useStore(appUsers),
+    cpUsers: useStore(cpUsers),
+  };
 
   const [onReview, setOnReview] = useState(null);
-  const [users, setUsers] = useState(appUsersFromStore);
   const [activeTab, switchTab] = useState('appUsers');
 
-  useEffect(() => {
-    if (activeTab === 'appUsers') {
-      setUsers(appUsersFromStore);
-    } else {
-      setUsers(cpUsersFromStore);
-    }
-  }, [activeTab, appUsersFromStore, cpUsersFromStore]);
-
-
   const onRegCheck = (id) => {
-    const userOnReview = users.filter(user => user.id === id)[0];
+    const userOnReview = users[activeTab].filter(user => user.id === id)[0];
     setOnReview(userOnReview);
   };
 
-  const submitUser = () => {
-    console.log(`${onReview.lastName} подтверждён`);
-    setOnReview(null);
-  };
-
-  const declineUser = (id) => {
-    console.log(`${onReview.lastName} не подтверждён`);
-    // declineAppUser(id); // test
-    setOnReview(null);
-  };
-
-  const rejectUser = () => {
-    console.log(`${onReview.lastName} отклонён`);
-  };
   return (
     !onReview
       ? <RegRequestsTable
           onClick={onRegCheck}
-          users={users}
+          users={users[activeTab]}
           switchTab={switchTab}
           active={activeTab}
         />
       : <UserPanel
           user={onReview}
           withControls
-          submitUser={submitUser}
-          declineUser={declineUser}
-          rejectUser={rejectUser}
         />
   );
 };
