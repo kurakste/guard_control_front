@@ -1,5 +1,7 @@
 import React, { Suspense } from 'react';
 import { NavLink } from 'react-router-dom';
+import { appUsers, cpUsers, alarms } from 'store';
+import { useStore } from 'effector-react';
 
 import {
   Badge, UncontrolledDropdown, DropdownItem, DropdownMenu, DropdownToggle, Nav, NavItem,
@@ -19,7 +21,13 @@ const propTypes = {
 
 const defaultProps = {};
 
-const Header = ({ onLogout }) => (
+const Header = ({ onLogout }) => {
+  const notifications = {
+    appUsers: useStore(appUsers),
+    cpUsers: useStore(cpUsers),
+    alarms: useStore(alarms),
+  };
+  return (
     <Suspense fallback={Loading}>
       <AppHeader fixed>
         <AppSidebarToggler className="d-lg-none" display="md" mobile />
@@ -38,12 +46,28 @@ const Header = ({ onLogout }) => (
         <AppSidebarToggler className="d-md-down-none" display="lg" />
 
         <Nav className="mr-auto" navbar>
-          <NavItem className="d-md-down-none">
-            <NavLink to="/main" className="nav-link"><i className="icon-bell"></i><Badge pill color="danger">1</Badge></NavLink>
-          </NavItem>
-          <NavItem className="d-md-down-none">
-            <NavLink to="/reg" className="nav-link"><i className="icon-people"><Badge pill color="warning">5</Badge></i></NavLink>
-          </NavItem>
+          {notifications.alarms.length && (
+            <NavItem className="d-md-down-none">
+              <NavLink to="/main" className="nav-link">
+                <i className="icon-bell">
+                  <Badge pill color="danger">
+                    {notifications.alarms.length}
+                  </Badge>
+                </i>
+              </NavLink>
+            </NavItem>
+          )}
+          {[...notifications.appUsers, ...notifications.cpUsers].length && (
+            <NavItem className="d-md-down-none">
+              <NavLink to="/reg" className="nav-link">
+                <i className="icon-people">
+                  <Badge pill color="warning">
+                    {[...notifications.appUsers, ...notifications.cpUsers].length}
+                  </Badge>
+                </i>
+              </NavLink>
+            </NavItem>
+          )}
         </Nav>
         <Nav className="ml-auto mr-3" navbar>
           <UncontrolledDropdown nav inNavbar>
@@ -59,8 +83,8 @@ const Header = ({ onLogout }) => (
         </Nav>
       </AppHeader>
     </Suspense>
-);
-
+  );
+};
 Header.propTypes = propTypes;
 Header.defaultProps = defaultProps;
 
