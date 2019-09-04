@@ -1,33 +1,31 @@
 import { createStore, createEffect } from 'effector';
 
-import { getAllUsers } from 'apiProvider';
+import { getAllAppUsers, getAllCpUsers } from 'apiProvider';
 
-const getUsers = createEffect();
+const getAppUsers = createEffect();
 
-getUsers.use(async () => {
-  const res = await getAllUsers();
+const getCpUsers = createEffect();
+
+getAppUsers.use(async () => {
+  const res = await getAllAppUsers();
   return res;
 });
-/*
-getUsers.done.watch(({ result, params }) => {
-  console.log(params);
-  console.log(result);
+
+getCpUsers.use(async () => {
+  const res = await getAllCpUsers();
+  return res;
 });
-
-/* здесь так же можно обрабатывать отказы
-
-getUsers.fail.watch(({ error, params }) => {
-  console.error(params);
-  console.error(error);
-});
-
-*/
 
 const defaultState = [];
 
-const users = createStore(defaultState)
-  .on(getUsers.done, (state, { result }) => [...state, ...result]);
+const appUsers = createStore(defaultState)
+  .on(getAppUsers.done, (state, { result }) => [...state, ...result]);
 
-getUsers();
+const cpUsers = createStore(defaultState)
+  .on(getCpUsers.done, (state, { result }) => [...state, ...result]);
 
-export default users;
+getCpUsers();
+
+getAppUsers();
+
+export { appUsers, cpUsers };

@@ -1,7 +1,17 @@
-import users from './users';
 import alarms from './alarms';
+import { appUsers, cpUsers } from './users';
+
+import {
+  status,
+  onConnect,
+  onDisconnect,
+} from './status';
 
 export {
-  users,
+  appUsers,
+  cpUsers,
   alarms,
+  status,
+  onConnect,
+  onDisconnect,
 };
