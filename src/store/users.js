@@ -28,4 +28,9 @@ getCpUsers();
 
 getAppUsers();
 
-export { appUsers, cpUsers };
+export {
+  appUsers,
+  cpUsers,
+  getAppUsers,
+  getCpUsers,
+};

@@ -7,12 +7,86 @@ const apiUrl = process.env.REACT_APP_URL;
 const param = {
 
 };
+/* Универсальные методы работы с пользователями */
 
-const getAllUsers = async () => {
-  const url = 'https:/api2.kurakste.ru/users';
+const declineUser = async (id, role) => {
+  let api = '';
+  switch (true) {
+    case role > 19 && role <= 29:
+      api = 'decline-cp-user';
+      break;
+    case role >= 30:
+      api = 'decline-app-user';
+      break;
+    default:
+      api = 'decline-app-user';
+  }
+  const url = `${apiUrl}users/${api}`;
 
   return new Promise((resolve, reject) => {
-    axios.get(url, param)
+    axios.post(url, { id }, param)
+      .then(response => {
+        if (!response.data.success) {
+          logger.log('error', response.statusText);
+          reject(response.statusText);
+        }
+        console.log('Регистрация пользователя отменена');
+        resolve(response.data.payload);
+      })
+      .catch(e => {
+        logger.log('info', e.message);
+        reject(e);
+      });
+  });
+};
+
+const verifyUser = async (id, role) => {
+  let api = '';
+  switch (true) {
+    case role > 19 && role <= 29:
+      api = 'verify-cp-user';
+      break;
+    case role >= 30:
+      api = 'verify-app-user';
+      break;
+    default:
+      api = 'verify-app-user';
+  }
+  const url = `${apiUrl}users/${api}`;
+
+  return new Promise((resolve, reject) => {
+    axios.post(url, { id }, param)
+      .then(response => {
+        if (!response.data.success) {
+          logger.log('error', response.statusText);
+          reject(response.statusText);
+        }
+        console.log('Регистрация пользователя подтверждена.');
+        resolve(response.data.payload);
+      })
+      .catch(e => {
+        logger.log('info', e.message);
+        reject(e);
+      });
+  });
+};
+
+const addUser = async (formData, role) => {
+  let api = '';
+  switch (true) {
+    case role > 19 && role <= 29:
+      api = 'verify-cp-user';
+      break;
+    case role >= 30:
+      api = 'verify-app-user';
+      break;
+    default:
+      api = 'verify-app-user';
+  }
+  const url = `${apiUrl}users/${api}`;
+
+  return new Promise((resolve, reject) => {
+    axios.post(url, formData, param)
       .then(response => {
         if (!response.data.success) {
           logger.log('error', response.statusText);
@@ -48,64 +122,6 @@ const getAllAppUsers = async () => {
   });
 };
 
-const declineAppUser = async (id) => {
-  const url = `${apiUrl}users/decline-app-user`;
-
-  return new Promise((resolve, reject) => {
-    axios.post(url, { id }, param)
-      .then(response => {
-        if (!response.data.success) {
-          logger.log('error', response.statusText);
-          reject(response.statusText);
-        }
-        resolve(response.data.payload);
-      })
-      .catch(e => {
-        logger.log('info', e.message);
-        reject(e);
-      });
-  });
-};
-
-const verifyAppUser = async (id) => {
-  const url = `${apiUrl}users/verify-app-user`;
-
-  return new Promise((resolve, reject) => {
-    axios.post(url, { id }, param)
-      .then(response => {
-        if (!response.data.success) {
-          logger.log('error', response.statusText);
-          reject(response.statusText);
-        }
-        resolve(response.data.payload);
-      })
-      .catch(e => {
-        logger.log('info', e.message);
-        reject(e);
-      });
-  });
-};
-
-const addAppUser = async (formData) => {
-  const url = `${apiUrl}users/user-new-ap`;
-
-  return new Promise((resolve, reject) => {
-    axios.post(url, formData, param)
-      .then(response => {
-        if (!response.data.success) {
-          logger.log('error', response.statusText);
-          reject(response.statusText);
-        }
-        resolve(response.data.payload);
-      })
-      .catch(e => {
-        logger.log('info', e.message);
-        reject(e);
-      });
-  });
-};
-
-
 /* Методы работы с пользователями командной панели */
 
 const getAllCpUsers = async () => {
@@ -113,63 +129,6 @@ const getAllCpUsers = async () => {
 
   return new Promise((resolve, reject) => {
     axios.get(url, param)
-      .then(response => {
-        if (!response.data.success) {
-          logger.log('error', response.statusText);
-          reject(response.statusText);
-        }
-        resolve(response.data.payload);
-      })
-      .catch(e => {
-        logger.log('info', e.message);
-        reject(e);
-      });
-  });
-};
-
-const declineCpUser = async (id) => {
-  const url = `${apiUrl}users/decline-cp-user`;
-
-  return new Promise((resolve, reject) => {
-    axios.post(url, { id }, param)
-      .then(response => {
-        if (!response.data.success) {
-          logger.log('error', response.statusText);
-          reject(response.statusText);
-        }
-        resolve(response.data.payload);
-      })
-      .catch(e => {
-        logger.log('info', e.message);
-        reject(e);
-      });
-  });
-};
-
-const verifyCpUser = async (id) => {
-  const url = `${apiUrl}users/verify-cp-user`;
-
-  return new Promise((resolve, reject) => {
-    axios.post(url, { id }, param)
-      .then(response => {
-        if (!response.data.success) {
-          logger.log('error', response.statusText);
-          reject(response.statusText);
-        }
-        resolve(response.data.payload);
-      })
-      .catch(e => {
-        logger.log('info', e.message);
-        reject(e);
-      });
-  });
-};
-
-const addCpUser = async (formData) => {
-  const url = `${apiUrl}users/user-new-cp`;
-
-  return new Promise((resolve, reject) => {
-    axios.post(url, formData, param)
       .then(response => {
         if (!response.data.success) {
           logger.log('error', response.statusText);
@@ -320,15 +279,11 @@ const deleteUser = async (id) => {
 };
 
 export {
-  getAllUsers,
   getAllAppUsers,
-  declineAppUser,
-  verifyAppUser,
-  addAppUser,
   getAllCpUsers,
-  declineCpUser,
-  verifyCpUser,
-  addCpUser,
+  declineUser,
+  addUser,
+  verifyUser,
   getUser,
   getAllAlarms,
   getAlarmStatus,

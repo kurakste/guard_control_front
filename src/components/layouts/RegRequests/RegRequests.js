@@ -33,6 +33,7 @@ const RegRequests = () => {
       : <UserPanel
           user={onReview}
           withControls
+          clearUser={setOnReview}
         />
   );
 };

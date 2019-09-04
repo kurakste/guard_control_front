@@ -22,11 +22,10 @@ const propTypes = {
 const defaultProps = {};
 
 const Header = ({ onLogout }) => {
-  const notifications = {
-    appUsers: useStore(appUsers),
-    cpUsers: useStore(cpUsers),
-    alarms: useStore(alarms),
-  };
+  const appUsersFromStore = useStore(appUsers);
+  const cpUsersFromStore = useStore(cpUsers);
+  const alarmsFromStore = useStore(alarms);
+
   return (
     <Suspense fallback={Loading}>
       <AppHeader fixed>
@@ -46,28 +45,24 @@ const Header = ({ onLogout }) => {
         <AppSidebarToggler className="d-md-down-none" display="lg" />
 
         <Nav className="mr-auto" navbar>
-          {notifications.alarms.length && (
-            <NavItem className="d-md-down-none">
-              <NavLink to="/main" className="nav-link">
-                <i className="icon-bell">
-                  <Badge pill color="danger">
-                    {notifications.alarms.length}
-                  </Badge>
-                </i>
-              </NavLink>
-            </NavItem>
-          )}
-          {[...notifications.appUsers, ...notifications.cpUsers].length && (
-            <NavItem className="d-md-down-none">
-              <NavLink to="/reg" className="nav-link">
-                <i className="icon-people">
-                  <Badge pill color="warning">
-                    {[...notifications.appUsers, ...notifications.cpUsers].length}
-                  </Badge>
-                </i>
-              </NavLink>
-            </NavItem>
-          )}
+          <NavItem className="d-md-down-none">
+            <NavLink to="/main" className="nav-link">
+              <i className="icon-bell">
+                <Badge pill color={alarmsFromStore.length ? 'danger' : 'success'}>
+                  {alarmsFromStore.length}
+                </Badge>
+              </i>
+            </NavLink>
+          </NavItem>
+          <NavItem className="d-md-down-none">
+            <NavLink to="/reg" className="nav-link">
+              <i className="icon-people">
+                <Badge pill color={appUsersFromStore.length || cpUsersFromStore.length ? 'warning' : 'success'}>
+                  {[...cpUsersFromStore, ...appUsersFromStore].length}
+                </Badge>
+              </i>
+            </NavLink>
+          </NavItem>
         </Nav>
         <Nav className="ml-auto mr-3" navbar>
           <UncontrolledDropdown nav inNavbar>
