@@ -1,83 +1,41 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { appUsers, cpUsers } from 'store';
 import { useStore } from 'effector-react';
 
-import {
-  Col,
-  Row,
-  Card,
-  CardHeader,
-  CardBody,
-  Button,
-} from 'reactstrap';
-
-import ReactTable from 'react-table';
-
-import { roleChecker } from 'helpers';
-
-import { users } from 'store';
-
 import './RegRequests.scss';
-import 'react-table/react-table.css';
+
+import RegRequestsTable from './RegRequestsTable';
+import UserPanel from '../UserPanel';
+
 
 const RegRequests = () => {
-  const usersFromStore = useStore(users);
-  const onRegCheck = (id) => {
-    console.log(id);
+  const users = {
+    appUsers: useStore(appUsers),
+    cpUsers: useStore(cpUsers),
   };
 
-  const columns = [
-    {
-      Header: 'Имя',
-      accessor: 'firstName',
-    },
-    {
-      Header: 'Фамилия',
-      accessor: 'lastName',
-    },
-    {
-      Header: 'Адрес эл. почты',
-      accessor: 'email',
-    },
-    {
-      Header: 'Роль',
-      accessor: 'role',
-      Cell: role => <span>{roleChecker(role.value)}</span>,
-    },
-    {
-      Header: 'Действия',
-      accessor: 'id',
-      Cell: id => (
-        <Button color="ghost-success" onClick={() => { onRegCheck(id.value); }}>
-          <i className="fa fa-check"></i>&nbsp;Проверить
-        </Button>
-      ),
-    },
-  ];
+  const [onReview, setOnReview] = useState(null);
+  const [activeTab, switchTab] = useState('appUsers');
+
+  const onRegCheck = (id) => {
+    const userOnReview = users[activeTab].filter(user => user.id === id)[0];
+    setOnReview(userOnReview);
+  };
 
   return (
-    <div className="animated fadeIn table-container">
-      <Row>
-        <Col>
-          <Card>
-            <CardHeader>
-              <i className="fa fa-clock-o"></i> Ожидают подтверждения
-            </CardHeader>
-            <CardBody>
-              <ReactTable
-                data={usersFromStore}
-                columns={columns}
-                previousText='Предыдущая страница'
-                nextText='Следующая страница'
-                pageText= 'Страница'
-                ofText= 'из'
-                rowsText= 'строк'
-              />
-            </CardBody>
-          </Card>
-        </Col>
-      </Row>
-    </div>
+    !onReview
+      ? <RegRequestsTable
+          onClick={onRegCheck}
+          users={users[activeTab]}
+          switchTab={switchTab}
+          active={activeTab}
+        />
+      : <UserPanel
+          user={onReview}
+          withControls
+        />
   );
 };
+
 
 export default RegRequests;

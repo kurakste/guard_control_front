@@ -1,50 +1,26 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import {
-  Row,
   Card,
   CardHeader,
   CardBody,
-  Button,
-  ButtonDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
   ListGroup,
   ListGroupItem,
 } from 'reactstrap';
 
 import Loading from 'components/common/Loading';
+import UserPanelConrols from './UserPanelControls';
 
 import './UserPanel.scss';
 
 const UserPanel = ({ withControls, user }) => {
-  const [isOpen, toggleIsOpen] = useState();
   const apiUrl = process.env.REACT_APP_URL;
   return (
     <React.Suspense fallback={<Loading />}>
       <React.Fragment>
         {withControls
-          && <Row className='buttons-container'>
-            <Button color="ghost-success">
-              <i className="fa fa-check"></i>&nbsp;Подтвердить
-            </Button>
-            <ButtonDropdown isOpen={isOpen} toggle={() => toggleIsOpen(!isOpen)}>
-              <DropdownToggle caret color="ghost-warning">
-                Отклонить
-              </DropdownToggle>
-              <DropdownMenu>
-                <DropdownItem header>Укажите причину</DropdownItem>
-                <DropdownItem disabled>Не понравился</DropdownItem>
-                <DropdownItem>Плохой скан паспорта</DropdownItem>
-                <DropdownItem>Паспорт не соответствет данным</DropdownItem>
-              </DropdownMenu>
-            </ButtonDropdown>
-            <Button color="ghost-danger">
-              <i className="fa fa-close"></i>&nbsp;Отменить
-            </Button>
-          </Row>
+          && <UserPanelConrols />
         }
           <div className='cards-container'>
             <div className="card-container pt-2 pl-2 pr-1 pb-1">
