@@ -8,21 +8,23 @@ const getCpUsers = createEffect();
 
 getAppUsers.use(async () => {
   const res = await getAllAppUsers();
+  console.log(res);
   return res;
 });
 
 getCpUsers.use(async () => {
   const res = await getAllCpUsers();
+  console.log(res);
   return res;
 });
 
 const defaultState = [];
 
 const appUsers = createStore(defaultState)
-  .on(getAppUsers.done, (state, { result }) => [...state, ...result]);
+  .on(getAppUsers.done, (state, { result }) => [...result]);
 
 const cpUsers = createStore(defaultState)
-  .on(getCpUsers.done, (state, { result }) => [...state, ...result]);
+  .on(getCpUsers.done, (state, { result }) => [...result]);
 
 getCpUsers();
 

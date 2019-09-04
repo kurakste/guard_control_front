@@ -11,6 +11,7 @@ import { verifyUser, declineUser } from 'apiProvider';
 import { getAppUsers, getCpUsers } from 'store';
 
 import Modal from 'components/common/Modal';
+import { async } from 'q';
 
 const UserPanelConrols = ({ id, role, clearUser }) => {
   const [isVerifyModalOpened, toggleVerifyModal] = useState(false);
@@ -24,20 +25,20 @@ const UserPanelConrols = ({ id, role, clearUser }) => {
     toggleDeclineModal(false);
   };
 
-  const onVerify = () => {
-    verifyUser(id, role)
-      .then(getAppUsers())
-      .then(getCpUsers())
-      .then(onVerifyCancel(false)) // убрать модалку
-      .then(clearUser(null)); // обнулить пользователя на ревью
+  const onVerify = async () => {
+    await verifyUser(id, role);
+    getAppUsers();
+    getCpUsers();
+    onDeclineCancel(false);
+    clearUser(null);
   };
 
-  const onDecline = () => {
-    declineUser(id, role)
-      .then(getAppUsers())
-      .then(getCpUsers())
-      .then(onDeclineCancel(false)) // убрать модалку
-      .then(clearUser(null)); // обнулить пользователя на ревью
+  const onDecline = async () => {
+    await declineUser(id, role);
+    getAppUsers();
+    getCpUsers();
+    onDeclineCancel(false);
+    clearUser(null);
   };
 
   return (
@@ -47,7 +48,10 @@ const UserPanelConrols = ({ id, role, clearUser }) => {
           <i className="fa fa-check"></i>&nbsp;Подтвердить
         </Button>
         <Button color="ghost-danger" onClick={toggleDeclineModal}>
-          <i className="fa fa-close"></i>&nbsp;Отменить
+          <i className="fa fa-close"></i>&nbsp;Отклонить
+        </Button>
+        <Button color="ghost-primary" onClick={() => clearUser(null)}>
+          <i className="fa fa-undo"></i>&nbsp;Вернуться
         </Button>
       </Row>
       <Modal
