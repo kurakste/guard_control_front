@@ -2,6 +2,8 @@ import React from 'react';
 import ReactTable from 'react-table';
 import PropTypes from 'prop-types';
 
+import './ChopTable.scss';
+
 import { Col } from 'reactstrap';
 
 const ChopTable = ({ chops, onClick, activeChopIndex }) => {
