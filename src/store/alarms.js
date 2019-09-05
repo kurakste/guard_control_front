@@ -19,8 +19,8 @@ const defaultState = [
       createdAt: '2019-08-27T15:26:58.700Z',
       updatedAt: '2019-08-27T15:26:58.764Z',
     },
-    lat: 90,
-    lon: 90,
+    lat: 59.95,
+    lon: 30.33,
     chops:
     [
       {
@@ -83,8 +83,8 @@ const defaultState = [
       createdAt: '2019-08-28T09:35:02.931Z',
       updatedAt: '2019-08-28T09:35:02.942Z',
     },
-    lat: 130,
-    lon: 190,
+    lat: 29.95,
+    lon: 35.33,
     chops:
     [
       {
