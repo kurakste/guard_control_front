@@ -16,6 +16,7 @@ const Modal = (props) => {
     title,
     text,
     style = 'modal-primary',
+    submitColor = 'primary',
     className,
   } = props;
   return (
@@ -25,7 +26,7 @@ const Modal = (props) => {
         {text}
       </ModalBody>
       <ModalFooter>
-        <Button color="primary" onClick={onSubmit}>Подтвердить</Button>{' '}
+        <Button color={submitColor} onClick={onSubmit}>Подтвердить</Button>{' '}
         <Button color="secondary" onClick={onCancel}>Отмена</Button>
       </ModalFooter>
     </ReactstrapModal>
@@ -40,6 +41,7 @@ Modal.propTypes = {
   text: PropTypes.string,
   style: PropTypes.string,
   className: PropTypes.string,
+  submitColor: PropTypes.string,
 };
 
 export default Modal;

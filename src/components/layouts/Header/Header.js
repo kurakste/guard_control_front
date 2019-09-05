@@ -1,5 +1,7 @@
 import React, { Suspense } from 'react';
 import { NavLink } from 'react-router-dom';
+import { appUsers, cpUsers, alarms } from 'store';
+import { useStore } from 'effector-react';
 
 import {
   Badge, UncontrolledDropdown, DropdownItem, DropdownMenu, DropdownToggle, Nav, NavItem,
@@ -19,7 +21,12 @@ const propTypes = {
 
 const defaultProps = {};
 
-const Header = ({ onLogout }) => (
+const Header = ({ onLogout }) => {
+  const appUsersFromStore = useStore(appUsers);
+  const cpUsersFromStore = useStore(cpUsers);
+  const alarmsFromStore = useStore(alarms);
+
+  return (
     <Suspense fallback={Loading}>
       <AppHeader fixed>
         <AppSidebarToggler className="d-lg-none" display="md" mobile />
@@ -39,10 +46,22 @@ const Header = ({ onLogout }) => (
 
         <Nav className="mr-auto" navbar>
           <NavItem className="d-md-down-none">
-            <NavLink to="/main" className="nav-link"><i className="icon-bell"></i><Badge pill color="danger">1</Badge></NavLink>
+            <NavLink to="/main" className="nav-link">
+              <i className="icon-bell">
+                <Badge pill color={alarmsFromStore.length ? 'danger' : 'success'}>
+                  {alarmsFromStore.length}
+                </Badge>
+              </i>
+            </NavLink>
           </NavItem>
           <NavItem className="d-md-down-none">
-            <NavLink to="/reg" className="nav-link"><i className="icon-people"><Badge pill color="warning">5</Badge></i></NavLink>
+            <NavLink to="/reg" className="nav-link">
+              <i className="icon-people">
+                <Badge pill color={appUsersFromStore.length || cpUsersFromStore.length ? 'warning' : 'success'}>
+                  {[...cpUsersFromStore, ...appUsersFromStore].length}
+                </Badge>
+              </i>
+            </NavLink>
           </NavItem>
         </Nav>
         <Nav className="ml-auto mr-3" navbar>
@@ -59,8 +78,8 @@ const Header = ({ onLogout }) => (
         </Nav>
       </AppHeader>
     </Suspense>
-);
-
+  );
+};
 Header.propTypes = propTypes;
 Header.defaultProps = defaultProps;
 

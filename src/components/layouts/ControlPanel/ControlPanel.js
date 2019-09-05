@@ -27,7 +27,7 @@ const ControlPanel = () => {
 
   return (
     <React.Fragment>
-      <Container fluid className="main-container">
+      <Container fluid className="main-container animated fadeIn">
         <Row>
           <Col lg='2' className='alarms-container'>
             <ControlPanelAlarms

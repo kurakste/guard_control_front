@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+
 import './ControlPanelInfo.scss';
 
 import ChopTable from '../ChopTable';
@@ -17,7 +18,7 @@ const ControlPanelInfo = ({ chops }) => {
   }, [chops]);
 
   return (
-    <div className="chops-container d-flex">
+    <div className="chops-container d-flex animated fadeIn">
       <ChopTable
         chops={chops}
         onClick={onClick}
