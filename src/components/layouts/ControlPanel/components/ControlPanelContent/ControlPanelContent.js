@@ -7,7 +7,11 @@ import ControlPanelTracking from '../ControlPanelTracking';
 
 const ControlPanelContent = ({ setActiveTab, activeAlarm, activeTab }) => (
   <React.Fragment>
-    <ControlPanelHeader onClick={setActiveTab} activeTab={activeTab} />
+    <ControlPanelHeader
+      onClick={setActiveTab}
+      activeTab={activeTab}
+      status={activeAlarm.status}
+    />
     {activeTab ? <UserPanel user={activeAlarm.user}/>
       : <ControlPanelTracking alarm={activeAlarm}/>}
   </React.Fragment>
@@ -15,7 +19,7 @@ const ControlPanelContent = ({ setActiveTab, activeAlarm, activeTab }) => (
 
 ControlPanelContent.propTypes = {
   setActiveTab: PropTypes.func.isRequired,
-  activeTab: PropTypes.func.isRequired,
+  activeTab: PropTypes.number.isRequired,
   activeAlarm: PropTypes.object.isRequired,
 };
 

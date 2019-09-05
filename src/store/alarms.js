@@ -1,8 +1,9 @@
 import { createStore } from 'effector';
 
 const defaultState = [
-  /* {
+  {
     id: 1,
+    status: 0,
     user: {
       id: 9,
       firstName: 'Diman',
@@ -10,7 +11,6 @@ const defaultState = [
       email: 'petrov@gmail.com',
       tel: '+79176450029',
       active: false,
-      status: 0,
       role: 31,
       img: '9_img.jpg',
       pasImg1: '9_pasImg1.jpg',
@@ -68,6 +68,7 @@ const defaultState = [
   },
   {
     id: 2,
+    status: 1,
     user: {
       id: 11,
       firstName: 'Ivan',
@@ -75,7 +76,6 @@ const defaultState = [
       email: 'petrov@gmail.com',
       tel: '+79176450029',
       active: false,
-      status: 1,
       role: 31,
       img: '11_img.jpg',
       pasImg1: '11_pasImg1.jpg',
@@ -103,6 +103,7 @@ const defaultState = [
   },
   {
     id: 3,
+    status: 2,
     user: {
       id: 12,
       firstName: 'Vasya',
@@ -110,7 +111,6 @@ const defaultState = [
       email: 'vasin@gmail.com',
       tel: '+79176451166',
       active: false,
-      status: 2,
       role: 31,
       img: '11_img.jpg',
       pasImg1: '11_pasImg1.jpg',
@@ -135,7 +135,7 @@ const defaultState = [
         notes: 'Реально, злые',
       },
     ],
-  }, */
+  },
 ];
 
 const alarms = createStore(defaultState);

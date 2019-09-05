@@ -1,4 +1,10 @@
 .control-panel-header {
   background-color: white;
   border-bottom: 1px solid #c8ced3;
+  .btn {
+    min-width: 165px;
+  }
+  .nav {
+    border-top: 1px solid #c8ced3;
+  }
 }

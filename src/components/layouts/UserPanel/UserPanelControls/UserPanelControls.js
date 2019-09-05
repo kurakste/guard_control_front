@@ -78,7 +78,7 @@ const UserPanelConrols = ({ id, role, clearUser }) => {
 UserPanelConrols.propTypes = {
   id: PropTypes.number.isRequired,
   role: PropTypes.number.isRequired,
-  clearUser: PropTypes.func.isRequired,
+  clearUser: PropTypes,
 };
 
 export default UserPanelConrols;

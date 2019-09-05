@@ -9,7 +9,15 @@ import './ControlPanelAlarms.scss';
 
 const Alarms = ({ alarms, alarmId, onClick }) => (
   <ListGroup>
-    {alarms.map(alarm => (
+    {alarms.map(alarm => {
+      let status = 'danger';
+      if (alarm.status === 1) {
+        status = 'warning';
+      }
+      if (alarm.status === 2) {
+        status = 'success';
+      }
+      return (
         <ListGroupItem
           className="justify-content-between"
           tag="button"
@@ -19,9 +27,9 @@ const Alarms = ({ alarms, alarmId, onClick }) => (
           onClick={() => onClick(alarm.id)}
         >
           {`Событие у ${alarm.user.lastName}, тел. ${alarm.user.tel}`}
-          <Badge className="float-right" pill color="warning">!</Badge>
-        </ListGroupItem>
-    ))}
+          <Badge className="float-right" pill color={status}>!</Badge>
+        </ListGroupItem>);
+    })}
   </ListGroup>
 );
 
