@@ -1,7 +1,7 @@
 import { createStore } from 'effector';
 
 const defaultState = [
-  {
+  /* {
     id: 1,
     user: {
       id: 9,
@@ -10,6 +10,7 @@ const defaultState = [
       email: 'petrov@gmail.com',
       tel: '+79176450029',
       active: false,
+      status: 0,
       role: 31,
       img: '9_img.jpg',
       pasImg1: '9_pasImg1.jpg',
@@ -74,6 +75,7 @@ const defaultState = [
       email: 'petrov@gmail.com',
       tel: '+79176450029',
       active: false,
+      status: 1,
       role: 31,
       img: '11_img.jpg',
       pasImg1: '11_pasImg1.jpg',
@@ -83,8 +85,8 @@ const defaultState = [
       createdAt: '2019-08-28T09:35:02.931Z',
       updatedAt: '2019-08-28T09:35:02.942Z',
     },
-    lat: 29.95,
-    lon: 35.33,
+    lat: 44.61,
+    lon: 33.52,
     chops:
     [
       {
@@ -99,6 +101,41 @@ const defaultState = [
       },
     ],
   },
+  {
+    id: 3,
+    user: {
+      id: 12,
+      firstName: 'Vasya',
+      lastName: 'Vasin',
+      email: 'vasin@gmail.com',
+      tel: '+79176451166',
+      active: false,
+      status: 2,
+      role: 31,
+      img: '11_img.jpg',
+      pasImg1: '11_pasImg1.jpg',
+      pasImg2: '11_pasImg2.png',
+      password: '$2a$10$rWw2ImlTWeuq2MKnlnKmvOVX/XHgTGRq68V6pCJ27kza/kq/jAHva',
+      notes: '',
+      createdAt: '2019-08-28T09:35:02.931Z',
+      updatedAt: '2019-08-28T09:35:02.942Z',
+    },
+    lat: 55.75,
+    lon: 37.61,
+    chops:
+    [
+      {
+        name: 'ЧП Паук',
+        phone: '12245',
+        notes: 'Пароль: "Питер Паркер"',
+      },
+      {
+        name: 'Злые дяди',
+        phone: '12245',
+        notes: 'Реально, злые',
+      },
+    ],
+  }, */
 ];
 
 const alarms = createStore(defaultState);
