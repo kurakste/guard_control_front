@@ -8,17 +8,17 @@ import {
   Col,
 } from 'reactstrap';
 
-import UserPanel from '../UserPanel';
 import ControlPanelAlarms from './components/ControlPanelAlarms';
-import ControlPanelHeader from './components/ControlPanelHeader';
-import ControlPanelTracking from './components/ControlPanelTracking';
+import ControlPanelContent from './components/ControlPanelContent';
 
 import './ControlPanel.scss';
 
 const ControlPanel = () => {
   const alarmsFromStore = useStore(alarms);
   const [activeTab, setActiveTab] = useState(0);
-  const [activeAlarm, setActiveAlarm] = useState(alarmsFromStore[0]);
+  const [activeAlarm, setActiveAlarm] = useState(
+    Boolean(alarmsFromStore.length) && alarmsFromStore[0],
+  );
 
   const onClick = (id) => {
     const newAlarm = alarmsFromStore.filter(alarm => alarm.id === id)[0];
@@ -30,16 +30,21 @@ const ControlPanel = () => {
       <Container fluid className="main-container animated fadeIn">
         <Row>
           <Col lg='2' className='alarms-container'>
-            <ControlPanelAlarms
-              alarms={alarmsFromStore}
-              alarmId={activeAlarm.id}
-              onClick={onClick}
-            />
+            {alarmsFromStore.length
+              ? <ControlPanelAlarms
+                alarms={alarmsFromStore}
+                alarmId={activeAlarm.id}
+                onClick={onClick}
+            /> : <span className="control-panel_info">Активные тревоги отсутствуют</span>}
           </Col>
           <Col className="px-0 d-flex flex-column">
-            <ControlPanelHeader onClick={setActiveTab} activeTab={activeTab} />
-            {activeTab ? <UserPanel user={activeAlarm.user}/>
-              : <ControlPanelTracking alarm={activeAlarm}/>}
+            {Boolean(alarmsFromStore.length)
+              && <ControlPanelContent
+                setActiveTab={setActiveTab}
+                activeAlarm={activeAlarm}
+                activeTab={activeTab}
+            />
+            }
           </Col>
           <Col lg='2' className='events-container'>
           </Col>

@@ -11,7 +11,6 @@ import { verifyUser, declineUser } from 'apiProvider';
 import { getAppUsers, getCpUsers } from 'store';
 
 import Modal from 'components/common/Modal';
-import { async } from 'q';
 
 const UserPanelConrols = ({ id, role, clearUser }) => {
   const [isVerifyModalOpened, toggleVerifyModal] = useState(false);
@@ -79,7 +78,7 @@ const UserPanelConrols = ({ id, role, clearUser }) => {
 UserPanelConrols.propTypes = {
   id: PropTypes.number.isRequired,
   role: PropTypes.number.isRequired,
-  clearUser: PropTypes.func.isRequired,
+  clearUser: PropTypes,
 };
 
 export default UserPanelConrols;
