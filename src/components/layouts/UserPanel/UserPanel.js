@@ -93,7 +93,7 @@ const UserPanel = ({ withControls, user, clearUser }) => {
 UserPanel.propTypes = {
   withControls: PropTypes.bool,
   user: PropTypes.object.isRequired,
-  clearUser: PropTypes.func.isRequired,
+  clearUser: PropTypes.func,
 };
 
 export default UserPanel;
