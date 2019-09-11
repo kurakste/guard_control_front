@@ -5,7 +5,7 @@ import logger from 'logger';
 // import { renderRoutes } from 'react-router-config';
 import './App.scss';
 import Loading from 'components/common/Loading';
-import { onConnect, onDisconnect } from 'store';
+import { onConnect, onDisconnect, updateAlarms } from 'store';
 
 const Main = React.lazy(() => import('../pages/Main'))
 const Login = React.lazy(() => import('../pages/Login'));
@@ -19,14 +19,23 @@ const App = () => {
     const socketUrl = process.env.REACT_APP_SOCKET;
     const socket = io(socketUrl);
     socket.on('open', () => {
-      
+
     });
   
     socket.on('connect', () => {
       logger.log('info', 'Successfuly connected')
       onConnect();
     });
-  
+
+    socket.on('srvUpdateAlarmListAll', (data) => {
+      console.log('srvUpdateAlarmListAll: ', data);
+      updateAlarms(data.payload)
+    });
+
+    socket.on('srvCreateNewAlarm', (data) => {
+      console.log('srvCreateNewAlarm: ', data);
+    });
+
     socket.on('disconnect', (msg) => {
       logger.log('error', msg)
       onDisconnect();

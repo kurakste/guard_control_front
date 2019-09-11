@@ -12,7 +12,7 @@ const ControlPanelContent = ({ setActiveTab, activeAlarm, activeTab }) => (
       activeTab={activeTab}
       status={activeAlarm.status}
     />
-    {activeTab ? <UserPanel user={activeAlarm.user}/>
+    {activeTab ? <UserPanel user={activeAlarm.User}/>
       : <ControlPanelTracking alarm={activeAlarm}/>}
   </React.Fragment>
 );

@@ -1,4 +1,8 @@
-import alarms from './alarms';
+import {
+  alarms,
+  updateAlarms,
+} from './alarms';
+
 import {
   appUsers,
   cpUsers,
@@ -21,4 +25,5 @@ export {
   onDisconnect,
   getAppUsers,
   getCpUsers,
+  updateAlarms,
 };

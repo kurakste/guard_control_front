@@ -26,7 +26,7 @@ const Alarms = ({ alarms, alarmId, onClick }) => (
           active={alarmId === alarm.id}
           onClick={() => onClick(alarm.id)}
         >
-          {`Событие у ${alarm.user.lastName}, тел. ${alarm.user.tel}`}
+          {`Событие у ${alarm.User.lastName}, тел. ${alarm.User.tel}`}
           <Badge className="float-right" pill color={status}>!</Badge>
         </ListGroupItem>);
     })}

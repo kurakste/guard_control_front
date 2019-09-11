@@ -10,8 +10,20 @@ const ChopInfo = ({ chop }) => {
       accessor: 'name',
     },
     {
+      Header: 'Регион',
+      accessor: 'regionId',
+    },
+    {
       Header: 'Телефон',
-      accessor: 'phone',
+      accessor: 'tel',
+    },
+    {
+      Header: 'Доп. телефон 1',
+      accessor: 'tel1',
+    },
+    {
+      Header: 'Доп. телефон 2',
+      accessor: 'tel2',
     },
     {
       Header: 'Заметки',
@@ -20,7 +32,7 @@ const ChopInfo = ({ chop }) => {
     },
   ];
   return (
-    <Col className="px-0">
+    <Col lg='9' xl='9' mg='9' sm='9' xs='9' className="px-0">
       <ReactTable
         data={[chop]}
         columns={columns}
