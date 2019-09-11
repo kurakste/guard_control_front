@@ -5,6 +5,6 @@ const updateAlarms = createEvent();
 const defaultState = [];
 
 const alarms = createStore(defaultState)
-  .on(updateAlarms, (oldAlarms, newAlarms) => [...oldAlarms, ...newAlarms]);
+  .on(updateAlarms, (oldAlarms, newAlarms) => [...newAlarms]);
 
-export {alarms, updateAlarms};
+export { alarms, updateAlarms };

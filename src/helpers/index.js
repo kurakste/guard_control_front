@@ -1,7 +1,7 @@
 import roleChecker from './roleChecker';
+import statusChecker from './statusChecker';
 
 export {
-  /* можно будет убрать, когда будет больше одного экспорта */
-  // eslint-disable-next-line import/prefer-default-export
+  statusChecker,
   roleChecker,
 };

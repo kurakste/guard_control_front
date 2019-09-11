@@ -22,6 +22,7 @@ const ControlPanel = () => {
 
   const onClick = (id) => {
     const newAlarm = alarmsFromStore.filter(alarm => alarm.id === id)[0];
+    console.log(newAlarm);
     setActiveAlarm(newAlarm);
   };
 
@@ -35,7 +36,7 @@ const ControlPanel = () => {
     <React.Fragment>
       <Container fluid className="main-container animated fadeIn">
         <Row>
-          <Col xl='4' lg='4' mg='4' sm='4' xs='4' className='alarms-container'>
+          <Col xl='4' lg='4' mg='4' sm='4' xs='4' className='alarms-container pr-0'>
             {alarmsFromStore.length && activeAlarm
               ? <ControlPanelAlarms
                 alarms={alarmsFromStore}
