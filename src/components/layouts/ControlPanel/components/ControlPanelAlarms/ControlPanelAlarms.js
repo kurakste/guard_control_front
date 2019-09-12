@@ -2,12 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ReactTable from 'react-table';
 import { Badge } from 'reactstrap';
+import { useStore } from 'effector-react';
+import { operators } from 'store';
 
 import './ControlPanelAlarms.scss';
 
 import { statusChecker } from 'helpers';
 
 const Alarms = ({ alarms, alarmId, onClick }) => {
+  const operatorsFromStore = useStore(operators);
+
   const columns = [
     {
       Header: 'Статус',
@@ -32,6 +36,14 @@ const Alarms = ({ alarms, alarmId, onClick }) => {
     {
       Header: 'В обработке оператором',
       accessor: 'oid',
+      Cell: row => {
+        const operatorForRow = operatorsFromStore.find(operator => operator.id === row.row.oid);
+        return (
+          <div>
+            <span>{operatorForRow ? row.row.oid : 'не взят в обработку'}</span>
+          </div>
+        );
+      },
     },
     {
       Header: 'Пользователь',
@@ -60,6 +72,7 @@ const Alarms = ({ alarms, alarmId, onClick }) => {
       style: {
         textAlign: 'center',
         cursor: 'pointer',
+        whiteSpace: 'unset',
       },
     };
     if (rowInfo.original.id === alarmId) {

@@ -59,7 +59,7 @@ const UserPanelConrols = ({ id, role, clearUser }) => {
         onCancel={onVerifyCancel}
         title={'Подтверждение регистрации'}
         text={'Подтвердить регистрацию пользователя?'}
-        style ={'modal-success'}
+        modalStyle ={'modal-success'}
         submitColor={'success'}
       />
       <Modal
@@ -68,7 +68,7 @@ const UserPanelConrols = ({ id, role, clearUser }) => {
         onCancel={onDeclineCancel}
         title={'Подтверждение отказа'}
         text={'Подтвердить отказ в регистрации пользователя?'}
-        style ={'modal-danger'}
+        modalStyle ={'modal-danger'}
         submitColor={'danger'}
       />
     </React.Fragment>

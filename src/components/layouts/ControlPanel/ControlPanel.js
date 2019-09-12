@@ -14,7 +14,7 @@ import ControlPanelContent from './components/ControlPanelContent';
 
 import './ControlPanel.scss';
 
-const ControlPanel = () => {
+const ControlPanel = (props) => {
   const alarmsFromStore = useStore(alarms);
   const [activeTab, setActiveTab] = useState(0);
   const [activeAlarm, setActiveAlarm] = useState(null);
@@ -22,7 +22,6 @@ const ControlPanel = () => {
 
   const onClick = (id) => {
     const newAlarm = alarmsFromStore.filter(alarm => alarm.id === id)[0];
-    console.log(newAlarm);
     setActiveAlarm(newAlarm);
   };
 
@@ -31,7 +30,6 @@ const ControlPanel = () => {
       setActiveAlarm(alarmsFromStore[0]);
     }
   }, [alarmsFromStore]);
-
   return (
     <React.Fragment>
       <Container fluid className="main-container animated fadeIn">
@@ -50,6 +48,7 @@ const ControlPanel = () => {
                 setActiveTab={setActiveTab}
                 activeAlarm={activeAlarm}
                 activeTab={activeTab}
+                {...props}
             />
             }
           </Col>
