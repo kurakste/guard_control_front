@@ -18,10 +18,10 @@ const Alarms = ({ alarms, alarmId, onClick }) => {
       accessor: 'status',
       Cell: row => {
         let status = 'danger';
-        if (row.row.status === 1) {
+        if (row.row.status === 10) {
           status = 'warning';
         }
-        if (row.row.status === 2) {
+        if (row.row.status === 20) {
           status = 'success';
         }
 
@@ -37,10 +37,13 @@ const Alarms = ({ alarms, alarmId, onClick }) => {
       Header: 'В обработке оператором',
       accessor: 'oid',
       Cell: row => {
-        const operatorForRow = operatorsFromStore.find(operator => operator.id === row.row.oid);
+        let operatorForRow = operatorsFromStore.find(operator => operator.id === row.row.oid);
+        if (operatorForRow) {
+          operatorForRow = `${operatorForRow.lastName} ${operatorForRow.firstName}`;
+        }
         return (
           <div>
-            <span>{operatorForRow ? row.row.oid : 'не взят в обработку'}</span>
+            <span>{operatorForRow || 'не взят в обработку'}</span>
           </div>
         );
       },

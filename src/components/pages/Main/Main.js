@@ -1,5 +1,4 @@
 import React, { Suspense, useEffect, useState } from 'react';
-import { useStore } from 'effector-react';
 import PropTypes from 'prop-types';
 import io from 'socket.io-client';
 import logger from 'logger';
@@ -23,8 +22,8 @@ import {
   onConnect,
   onDisconnect,
   getAllAlarms,
-  alarms,
   updateAlarm,
+  addAlarm,
 } from 'store';
 
 import {
@@ -33,7 +32,6 @@ import {
 } from '@coreui/react';
 
 const Main = ({ history, ...props }) => {
-  const alarmsFromStore = useStore(alarms);
   const [isReady, setIsReady] = useState(false);
   const [socket, setUpSocket] = useState(null);
 
@@ -64,6 +62,7 @@ const Main = ({ history, ...props }) => {
 
     socket.on('srvCreateNewAlarm', (data) => {
       console.log('srvCreateNewAlarm: ', data);
+      addAlarm(data.payload);
     });
 
     socket.on('srvUpdateAlarm', (data) => {

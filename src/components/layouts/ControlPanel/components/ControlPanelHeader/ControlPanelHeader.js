@@ -25,6 +25,14 @@ const ControlPanelHeader = ({ onClick, alarm, socket }) => {
     toggleTakenModal(false);
   };
 
+  const sendGroup = () => {
+    socket.emit('cpAlarmGbrSent', {
+      token: { user: { id: 1 } },
+      payload: alarm,
+    });
+    toggleGroupSendModal(false);
+  };
+
   const declineAlarm = () => {
     socket.emit('cpAlarmDecline', {
       token: { user: { id: 1 } },
@@ -47,14 +55,14 @@ const ControlPanelHeader = ({ onClick, alarm, socket }) => {
         <div className='d-flex justify-content-around'>
           <Button
             color="ghost-primary"
-            disabled={alarm.status !== 0}
+            disabled={Number(alarm.status) !== 0}
             onClick={() => toggleTakenModal(true)}
             >
             Принять в обработку
           </Button>
           <Button
             color="ghost-success"
-            disabled={alarm.status !== 1}
+            disabled={Number(alarm.status) !== 10}
             onClick={() => toggleGroupSendModal(true)}
             >
             Отправить группу
@@ -92,7 +100,7 @@ const ControlPanelHeader = ({ onClick, alarm, socket }) => {
       />
       <Modal
         isOpen={Boolean(isGroupSendModalShown)}
-        onSubmit={() => toggleGroupSendModal(false)}
+        onSubmit={sendGroup}
         onCancel={() => toggleGroupSendModal(false)}
         title={'Направить группу'}
         text={'Подтвердить отправку группы?'}

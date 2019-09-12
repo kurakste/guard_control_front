@@ -2,16 +2,27 @@ import { createStore, createEvent } from 'effector';
 
 const getAllAlarms = createEvent();
 const updateAlarm = createEvent();
+const addAlarm = createEvent();
 
 const defaultState = [];
 
 const alarms = createStore(defaultState)
   .on(getAllAlarms, (oldAlarms, newAlarms) => [...newAlarms])
+  .on(addAlarm, (oldAlarms, newAlarm) => [...oldAlarms, newAlarm])
   .on(updateAlarm, (oldAlarms, updatedAlarm) => {
-    const index = oldAlarms.indexOf(alarm => alarm.id === updatedAlarm.id);
-    const newAlarms = [...oldAlarms].slice(index, 1, updatedAlarm);
-    console.log(oldAlarms);
+    const index = oldAlarms.findIndex(alarm => alarm.id === updatedAlarm.id);
+    const newAlarms = [...oldAlarms];
+    if (updatedAlarm.closedAt || updatedAlarm.declineAt) {
+      newAlarms.splice(index, 1);
+    } else {
+      newAlarms.splice(index, 1, updatedAlarm);
+    }
     return newAlarms;
   });
 
-export { alarms, getAllAlarms, updateAlarm };
+export {
+  alarms,
+  getAllAlarms,
+  updateAlarm,
+  addAlarm,
+};

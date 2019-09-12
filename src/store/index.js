@@ -2,6 +2,7 @@ import {
   alarms,
   getAllAlarms,
   updateAlarm,
+  addAlarm,
 } from './alarms';
 
 import {
@@ -23,6 +24,7 @@ import {
 } from './status';
 
 export {
+  addAlarm,
   appUsers,
   cpUsers,
   alarms,

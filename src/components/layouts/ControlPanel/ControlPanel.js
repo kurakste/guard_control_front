@@ -21,14 +21,21 @@ const ControlPanel = (props) => {
   const prevActiveAlarm = usePrevious(activeAlarm);
 
   const onClick = (id) => {
-    const newAlarm = alarmsFromStore.filter(alarm => alarm.id === id)[0];
+    const newAlarm = alarmsFromStore.find(alarm => alarm.id === id);
     setActiveAlarm(newAlarm);
   };
 
   useEffect(() => {
     if (!prevActiveAlarm && alarmsFromStore.length) {
       setActiveAlarm(alarmsFromStore[0]);
+      return;
     }
+    const prevAlarm = alarmsFromStore.find(alarm => alarm.id === activeAlarm.id);
+    if (!prevAlarm) {
+      setActiveAlarm(alarmsFromStore[0]);
+      return;
+    }
+    setActiveAlarm(alarmsFromStore[alarmsFromStore.indexOf(prevAlarm)]);
   }, [alarmsFromStore]);
   return (
     <React.Fragment>
