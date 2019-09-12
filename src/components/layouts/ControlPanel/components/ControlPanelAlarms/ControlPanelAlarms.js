@@ -26,9 +26,9 @@ const Alarms = ({ alarms, alarmId, onClick }) => {
         }
 
         return (
-          <div>
-            <span>{statusChecker(row.row.status)}</span>
-            <Badge className="float-right" pill color={status}>!</Badge>
+          <div className="status-container">
+            <span className="status-text">{statusChecker(row.row.status)}</span>
+            <Badge pill color={status}>!</Badge>
           </div>
         );
       },
