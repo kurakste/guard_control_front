@@ -2,3 +2,11 @@
   margin-top: 1rem;
   margin-left: 15px;
 }
+.status-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  .status-text {
+    flex: 1;
+  }
+}

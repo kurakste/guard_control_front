@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import usePrevious from 'hooks';
 import { useStore } from 'effector-react';
 import { alarms } from 'store';
 
@@ -13,24 +14,35 @@ import ControlPanelContent from './components/ControlPanelContent';
 
 import './ControlPanel.scss';
 
-const ControlPanel = () => {
+const ControlPanel = (props) => {
   const alarmsFromStore = useStore(alarms);
   const [activeTab, setActiveTab] = useState(0);
-  const [activeAlarm, setActiveAlarm] = useState(
-    Boolean(alarmsFromStore.length) && alarmsFromStore[0],
-  );
+  const [activeAlarm, setActiveAlarm] = useState(null);
+  const prevActiveAlarm = usePrevious(activeAlarm);
 
   const onClick = (id) => {
-    const newAlarm = alarmsFromStore.filter(alarm => alarm.id === id)[0];
+    const newAlarm = alarmsFromStore.find(alarm => alarm.id === id);
     setActiveAlarm(newAlarm);
   };
 
+  useEffect(() => {
+    if (!prevActiveAlarm && alarmsFromStore.length) {
+      setActiveAlarm(alarmsFromStore[0]);
+      return;
+    }
+    const prevAlarm = alarmsFromStore.find(alarm => alarm.id === activeAlarm.id);
+    if (!prevAlarm) {
+      setActiveAlarm(alarmsFromStore[0]);
+      return;
+    }
+    setActiveAlarm(alarmsFromStore[alarmsFromStore.indexOf(prevAlarm)]);
+  }, [alarmsFromStore]);
   return (
     <React.Fragment>
       <Container fluid className="main-container animated fadeIn">
         <Row>
-          <Col lg='2' className='alarms-container'>
-            {alarmsFromStore.length
+          <Col xl='4' lg='4' mg='4' sm='4' xs='4' className='alarms-container pr-0'>
+            {alarmsFromStore.length && activeAlarm
               ? <ControlPanelAlarms
                 alarms={alarmsFromStore}
                 alarmId={activeAlarm.id}
@@ -38,15 +50,14 @@ const ControlPanel = () => {
             /> : <span className="control-panel_info">Активные тревоги отсутствуют</span>}
           </Col>
           <Col className="px-0 d-flex flex-column">
-            {Boolean(alarmsFromStore.length)
+            {(Boolean(alarmsFromStore.length) && activeAlarm) // лукс лайк трэш
               && <ControlPanelContent
                 setActiveTab={setActiveTab}
                 activeAlarm={activeAlarm}
                 activeTab={activeTab}
+                {...props}
             />
             }
-          </Col>
-          <Col lg='2' className='events-container'>
           </Col>
         </Row>
       </Container>
