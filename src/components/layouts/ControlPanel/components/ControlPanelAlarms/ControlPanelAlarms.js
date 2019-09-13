@@ -92,10 +92,17 @@ const Alarms = ({ alarms, alarmId, onClick }) => {
     <ReactTable
       data={alarms}
       columns={columns}
-      showPagination ={false}
+      showPagination={(alarms && alarms.length > 15)}
+      showPaginationBottom={true}
+      showPageSizeOptions={false}
+      defaultPageSize={15}
+      previousText='Предыдущая страница'
+      nextText='Следующая страница'
+      pageText= 'Страница'
+      ofText= 'из'
+      rowsText= 'строк'
       minRows={0}
       style={{
-        height: '100%',
         borderLeft: '0px',
         borderTop: '0px',
         borderBottom: '0px',
@@ -104,33 +111,7 @@ const Alarms = ({ alarms, alarmId, onClick }) => {
     />
   );
 };
-/*
-const Alarms = ({ alarms, alarmId, onClick }) => (
-  <ListGroup>
-    {alarms.map(alarm => {
-      let status = 'danger';
-      if (alarm.status === 1) {
-        status = 'warning';
-      }
-      if (alarm.status === 2) {
-        status = 'success';
-      }
-      return (
-        <ListGroupItem
-          className="justify-content-between"
-          tag="button"
-          action
-          key={alarm.id}
-          active={alarmId === alarm.id}
-          onClick={() => onClick(alarm.id)}
-        >
-          {`Событие у ${alarm.User.lastName}, тел. ${alarm.User.tel}`}
-          <Badge className="float-right" pill color={status}>!</Badge>
-        </ListGroupItem>);
-    })}
-  </ListGroup>
-);
-*/
+
 Alarms.propTypes = {
   alarms: PropTypes.array.isRequired,
   alarmId: PropTypes.number.isRequired,
