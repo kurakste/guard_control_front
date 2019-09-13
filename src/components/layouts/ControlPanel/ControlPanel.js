@@ -49,8 +49,8 @@ const ControlPanel = (props) => {
                 onClick={onClick}
             /> : <span className="control-panel_info">Активные тревоги отсутствуют</span>}
           </Col>
-          <Col className="px-0 d-flex flex-column">
-            {(Boolean(alarmsFromStore.length) && activeAlarm) // лукс лайк трэш
+          <Col xl='8' lg='8' mg='8' sm='8' xs='8' className="px-0 d-flex flex-column">
+            {(Boolean(alarmsFromStore.length) && activeAlarm)
               && <ControlPanelContent
                 setActiveTab={setActiveTab}
                 activeAlarm={activeAlarm}
