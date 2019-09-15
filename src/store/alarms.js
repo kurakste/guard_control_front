@@ -12,7 +12,7 @@ const alarms = createStore(defaultState)
   .on(updateAlarm, (oldAlarms, updatedAlarm) => {
     const index = oldAlarms.findIndex(alarm => alarm.id === updatedAlarm.id);
     const newAlarms = [...oldAlarms];
-    if (updatedAlarm.closedAt || updatedAlarm.declineAt) {
+    if (updatedAlarm.status === 30 || updatedAlarm.status === 40) {
       newAlarms.splice(index, 1);
     } else {
       newAlarms.splice(index, 1, updatedAlarm);
