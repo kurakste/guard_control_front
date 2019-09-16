@@ -18,6 +18,7 @@ const Modal = (props) => {
     modalStyle = 'modal-primary',
     submitColor = 'primary',
     className,
+    noControls = false,
   } = props;
   return (
     <ReactstrapModal isOpen={isOpen} toggle={onCancel} className={`${className} + ' ' + ${modalStyle}`}>
@@ -25,15 +26,18 @@ const Modal = (props) => {
       <ModalBody>
         {text}
       </ModalBody>
-      <ModalFooter>
-        <Button color={submitColor} onClick={onSubmit}>Подтвердить</Button>{' '}
-        <Button color="secondary" onClick={onCancel}>Отмена</Button>
-      </ModalFooter>
+      {!noControls && (
+        <ModalFooter>
+          <Button color={submitColor} onClick={onSubmit}>Подтвердить</Button>{' '}
+          <Button color="secondary" onClick={onCancel}>Отмена</Button>
+        </ModalFooter>
+      )}
     </ReactstrapModal>
   );
 };
 
 Modal.propTypes = {
+  noControls: PropTypes.bool,
   isOpen: PropTypes.bool.isRequired,
   onSubmit: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
