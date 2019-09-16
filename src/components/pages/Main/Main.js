@@ -85,7 +85,7 @@ const Main = ({ history, ...props }) => {
     <div className="app">
       <Header onLogout={signOut}/>
       <div className="app-body">
-        <AppSidebar fixed display="lg">
+        <AppSidebar display="lg">
           <Suspense>
             <AppSidebarNav navConfig={navigation} {...props} router={router}/>
           </Suspense>

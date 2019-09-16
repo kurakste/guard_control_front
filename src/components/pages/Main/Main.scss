@@ -7,3 +7,9 @@
   flex-direction: column;
 }
 
+@media (max-width: 991.98px) {
+  .sidebar {
+    position: static!important;
+    height: auto!important;
+  }
+}
