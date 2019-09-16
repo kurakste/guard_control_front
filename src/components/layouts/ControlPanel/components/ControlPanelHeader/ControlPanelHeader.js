@@ -11,25 +11,58 @@ import Modal from 'components/common/Modal';
 
 import './ControlPanelHeader.scss';
 
-const ControlPanelHeader = ({ onClick, status }) => {
+const ControlPanelHeader = ({ onClick, alarm, socket }) => {
   const [isTakenModalShown, toggleTakenModal] = useState(false);
   const [isGroupSendModalShown, toggleGroupSendModal] = useState(false);
   const [isDeclineModalShown, toggleDeclineModal] = useState(false);
   const [isDeleteModalShown, toggleDeleteModal] = useState(false);
+
+  const takeAlarmInProcessing = () => {
+    socket.emit('cpPickedUpAlarm', {
+      token: { user: { id: 1 } },
+      payload: alarm,
+    });
+    toggleTakenModal(false);
+  };
+
+  const sendGroup = () => {
+    socket.emit('cpAlarmGbrSent', {
+      token: { user: { id: 1 } },
+      payload: alarm,
+    });
+    toggleGroupSendModal(false);
+  };
+
+  const declineAlarm = () => {
+    socket.emit('cpAlarmDecline', {
+      token: { user: { id: 1 } },
+      payload: alarm,
+    });
+    toggleDeclineModal(false);
+  };
+
+  const closeAlarm = () => {
+    socket.emit('cpAlarmClosed', {
+      token: { user: { id: 1 } },
+      payload: alarm,
+    });
+    toggleDeleteModal(false);
+  };
+
   return (
     <div className="control-panel-header">
       <React.Fragment>
         <div className='d-flex justify-content-around'>
           <Button
             color="ghost-primary"
-            disabled={status !== 0}
+            disabled={Number(alarm.status) !== 0}
             onClick={() => toggleTakenModal(true)}
             >
             Принять в обработку
           </Button>
           <Button
             color="ghost-success"
-            disabled={status !== 1}
+            disabled={Number(alarm.status) !== 10}
             onClick={() => toggleGroupSendModal(true)}
             >
             Отправить группу
@@ -58,38 +91,38 @@ const ControlPanelHeader = ({ onClick, status }) => {
       </React.Fragment>
       <Modal
         isOpen={Boolean(isTakenModalShown)}
-        onSubmit={() => toggleTakenModal(false)}
+        onSubmit={takeAlarmInProcessing}
         onCancel={() => toggleTakenModal(false)}
         title={'Принять тревогу в обработку'}
         text={'Подтвердить статус заявки?'}
-        style ={'modal-primary'}
+        modalStyle ={'modal-primary'}
         submitColor={'primary'}
       />
       <Modal
         isOpen={Boolean(isGroupSendModalShown)}
-        onSubmit={() => toggleGroupSendModal(false)}
+        onSubmit={sendGroup}
         onCancel={() => toggleGroupSendModal(false)}
         title={'Направить группу'}
         text={'Подтвердить отправку группы?'}
-        style ={'modal-success'}
+        modalStyle ={'modal-success'}
         submitColor={'success'}
       />
       <Modal
         isOpen={Boolean(isDeclineModalShown)}
-        onSubmit={() => toggleDeclineModal(false)}
+        onSubmit={declineAlarm}
         onCancel={() => toggleDeclineModal(false)}
         title={'Отменить заявку'}
         text={'Подтвердить отмену заявки?'}
-        style ={'modal-warning'}
+        modalStyle ={'modal-warning'}
         submitColor={'warning'}
       />
       <Modal
         isOpen={Boolean(isDeleteModalShown)}
-        onSubmit={() => toggleDeleteModal(false)}
+        onSubmit={closeAlarm}
         onCancel={() => toggleDeleteModal(false)}
         title={'Удалить заявку'}
         text={'Подтвердить удаление заявки?'}
-        style ={'modal-danger'}
+        modalStyle ={'modal-danger'}
         submitColor={'danger'}
       />
     </div>
@@ -98,7 +131,8 @@ const ControlPanelHeader = ({ onClick, status }) => {
 
 ControlPanelHeader.propTypes = {
   onClick: PropTypes.func.isRequired,
-  status: PropTypes.number.isRequired,
+  alarm: PropTypes.object.isRequired,
+  socket: PropTypes.object.isRequired,
 };
 
 export default ControlPanelHeader;

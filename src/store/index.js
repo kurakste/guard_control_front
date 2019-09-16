@@ -1,4 +1,15 @@
-import alarms from './alarms';
+import {
+  alarms,
+  getAllAlarms,
+  updateAlarm,
+  addAlarm,
+} from './alarms';
+
+import {
+  operators,
+  updateOperators,
+} from './operators';
+
 import {
   appUsers,
   cpUsers,
@@ -13,6 +24,7 @@ import {
 } from './status';
 
 export {
+  addAlarm,
   appUsers,
   cpUsers,
   alarms,
@@ -21,4 +33,8 @@ export {
   onDisconnect,
   getAppUsers,
   getCpUsers,
+  getAllAlarms,
+  updateAlarm,
+  operators,
+  updateOperators,
 };

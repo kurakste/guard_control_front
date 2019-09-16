@@ -6,8 +6,8 @@ import ControlPanelInfo from '../ControlPanelInfo';
 
 const ControlPanelTracking = ({ alarm }) => (
   <React.Fragment>
-    <ControlPanelMap lat={alarm.lat} lng={alarm.lon} />
-    <ControlPanelInfo chops={alarm.chops} />
+    <ControlPanelMap track={alarm.track} />
+    <ControlPanelInfo chops={alarm.Gbrs} />
   </React.Fragment>
 );
 

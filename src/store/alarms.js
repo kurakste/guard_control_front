@@ -1,143 +1,28 @@
-import { createStore } from 'effector';
+import { createStore, createEvent } from 'effector';
 
-const defaultState = [
-  {
-    id: 1,
-    status: 0,
-    user: {
-      id: 9,
-      firstName: 'Diman',
-      lastName: 'Petrov',
-      email: 'petrov@gmail.com',
-      tel: '+79176450029',
-      active: false,
-      role: 31,
-      img: '9_img.jpg',
-      pasImg1: '9_pasImg1.jpg',
-      pasImg2: '9_pasImg2.png',
-      password: '$2a$10$yfGfBQDuXl024AyOGZ3NI.EffNvahUS4WFDWatZfh.rccakGjMQwy',
-      notes: '',
-      createdAt: '2019-08-27T15:26:58.700Z',
-      updatedAt: '2019-08-27T15:26:58.764Z',
-    },
-    lat: 59.95,
-    lon: 30.33,
-    chops:
-    [
-      {
-        name: 'Бэтмэн',
-        phone: '12245',
-        notes: 'Для вызова включите бэт-сигнал',
-      },
-      {
-        name: 'ООО Витязь',
-        phone: '12245',
-        notes: '33 богатыря',
-      },
-      {
-        name: 'Бэтмэн',
-        phone: '12245',
-        notes: 'Для вызова включите бэт-сигнал',
-      },
-      {
-        name: 'ООО Витязь',
-        phone: '12245',
-        notes: '33 богатыря',
-      },
-      {
-        name: 'Бэтмэн',
-        phone: '12245',
-        notes: 'Для вызова включите бэт-сигнал',
-      },
-      {
-        name: 'ООО Витязь',
-        phone: '12245',
-        notes: '33 богатыря',
-      },
-      {
-        name: 'Бэтмэн',
-        phone: '12245',
-        notes: 'Для вызова включите бэт-сигнал',
-      },
-      {
-        name: 'ООО Витязь',
-        phone: '12245',
-        notes: '33 богатыря',
-      },
-    ],
-  },
-  {
-    id: 2,
-    status: 1,
-    user: {
-      id: 11,
-      firstName: 'Ivan',
-      lastName: 'Ivanov',
-      email: 'petrov@gmail.com',
-      tel: '+79176450029',
-      active: false,
-      role: 31,
-      img: '11_img.jpg',
-      pasImg1: '11_pasImg1.jpg',
-      pasImg2: '11_pasImg2.png',
-      password: '$2a$10$rWw2ImlTWeuq2MKnlnKmvOVX/XHgTGRq68V6pCJ27kza/kq/jAHva',
-      notes: '',
-      createdAt: '2019-08-28T09:35:02.931Z',
-      updatedAt: '2019-08-28T09:35:02.942Z',
-    },
-    lat: 44.61,
-    lon: 33.52,
-    chops:
-    [
-      {
-        name: 'ЧП Паук',
-        phone: '12245',
-        notes: 'Пароль: "Питер Паркер"',
-      },
-      {
-        name: 'Злые дяди',
-        phone: '12245',
-        notes: 'Реально, злые',
-      },
-    ],
-  },
-  {
-    id: 3,
-    status: 2,
-    user: {
-      id: 12,
-      firstName: 'Vasya',
-      lastName: 'Vasin',
-      email: 'vasin@gmail.com',
-      tel: '+79176451166',
-      active: false,
-      role: 31,
-      img: '11_img.jpg',
-      pasImg1: '11_pasImg1.jpg',
-      pasImg2: '11_pasImg2.png',
-      password: '$2a$10$rWw2ImlTWeuq2MKnlnKmvOVX/XHgTGRq68V6pCJ27kza/kq/jAHva',
-      notes: '',
-      createdAt: '2019-08-28T09:35:02.931Z',
-      updatedAt: '2019-08-28T09:35:02.942Z',
-    },
-    lat: 55.75,
-    lon: 37.61,
-    chops:
-    [
-      {
-        name: 'ЧП Паук',
-        phone: '12245',
-        notes: 'Пароль: "Питер Паркер"',
-      },
-      {
-        name: 'Злые дяди',
-        phone: '12245',
-        notes: 'Реально, злые',
-      },
-    ],
-  },
-];
+const getAllAlarms = createEvent();
+const updateAlarm = createEvent();
+const addAlarm = createEvent();
 
-const alarms = createStore(defaultState);
+const defaultState = [];
 
-export default alarms;
+const alarms = createStore(defaultState)
+  .on(getAllAlarms, (oldAlarms, newAlarms) => [...newAlarms])
+  .on(addAlarm, (oldAlarms, newAlarm) => [...oldAlarms, newAlarm])
+  .on(updateAlarm, (oldAlarms, updatedAlarm) => {
+    const index = oldAlarms.findIndex(alarm => alarm.id === updatedAlarm.id);
+    const newAlarms = [...oldAlarms];
+    if (updatedAlarm.status === 30 || updatedAlarm.status === 40) {
+      newAlarms.splice(index, 1);
+    } else {
+      newAlarms.splice(index, 1, updatedAlarm);
+    }
+    return newAlarms;
+  });
+
+export {
+  alarms,
+  getAllAlarms,
+  updateAlarm,
+  addAlarm,
+};

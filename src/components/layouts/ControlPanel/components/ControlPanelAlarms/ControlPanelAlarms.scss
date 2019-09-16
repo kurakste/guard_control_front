@@ -2,3 +2,26 @@
   margin-top: 1rem;
   margin-left: 15px;
 }
+.status-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  .status-text {
+    flex: 1;
+  }
+}
+
+.alarms-container {
+  .ReactTable {
+    position: static;
+  } 
+  .rt-table {
+    padding-bottom: 62px;
+  }
+  .pagination-bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+  }
+}
