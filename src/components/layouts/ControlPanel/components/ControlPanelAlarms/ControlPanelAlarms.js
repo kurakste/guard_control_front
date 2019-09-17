@@ -103,6 +103,7 @@ const Alarms = ({ alarms, alarmId, onClick }) => {
       rowsText= 'строк'
       minRows={0}
       style={{
+        height: '80vh',
         borderLeft: '0px',
         borderTop: '0px',
         borderBottom: '0px',

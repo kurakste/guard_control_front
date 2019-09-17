@@ -1,4 +1,5 @@
 import React, { Suspense, useEffect, useState } from 'react';
+import { useStore } from 'effector-react';
 import PropTypes from 'prop-types';
 import io from 'socket.io-client';
 import logger from 'logger';
@@ -24,6 +25,7 @@ import {
   getAllAlarms,
   updateAlarm,
   addAlarm,
+  status,
 } from 'store';
 
 import {
@@ -31,7 +33,10 @@ import {
   AppSidebarNav,
 } from '@coreui/react';
 
+import Modal from 'components/common/Modal';
+
 const Main = ({ history, ...props }) => {
+  const statusFromStore = useStore(status);
   const [isReady, setIsReady] = useState(false);
   const [socket, setUpSocket] = useState(null);
 
@@ -82,32 +87,41 @@ const Main = ({ history, ...props }) => {
   };
 
   return isReady ? (
-    <div className="app">
-      <Header onLogout={signOut}/>
-      <div className="app-body">
-        <AppSidebar fixed display="lg">
-          <Suspense>
-            <AppSidebarNav navConfig={navigation} {...props} router={router}/>
-          </Suspense>
-        </AppSidebar>
-        <main className="main">
-          <Switch>
-            {routes.map((route, idx) => (route.component ? (
-                <Route
-                  key={idx}
-                  path={route.path}
-                  exact={route.exact}
-                  name={route.name}
-                  render={renderProps => (
-                    <route.component {...renderProps} socket={socket}/>
-                  )} />
-            ) : (null)))}
-            <Redirect from="/" to="/main" />
-          </Switch>
-          <Footer />
-        </main>
+    <React.Fragment>
+      <div className="app">
+        <Header onLogout={signOut}/>
+        <div className="app-body">
+          <AppSidebar display="lg">
+            <Suspense>
+              <AppSidebarNav navConfig={navigation} {...props} router={router}/>
+            </Suspense>
+          </AppSidebar>
+          <main className="main">
+            <Switch>
+              {routes.map((route, idx) => (route.component ? (
+                  <Route
+                    key={idx}
+                    path={route.path}
+                    exact={route.exact}
+                    name={route.name}
+                    render={renderProps => (
+                      <route.component {...renderProps} socket={socket}/>
+                    )} />
+              ) : (null)))}
+              <Redirect from="/" to="/main" />
+            </Switch>
+            <Footer />
+          </main>
+        </div>
       </div>
-    </div>
+      <Modal
+        isOpen={Boolean(!statusFromStore)}
+        title={'Потеряно соединение'}
+        text={'Ожидается повторное соединение'}
+        modalStyle ={'modal-danger'}
+        noControls
+      />
+    </React.Fragment>
   ) : <Loading />;
 };
 
