@@ -13,6 +13,7 @@ import {
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
   const authFromStore = useStore(auth);
+  console.log(authFromStore);
   return (<Route {...rest} render={(props) => (
     authFromStore.isAuthed
       ? <Component {...props} {...rest} />

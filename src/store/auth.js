@@ -4,12 +4,12 @@ const onAuth = createEvent();
 const onLogout = createEvent();
 
 const defaultState = {
-  isAuthed: true,
+  isAuthed: false,
   token: '',
 };
 
 const auth = createStore(defaultState)
-  .on(onAuth, (oldAuth, newAuth) => ({ isAuthed: true, token: newAuth }))
+  .on(onAuth, (oldAuth, newAuth) => ({ isAuthed: true, token: newAuth.token }))
   .on(onLogout, () => defaultState);
 
 export {

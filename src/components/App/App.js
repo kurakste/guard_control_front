@@ -12,6 +12,7 @@ import {
   getAllAlarms,
   updateAlarm,
   addAlarm,
+  onAuth,
 } from 'store';
 
 import Main from '../pages/Main';
@@ -62,6 +63,15 @@ const App = () => {
       updateAlarm(data);
     });
 
+    socket.on('srvLoginOk', (data) => {
+      console.log('srvLoginOk: ', data);
+      onAuth(data);
+    });
+
+    socket.on('srvErrMessage', (data) => {
+      console.log('srvErrMessage: ', data);
+    });
+
     socket.on('disconnect', (msg) => {
       logger.log('error', msg);
       onDisconnect();
@@ -71,8 +81,8 @@ const App = () => {
     <Router>
       <React.Suspense fallback={<Loading />}>
         <Switch>
-          <Route exact path="/login" name="Login Page" render={props => <Login {...props}/>} />
-          <Route exact path="/register" name="Register Page" render={props => <Register {...props}/>} />
+          <Route exact path="/login" name="Login Page" render={props => <Login {...props} socket={socket}/>} />
+          <Route exact path="/register" name="Register Page" render={props => <Register {...props} socket={socket}/>} />
           <PrivateRoute path='/' component={Main} socket={socket}/>
         </Switch>
       </React.Suspense>
