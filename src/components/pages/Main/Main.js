@@ -1,8 +1,6 @@
-import React, { Suspense, useEffect, useState } from 'react';
+import React, { Suspense } from 'react';
 import { useStore } from 'effector-react';
 import PropTypes from 'prop-types';
-import io from 'socket.io-client';
-import logger from 'logger';
 import {
   Switch,
   Redirect,
@@ -14,17 +12,11 @@ import * as router from 'react-router-dom';
 
 import Header from 'components/layouts/Header';
 import Footer from 'components/layouts/Footer';
-import Loading from 'components/common/Loading';
 import './Main.scss';
 
 import routes from 'routes';
 
 import {
-  onConnect,
-  onDisconnect,
-  getAllAlarms,
-  updateAlarm,
-  addAlarm,
   status,
 } from 'store';
 
@@ -35,58 +27,14 @@ import {
 
 import Modal from 'components/common/Modal';
 
-const Main = ({ history, ...props }) => {
+const Main = ({ history, socket, ...props }) => {
   const statusFromStore = useStore(status);
-  const [isReady, setIsReady] = useState(false);
-  const [socket, setUpSocket] = useState(null);
-
-  useEffect(() => {
-    const socketUrl = process.env.REACT_APP_SOCKET;
-    setUpSocket(io(socketUrl));
-  }, []);
-
-  useEffect(() => {
-    if (!socket) {
-      return;
-    }
-
-    socket.on('open', () => {
-
-    });
-
-    socket.on('connect', () => {
-      logger.log('info', 'Successfuly connected');
-      onConnect();
-    });
-
-    socket.on('srvUpdateAlarmListAll', (data) => {
-      console.log('srvUpdateAlarmListAll: ', data);
-      setIsReady(true);
-      getAllAlarms(data.payload);
-    });
-
-    socket.on('srvCreateNewAlarm', (data) => {
-      console.log('srvCreateNewAlarm: ', data);
-      addAlarm(data.payload);
-    });
-
-    socket.on('srvUpdateAlarm', (data) => {
-      console.log('srvUpdateAlarm: ', data);
-      updateAlarm(data);
-    });
-
-    socket.on('disconnect', (msg) => {
-      logger.log('error', msg);
-      onDisconnect();
-    });
-  }, [socket]);
-
   const signOut = (e) => {
     e.preventDefault();
     history.push('/login');
   };
 
-  return isReady ? (
+  return (
     <React.Fragment>
       <div className="app">
         <Header onLogout={signOut}/>
@@ -122,11 +70,12 @@ const Main = ({ history, ...props }) => {
         noControls
       />
     </React.Fragment>
-  ) : <Loading />;
+  );
 };
 
 Main.propTypes = {
   history: PropTypes.object.isRequired,
+  socket: PropTypes.object.isRequired,
 };
 
 export default Main;

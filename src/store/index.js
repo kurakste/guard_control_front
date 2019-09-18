@@ -6,6 +6,12 @@ import {
 } from './alarms';
 
 import {
+  auth,
+  onAuth,
+  onLogout,
+} from './auth';
+
+import {
   operators,
   updateOperators,
 } from './operators';
@@ -37,4 +43,7 @@ export {
   updateAlarm,
   operators,
   updateOperators,
+  auth,
+  onAuth,
+  onLogout,
 };
