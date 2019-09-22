@@ -1,11 +1,7 @@
 import React, { useState } from 'react';
 import { useStore } from 'effector-react';
-import { Link } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-
-import {
-  Redirect,
-} from 'react-router-dom';
 
 import {
   Button,
@@ -81,9 +77,6 @@ const Login = ({ socket }) => {
                     <Row>
                       <Col xs="6">
                         <Button color="primary" className="px-4">Войти</Button>
-                      </Col>
-                      <Col xs="6" className="text-right">
-                        <Button color="link" className="px-0">Забыли пароль?</Button>
                       </Col>
                     </Row>
                   </Form>

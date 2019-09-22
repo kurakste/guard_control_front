@@ -12,6 +12,7 @@ import * as router from 'react-router-dom';
 
 import Header from 'components/layouts/Header';
 import Footer from 'components/layouts/Footer';
+import Modal from 'components/common/Modal';
 import './Main.scss';
 
 import routes from 'routes';
@@ -24,8 +25,6 @@ import {
   AppSidebar,
   AppSidebarNav,
 } from '@coreui/react';
-
-import Modal from 'components/common/Modal';
 
 const Main = ({ history, socket, ...props }) => {
   const statusFromStore = useStore(status);
