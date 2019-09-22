@@ -9,12 +9,18 @@ import {
   auth,
   onAuth,
   onLogout,
-  onError,
 } from './auth';
+
+import {
+  errors,
+  onError,
+} from './errors';
 
 import {
   operators,
   updateOperators,
+  addOperator,
+  deleteOperator,
 } from './operators';
 
 import {
@@ -44,8 +50,11 @@ export {
   updateAlarm,
   operators,
   updateOperators,
+  addOperator,
+  deleteOperator,
   auth,
   onAuth,
   onLogout,
   onError,
+  errors,
 };

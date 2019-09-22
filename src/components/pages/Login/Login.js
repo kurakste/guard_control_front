@@ -21,11 +21,13 @@ import {
 
 import {
   auth,
+  errors,
 } from 'store';
 
 import { errorCodeChecker } from 'helpers';
 
 const Login = ({ socket }) => {
+  const errorsFromStore = useStore(errors);
   const authFromStore = useStore(auth);
   const [login, onLoginChange] = useState('');
   const [pass, onPasswordChange] = useState('');
@@ -45,8 +47,8 @@ const Login = ({ socket }) => {
                 <CardBody>
                   <Form onSubmit={handleSubmit}>
                     <h1>Guard Control</h1>
-                    {authFromStore.error
-                      ? <p className="text-danger">{errorCodeChecker(authFromStore.error)}</p>
+                    {errorsFromStore.error >= 6
+                      ? <p className="text-danger">{errorCodeChecker(errorsFromStore.error)}</p>
                       : <p className="text-muted">Войдите в свой аккаунт</p>}
                     <InputGroup className="mb-3">
                       <InputGroupAddon addonType="prepend">

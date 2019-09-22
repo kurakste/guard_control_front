@@ -1,5 +1,6 @@
 /* global localStorage */
 import React, { useEffect, useState } from 'react';
+import { useStore } from 'effector-react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import io from 'socket.io-client';
 import logger from 'logger';
@@ -15,6 +16,11 @@ import {
   addAlarm,
   onAuth,
   onError,
+  onLogout,
+  updateOperators,
+  addOperator,
+  deleteOperator,
+  auth,
 } from 'store';
 
 import Main from '../pages/Main';
@@ -29,7 +35,7 @@ const Page500 = React.lazy(() => import('../../views/Pages/Page500/Page500')); *
 const App = () => {
   const [isReady, setIsReady] = useState(false);
   const [socket, setUpSocket] = useState(null);
-
+  const authFromStore = useStore(auth);
   const socketUrl = process.env.REACT_APP_SOCKET;
 
   useEffect(() => {
@@ -37,6 +43,9 @@ const App = () => {
       token: localStorage.getItem('token'),
       user: localStorage.getItem('user'),
     };
+    if (user.user) {
+      user.user = JSON.parse(user.user);
+    }
     if (user.token) {
       onAuth(user);
     }
@@ -74,10 +83,27 @@ const App = () => {
       updateAlarm(data);
     });
 
+    socket.on('srvUpdateUserList', (data) => {
+      console.log('srvUpdateUserList: ', data);
+      updateOperators(data);
+    });
+
+    socket.on('srvNewUserConnected', (data) => {
+      console.log('srvNewUserConnected: ', data);
+      if (data !== authFromStore.user.id) {
+        addOperator(data);
+      }
+    });
+
+    socket.on('srvNewUserDisconnected', (data) => {
+      console.log('srvNewUserDisconnected: ', data);
+      deleteOperator(data);
+    });
+
     socket.on('srvLoginOk', (data) => {
       console.log('srvLoginOk: ', data);
       localStorage.setItem('token', data.token);
-      localStorage.setItem('user', data.user);
+      localStorage.setItem('user', JSON.stringify(data.user));
       socket.disconnect();
       const params = { query: `token=${data.token}` };
       setUpSocket(io(socketUrl, params));
@@ -86,6 +112,9 @@ const App = () => {
 
     socket.on('srvErrMessage', (data) => {
       console.log('srvErrMessage: ', data);
+      if (data.code === 500) {
+        onLogout();
+      }
       onError(data.code);
     });
 
