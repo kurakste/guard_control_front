@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
+import { useStore } from 'effector-react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+
+import {
+  Redirect,
+} from 'react-router-dom';
+
 import {
   Button,
   Card,
@@ -13,8 +19,14 @@ import {
   Row,
 } from 'reactstrap';
 
+import {
+  auth,
+} from 'store';
+
+import { errorCodeChecker } from 'helpers';
 
 const Login = ({ socket }) => {
+  const authFromStore = useStore(auth);
   const [login, onLoginChange] = useState('');
   const [pass, onPasswordChange] = useState('');
   const handleSubmit = (e) => {
@@ -23,7 +35,7 @@ const Login = ({ socket }) => {
       payload: { email: login, password: pass },
     });
   };
-  return (
+  return !authFromStore.isAuthed ? (
     <div className="app flex-row align-items-center">
       <Container>
         <Row className="justify-content-center">
@@ -33,7 +45,9 @@ const Login = ({ socket }) => {
                 <CardBody>
                   <Form onSubmit={handleSubmit}>
                     <h1>Guard Control</h1>
-                    <p className="text-muted">Войдите в свой аккаунт</p>
+                    {authFromStore.error
+                      ? <p className="text-danger">{errorCodeChecker(authFromStore.error)}</p>
+                      : <p className="text-muted">Войдите в свой аккаунт</p>}
                     <InputGroup className="mb-3">
                       <InputGroupAddon addonType="prepend">
                         <InputGroupText>
@@ -90,7 +104,7 @@ const Login = ({ socket }) => {
         </Row>
       </Container>
     </div>
-  );
+  ) : <Redirect to='/main' />;
 };
 Login.propTypes = {
   socket: PropTypes.object.isRequired,

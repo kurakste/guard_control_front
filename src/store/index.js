@@ -9,6 +9,7 @@ import {
   auth,
   onAuth,
   onLogout,
+  onError,
 } from './auth';
 
 import {
@@ -46,4 +47,5 @@ export {
   auth,
   onAuth,
   onLogout,
+  onError,
 };

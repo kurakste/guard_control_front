@@ -14,16 +14,25 @@ import PropTypes from 'prop-types';
 import { AppHeader, AppSidebarToggler } from '@coreui/react';
 import Loading from 'components/common/Loading';
 
+import {
+  onLogout,
+} from 'store';
+
 const propTypes = {
   children: PropTypes.node,
 };
 
 const defaultProps = {};
 
-const Header = ({ onLogout }) => {
+const Header = () => {
   const appUsersFromStore = useStore(appUsers);
   const cpUsersFromStore = useStore(cpUsers);
   const alarmsFromStore = useStore(alarms);
+
+  const logOut = (e) => {
+    e.preventDefault();
+    onLogout();
+  };
 
   return (
     <Suspense fallback={Loading}>
@@ -56,7 +65,7 @@ const Header = ({ onLogout }) => {
               username@guardcontrol.ru
             </DropdownToggle>
             <DropdownMenu>
-              <DropdownItem onClick={onLogout}>
+              <DropdownItem onClick={logOut}>
                 Выйти из системы
               </DropdownItem>
             </DropdownMenu>
@@ -68,10 +77,5 @@ const Header = ({ onLogout }) => {
 };
 Header.propTypes = propTypes;
 Header.defaultProps = defaultProps;
-
-
-Header.propTypes = {
-  onLogout: PropTypes.func.isRequired,
-};
 
 export default Header;

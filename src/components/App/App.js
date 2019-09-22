@@ -1,3 +1,4 @@
+/* global localStorage */
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import io from 'socket.io-client';
@@ -13,6 +14,7 @@ import {
   updateAlarm,
   addAlarm,
   onAuth,
+  onError,
 } from 'store';
 
 import Main from '../pages/Main';
@@ -28,9 +30,18 @@ const App = () => {
   const [isReady, setIsReady] = useState(false);
   const [socket, setUpSocket] = useState(null);
 
+  const socketUrl = process.env.REACT_APP_SOCKET;
+
   useEffect(() => {
-    const socketUrl = process.env.REACT_APP_SOCKET;
-    setUpSocket(io(socketUrl));
+    const user = {
+      token: localStorage.getItem('token'),
+      user: localStorage.getItem('user'),
+    };
+    if (user.token) {
+      onAuth(user);
+    }
+    const params = { query: `token=${user.token}` };
+    setUpSocket(io(socketUrl, params));
   }, []);
 
   useEffect(() => {
@@ -50,12 +61,12 @@ const App = () => {
 
     socket.on('srvUpdateAlarmListAll', (data) => {
       console.log('srvUpdateAlarmListAll: ', data);
-      getAllAlarms(data.payload);
+      getAllAlarms(data);
     });
 
     socket.on('srvCreateNewAlarm', (data) => {
       console.log('srvCreateNewAlarm: ', data);
-      addAlarm(data.payload);
+      addAlarm(data);
     });
 
     socket.on('srvUpdateAlarm', (data) => {
@@ -65,11 +76,17 @@ const App = () => {
 
     socket.on('srvLoginOk', (data) => {
       console.log('srvLoginOk: ', data);
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('user', data.user);
+      socket.disconnect();
+      const params = { query: `token=${data.token}` };
+      setUpSocket(io(socketUrl, params));
       onAuth(data);
     });
 
     socket.on('srvErrMessage', (data) => {
       console.log('srvErrMessage: ', data);
+      onError(data.code);
     });
 
     socket.on('disconnect', (msg) => {

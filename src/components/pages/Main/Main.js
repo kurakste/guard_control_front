@@ -29,15 +29,11 @@ import Modal from 'components/common/Modal';
 
 const Main = ({ history, socket, ...props }) => {
   const statusFromStore = useStore(status);
-  const signOut = (e) => {
-    e.preventDefault();
-    history.push('/login');
-  };
 
   return (
     <React.Fragment>
       <div className="app">
-        <Header onLogout={signOut}/>
+        <Header />
         <div className="app-body">
           <AppSidebar display="lg">
             <Suspense>
