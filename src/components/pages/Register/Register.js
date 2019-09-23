@@ -74,7 +74,7 @@ const Register = ({ socket, history }) => {
               <CardBody className="p-4">
                 <Form onSubmit={handleSubmit}>
                   <h1>Регистрация</h1>
-                  {(errorsFromStore.error < 6 && errorsFromStore.error)
+                  {(errorsFromStore.error < 3 || errorsFromStore.error === 7)
                     ? <p className="text-danger">{errorCodeChecker(errorsFromStore.error)}</p>
                     : <p className="text-muted">Создайте свой аккаунт</p>}
                   {validation && <p className="text-danger">{validation}</p>}

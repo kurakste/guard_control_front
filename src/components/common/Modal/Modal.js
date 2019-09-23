@@ -6,6 +6,7 @@ import {
   ModalFooter,
   ModalHeader,
   Button,
+  Input,
 } from 'reactstrap';
 
 const Modal = (props) => {
@@ -19,16 +20,24 @@ const Modal = (props) => {
     submitColor = 'primary',
     className,
     noControls = false,
+    withInput = false,
+    value = '',
+    onChange,
   } = props;
   return (
     <ReactstrapModal isOpen={isOpen} toggle={onCancel} className={`${className} + ' ' + ${modalStyle}`}>
       <ModalHeader toggle={onCancel}>{title}</ModalHeader>
       <ModalBody>
         {text}
+        {withInput && (<Input className="my-2" value={value} onChange={onChange}/>)}
       </ModalBody>
       {!noControls && (
         <ModalFooter>
-          <Button color={submitColor} onClick={onSubmit}>Подтвердить</Button>{' '}
+          <Button
+            color={submitColor}
+            onClick={onSubmit}
+            disabled={(withInput && !value)}
+          >Подтвердить</Button>{' '}
           <Button color="secondary" onClick={onCancel}>Отмена</Button>
         </ModalFooter>
       )}
@@ -37,7 +46,10 @@ const Modal = (props) => {
 };
 
 Modal.propTypes = {
+  value: PropTypes.string,
+  onChange: PropTypes.func,
   noControls: PropTypes.bool,
+  withInput: PropTypes.bool,
   isOpen: PropTypes.bool.isRequired,
   onSubmit: PropTypes.func,
   onCancel: PropTypes.func,

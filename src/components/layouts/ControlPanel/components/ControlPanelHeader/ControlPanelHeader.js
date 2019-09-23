@@ -16,6 +16,8 @@ const ControlPanelHeader = ({ onClick, alarm, socket }) => {
   const [isGroupSendModalShown, toggleGroupSendModal] = useState(false);
   const [isDeclineModalShown, toggleDeclineModal] = useState(false);
   const [isDeleteModalShown, toggleDeleteModal] = useState(false);
+  const [comment, setComment] = useState('');
+  const onCommentChange = (e) => setComment(e.target.value);
 
   const takeAlarmInProcessing = () => {
     socket.emit('cpPickedUpAlarm', {
@@ -34,9 +36,12 @@ const ControlPanelHeader = ({ onClick, alarm, socket }) => {
   };
 
   const declineAlarm = () => {
+    const payload = { ...alarm };
+    payload.notes = comment;
+    console.log(payload);
     socket.emit('cpAlarmDecline', {
       token: { user: { id: 1 } },
-      payload: alarm,
+      payload,
     });
     toggleDeclineModal(false);
   };
@@ -112,7 +117,10 @@ const ControlPanelHeader = ({ onClick, alarm, socket }) => {
         onSubmit={declineAlarm}
         onCancel={() => toggleDeclineModal(false)}
         title={'Отменить заявку'}
-        text={'Подтвердить отмену заявки?'}
+        text={'Укажите причину отмены'}
+        withInput
+        value={comment}
+        onChange={onCommentChange}
         modalStyle ={'modal-warning'}
         submitColor={'warning'}
       />
@@ -120,8 +128,8 @@ const ControlPanelHeader = ({ onClick, alarm, socket }) => {
         isOpen={Boolean(isDeleteModalShown)}
         onSubmit={closeAlarm}
         onCancel={() => toggleDeleteModal(false)}
-        title={'Удалить заявку'}
-        text={'Подтвердить удаление заявки?'}
+        title={'Закрыть заявку'}
+        text={'Подтвердить закрытие заявки?'}
         modalStyle ={'modal-danger'}
         submitColor={'danger'}
       />

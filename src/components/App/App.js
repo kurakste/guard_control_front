@@ -37,19 +37,19 @@ const App = () => {
   const [socket, setUpSocket] = useState(null);
   const authFromStore = useStore(auth);
   const socketUrl = process.env.REACT_APP_SOCKET;
-
   useEffect(() => {
     const user = {
       token: localStorage.getItem('token'),
       user: localStorage.getItem('user'),
     };
+    const params = {};
     if (user.user) {
       user.user = JSON.parse(user.user);
     }
     if (user.token) {
       onAuth(user);
+      params.query = `token=${user.token}`;
     }
-    const params = { query: `token=${user.token}` };
     setUpSocket(io(socketUrl, params));
   }, []);
 
@@ -112,7 +112,7 @@ const App = () => {
 
     socket.on('srvErrMessage', (data) => {
       console.log('srvErrMessage: ', data);
-      if (data.code === 500) {
+      if (data.code === 500 || data.code === 3 || data.code === 4) {
         onLogout();
       }
       onError(data.code);
