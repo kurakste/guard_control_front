@@ -39,8 +39,8 @@ const Modal = (props) => {
 Modal.propTypes = {
   noControls: PropTypes.bool,
   isOpen: PropTypes.bool.isRequired,
-  onSubmit: PropTypes.func.isRequired,
-  onCancel: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func,
+  onCancel: PropTypes.func,
   title: PropTypes.string,
   text: PropTypes.string,
   modalStyle: PropTypes.string,

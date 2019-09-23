@@ -3,7 +3,10 @@ import PropTypes from 'prop-types';
 import ReactTable from 'react-table';
 import { Badge } from 'reactstrap';
 import { useStore } from 'effector-react';
-import { operators } from 'store';
+import {
+  operators,
+  auth,
+} from 'store';
 
 import './ControlPanelAlarms.scss';
 
@@ -11,7 +14,7 @@ import { statusChecker } from 'helpers';
 
 const Alarms = ({ alarms, alarmId, onClick }) => {
   const operatorsFromStore = useStore(operators);
-
+  const authFromStore = useStore(auth);
   const columns = [
     {
       Header: 'Статус',
@@ -37,9 +40,15 @@ const Alarms = ({ alarms, alarmId, onClick }) => {
       Header: 'В обработке оператором',
       accessor: 'oid',
       Cell: row => {
-        let operatorForRow = operatorsFromStore.find(operator => operator.id === row.row.oid);
+        let operatorForRow = operatorsFromStore.find(id => id === row.row.oid);
         if (operatorForRow) {
-          operatorForRow = `${operatorForRow.lastName} ${operatorForRow.firstName}`;
+          operatorForRow = `В обработке: id${operatorForRow}`;
+        }
+        if (!operatorForRow && row.row.status) {
+          operatorForRow = 'В обработке: оператор не в сети';
+        }
+        if (row.row.oid === authFromStore.user.id) {
+          operatorForRow = 'В обработке мной';
         }
         return (
           <div>
