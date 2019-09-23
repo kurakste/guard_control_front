@@ -1,26 +1,18 @@
 import { createStore, createEvent } from 'effector';
 
 const updateOperators = createEvent();
+const addOperator = createEvent();
+const deleteOperator = createEvent();
 
-const defaultState = [
-  {
-    id: 1,
-    firstName: 'Марина',
-    lastName: 'Иванова',
-  },
-  {
-    id: 2,
-    firstName: 'Арсений',
-    lastName: 'Петров',
-  },
-  {
-    id: 3,
-    firstName: 'Егор',
-    lastName: 'Кузнецов',
-  },
-];
+const defaultState = [];
 
 const operators = createStore(defaultState)
-  .on(updateOperators, (oldOperators, newOperators) => [...newOperators]);
-
-export { operators, updateOperators };
+  .on(updateOperators, (oldOperators, newOperators) => [...newOperators])
+  .on(addOperator, (oldOperators, newOperator) => [...oldOperators, newOperator])
+  .on(deleteOperator, (oldOperators, deletedOperator) => [...oldOperators].filter(operator => operator !== deletedOperator));
+export {
+  operators,
+  updateOperators,
+  addOperator,
+  deleteOperator,
+};
