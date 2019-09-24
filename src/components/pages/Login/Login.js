@@ -43,7 +43,7 @@ const Login = ({ socket }) => {
                 <CardBody>
                   <Form onSubmit={handleSubmit}>
                     <h1>Guard Control</h1>
-                    {errorsFromStore.error >= 6
+                    {errorsFromStore.error >= 3 && errorsFromStore.error !== 7
                       ? <p className="text-danger">{errorCodeChecker(errorsFromStore.error)}</p>
                       : <p className="text-muted">Войдите в свой аккаунт</p>}
                     <InputGroup className="mb-3">

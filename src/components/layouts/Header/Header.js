@@ -1,6 +1,12 @@
 import React, { Suspense } from 'react';
 import { NavLink } from 'react-router-dom';
-import { appUsers, cpUsers, alarms } from 'store';
+import {
+  appUsers,
+  cpUsers,
+  alarms,
+  auth,
+  onLogout,
+} from 'store';
 import { useStore } from 'effector-react';
 
 import {
@@ -14,10 +20,6 @@ import PropTypes from 'prop-types';
 import { AppHeader, AppSidebarToggler } from '@coreui/react';
 import Loading from 'components/common/Loading';
 
-import {
-  onLogout,
-} from 'store';
-
 const propTypes = {
   children: PropTypes.node,
 };
@@ -28,7 +30,9 @@ const Header = () => {
   const appUsersFromStore = useStore(appUsers);
   const cpUsersFromStore = useStore(cpUsers);
   const alarmsFromStore = useStore(alarms);
+  const authFromStore = useStore(auth);
 
+  console.log(authFromStore);
   const logOut = (e) => {
     e.preventDefault();
     onLogout();
@@ -62,7 +66,7 @@ const Header = () => {
         <Nav className="ml-auto mr-3" navbar>
           <UncontrolledDropdown nav inNavbar>
             <DropdownToggle className="text-primary" nav caret>
-              username@guardcontrol.ru
+              {authFromStore.user.email}
             </DropdownToggle>
             <DropdownMenu>
               <DropdownItem onClick={logOut}>
