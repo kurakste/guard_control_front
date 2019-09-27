@@ -51,7 +51,7 @@ const App = () => {
       params.query = `token=${user.token}`;
     }
     setUpSocket(io(socketUrl, params));
-  }, []);
+  }, [socketUrl]);
 
   useEffect(() => {
     if (!socket) {
@@ -110,6 +110,14 @@ const App = () => {
       onAuth(data);
     });
 
+    socket.on('srvSendAllCpUserList,', (data) => {
+      console.log('srvSendAllCpUserList,: ', data);
+    });
+
+    socket.on('srvSendAllAppUserList,', (data) => {
+      console.log('srvSendAllAppUserList,: ', data);
+    });
+
     socket.on('srvErrMessage', (data) => {
       console.log('srvErrMessage: ', data);
       if (data.code === 500 || data.code === 3 || data.code === 4) {
@@ -122,7 +130,7 @@ const App = () => {
       logger.log('error', msg);
       onDisconnect();
     });
-  }, [socket]);
+  }, [socket, authFromStore, socketUrl]);
   return isReady ? (
     <Router>
       <React.Suspense fallback={<Loading />}>

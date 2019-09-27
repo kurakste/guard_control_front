@@ -36,7 +36,7 @@ const ControlPanel = (props) => {
       return;
     }
     setActiveAlarm(alarmsFromStore[alarmsFromStore.indexOf(prevAlarm)]);
-  }, [alarmsFromStore]);
+  }, [activeAlarm, prevActiveAlarm, alarmsFromStore]);
   return (
     <React.Fragment>
       <Container fluid className="main-container animated fadeIn">

@@ -32,7 +32,6 @@ const Header = () => {
   const alarmsFromStore = useStore(alarms);
   const authFromStore = useStore(auth);
 
-  console.log(authFromStore);
   const logOut = (e) => {
     e.preventDefault();
     onLogout();
