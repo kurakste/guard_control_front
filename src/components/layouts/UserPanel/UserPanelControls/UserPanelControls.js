@@ -8,7 +8,7 @@ import {
 } from 'reactstrap';
 
 import { verifyUser, declineUser } from 'apiProvider';
-import { getAppUsers, getCpUsers } from 'store';
+// import { getAppUsers, getCpUsers } from 'store';
 
 import Modal from 'components/common/Modal';
 
@@ -26,16 +26,16 @@ const UserPanelConrols = ({ id, role, clearUser }) => {
 
   const onVerify = async () => {
     await verifyUser(id, role);
-    getAppUsers();
-    getCpUsers();
+    // getAppUsers();
+    // getCpUsers();
     onDeclineCancel(false);
     clearUser(null);
   };
 
   const onDecline = async () => {
     await declineUser(id, role);
-    getAppUsers();
-    getCpUsers();
+    // getAppUsers();
+    // getCpUsers();
     onDeclineCancel(false);
     clearUser(null);
   };

@@ -26,8 +26,8 @@ import {
 import {
   appUsers,
   cpUsers,
-  getAppUsers,
-  getCpUsers,
+  getAllAppUsers,
+  getAllCpUsers,
 } from './users';
 
 import {
@@ -44,8 +44,8 @@ export {
   status,
   onConnect,
   onDisconnect,
-  getAppUsers,
-  getCpUsers,
+  getAllAppUsers,
+  getAllCpUsers,
   getAllAlarms,
   updateAlarm,
   operators,

@@ -21,6 +21,8 @@ import {
   addOperator,
   deleteOperator,
   auth,
+  getAllAppUsers,
+  getAllCpUsers,
 } from 'store';
 
 import Main from '../pages/Main';
@@ -110,12 +112,14 @@ const App = () => {
       onAuth(data);
     });
 
-    socket.on('srvSendAllCpUserList,', (data) => {
-      console.log('srvSendAllCpUserList,: ', data);
+    socket.on('srvSendAllCpUserList', (data) => {
+      console.log('srvSendAllCpUserList ', data);
+      getAllCpUsers(data);
     });
 
-    socket.on('srvSendAllAppUserList,', (data) => {
-      console.log('srvSendAllAppUserList,: ', data);
+    socket.on('srvSendAllAppUserList', (data) => {
+      console.log('srvSendAllAppUserList', data);
+      getAllAppUsers(data);
     });
 
     socket.on('srvErrMessage', (data) => {
