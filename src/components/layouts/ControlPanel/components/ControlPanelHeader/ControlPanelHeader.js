@@ -38,7 +38,6 @@ const ControlPanelHeader = ({ onClick, alarm, socket }) => {
   const declineAlarm = () => {
     const payload = { ...alarm };
     payload.notes = comment;
-    console.log(payload);
     socket.emit('cpAlarmDecline', {
       token: { user: { id: 1 } },
       payload,
