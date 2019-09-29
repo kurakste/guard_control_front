@@ -68,6 +68,26 @@ const RegRequestsTable = (props) => {
               <Nav tabs>
                 <NavItem>
                   <NavLink href="#"
+                   active = {active === 'newAppUsers'}
+                   name="newAppUsers"
+                   onClick={(e) => {
+                     e.preventDefault();
+                     switchTab(e.target.name);
+                   }}
+                   >Новые пользователи приложения</NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink href="#"
+                    active = {active === 'newCpUsers'}
+                    name="newCpUsers"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      switchTab(e.target.name);
+                    }}
+                  >Новые пользователи контрольной панели</NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink href="#"
                    active = {active === 'appUsers'}
                    name="appUsers"
                    onClick={(e) => {

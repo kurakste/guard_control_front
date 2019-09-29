@@ -14,13 +14,18 @@ import UserPanelConrols from './UserPanelControls';
 
 import './UserPanel.scss';
 
-const UserPanel = ({ withControls, user, clearUser }) => {
+const UserPanel = ({
+  withControls,
+  user,
+  clearUser,
+  socket,
+}) => {
   const apiUrl = process.env.REACT_APP_URL;
   return (
     <React.Suspense fallback={<Loading />}>
       <React.Fragment>
         {withControls
-          && <UserPanelConrols id={user.id} role={user.id} clearUser={clearUser}/>
+          && <UserPanelConrols user={user} clearUser={clearUser} socket={socket}/>
         }
           <div className='cards-container'>
             <div className="card-container pt-2 pl-2 pr-1 pb-1">
@@ -94,6 +99,7 @@ UserPanel.propTypes = {
   withControls: PropTypes.bool,
   user: PropTypes.object.isRequired,
   clearUser: PropTypes.func,
+  socket: PropTypes.object,
 };
 
 export default UserPanel;

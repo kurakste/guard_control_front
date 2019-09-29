@@ -28,6 +28,10 @@ import {
   cpUsers,
   getAllAppUsers,
   getAllCpUsers,
+  newAppUsers,
+  newCpUsers,
+  appUserAdded,
+  cpUserAdded,
 } from './users';
 
 import {
@@ -44,6 +48,10 @@ export {
   status,
   onConnect,
   onDisconnect,
+  newAppUsers,
+  newCpUsers,
+  appUserAdded,
+  cpUserAdded,
   getAllAppUsers,
   getAllCpUsers,
   getAllAlarms,

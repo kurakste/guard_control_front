@@ -2,13 +2,23 @@ export default function roleChecker(role) {
   switch (true) {
     case role === 0:
       return 'Администратор';
-    case role <= 19 && role > 0:
+    case role === 10:
       return 'Оператор';
-    case role > 19 && role <= 29:
+    case role === 20:
       return 'Пользователь';
-    case role >= 30:
-      return 'Кандидат';
+    case role === 31:
+      return 'Пользователь, кандидат';
+    case role === 32:
+      return 'Пользователь КП, кандидат';
+    case role === 33:
+      return 'Пользователь, отклоненный';
+    case role === 34:
+      return 'Пользователь КП, отклоненный';
+    case role === 35:
+      return 'Пользователь';
+    case role === 36:
+      return 'Пользователь КП';
     default:
-      return 'Кандидат';
+      throw new Error('Роль не найдена');
   }
 }

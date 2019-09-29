@@ -1,8 +1,8 @@
 import React, { Suspense } from 'react';
 import { NavLink } from 'react-router-dom';
 import {
-  appUsers,
-  cpUsers,
+  newAppUsers,
+  newCpUsers,
   alarms,
   auth,
   onLogout,
@@ -27,8 +27,8 @@ const propTypes = {
 const defaultProps = {};
 
 const Header = () => {
-  const appUsersFromStore = useStore(appUsers);
-  const cpUsersFromStore = useStore(cpUsers);
+  const appUsersFromStore = useStore(newAppUsers);
+  const cpUsersFromStore = useStore(newCpUsers);
   const alarmsFromStore = useStore(alarms);
   const authFromStore = useStore(auth);
 
