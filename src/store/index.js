@@ -26,8 +26,12 @@ import {
 import {
   appUsers,
   cpUsers,
-  getAppUsers,
-  getCpUsers,
+  getAllAppUsers,
+  getAllCpUsers,
+  newAppUsers,
+  newCpUsers,
+  appUserAdded,
+  cpUserAdded,
 } from './users';
 
 import {
@@ -44,8 +48,12 @@ export {
   status,
   onConnect,
   onDisconnect,
-  getAppUsers,
-  getCpUsers,
+  newAppUsers,
+  newCpUsers,
+  appUserAdded,
+  cpUserAdded,
+  getAllAppUsers,
+  getAllCpUsers,
   getAllAlarms,
   updateAlarm,
   operators,

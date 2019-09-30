@@ -21,6 +21,10 @@ import {
   addOperator,
   deleteOperator,
   auth,
+  getAllAppUsers,
+  getAllCpUsers,
+  appUserAdded,
+  cpUserAdded,
 } from 'store';
 
 import Main from '../pages/Main';
@@ -51,7 +55,7 @@ const App = () => {
       params.query = `token=${user.token}`;
     }
     setUpSocket(io(socketUrl, params));
-  }, []);
+  }, [socketUrl]);
 
   useEffect(() => {
     if (!socket) {
@@ -110,6 +114,38 @@ const App = () => {
       onAuth(data);
     });
 
+    socket.on('srvSendAllCpUserList', (data) => {
+      console.log('srvSendAllCpUserList ', data);
+      getAllCpUsers(data);
+    });
+
+    socket.on('srvSendAllAppUserList', (data) => {
+      console.log('srvSendAllAppUserList', data);
+      getAllAppUsers(data);
+    });
+
+    socket.on('srvUpdateOneCpUser', (data) => {
+      console.log('srvUpdateOneCpUser', data);
+      cpUserAdded(data);
+
+    });
+
+    socket.on('srvUpdateOneAppUser', (data) => {
+      console.log('srvUpdateOneAppUser', data);
+      appUserAdded(data);
+
+    });
+
+    socket.on('srvUpdateAllCpUserList', (data) => {
+      console.log('srvUpdateAllCpUserList', data);
+      getAllCpUsers(data);
+    });
+
+    socket.on('srvUpdateAllAppUserList', (data) => {
+      console.log('srvUpdateAllAppUserList', data);
+      getAllAppUsers(data);
+    });
+
     socket.on('srvErrMessage', (data) => {
       console.log('srvErrMessage: ', data);
       if (data.code === 500 || data.code === 3 || data.code === 4) {
@@ -122,7 +158,7 @@ const App = () => {
       logger.log('error', msg);
       onDisconnect();
     });
-  }, [socket]);
+  }, [socket, authFromStore, socketUrl]);
   return isReady ? (
     <Router>
       <React.Suspense fallback={<Loading />}>

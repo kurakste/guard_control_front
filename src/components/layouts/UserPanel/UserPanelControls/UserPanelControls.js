@@ -7,15 +7,13 @@ import {
 
 } from 'reactstrap';
 
-import { verifyUser, declineUser } from 'apiProvider';
-import { getAppUsers, getCpUsers } from 'store';
-
 import Modal from 'components/common/Modal';
 
-const UserPanelConrols = ({ id, role, clearUser }) => {
+const UserPanelConrols = ({ user, clearUser, socket }) => {
   const [isVerifyModalOpened, toggleVerifyModal] = useState(false);
   const [isDeclineModalOpened, toggleDeclineModal] = useState(false);
-
+  const [comment, setComment] = useState('');
+  const onCommentChange = (e) => setComment(e.target.value);
   const onVerifyCancel = () => {
     toggleVerifyModal(false);
   };
@@ -23,30 +21,53 @@ const UserPanelConrols = ({ id, role, clearUser }) => {
   const onDeclineCancel = () => {
     toggleDeclineModal(false);
   };
+  const disabled = user.role === 35 || user.role === 36;
+  const onVerify = () => {
+    let event = '';
 
-  const onVerify = async () => {
-    await verifyUser(id, role);
-    getAppUsers();
-    getCpUsers();
-    onDeclineCancel(false);
+    if (user.role === 31) {
+      event = 'cpAppUserApprove';
+    }
+    if (user.role === 32) {
+      event = 'cpCpUserApprove';
+    }
+    if (!event) {
+      return;
+    }
+    socket.emit(event, {
+      payload: user,
+    });
+    onVerifyCancel(false);
     clearUser(null);
   };
 
-  const onDecline = async () => {
-    await declineUser(id, role);
-    getAppUsers();
-    getCpUsers();
-    onDeclineCancel(false);
+  const onDecline = () => {
+    let event = '';
+
+    if (user.role === 31) {
+      event = 'cpAppUserDecline';
+    }
+    if (user.role === 32) {
+      event = 'cpCpUserDecline';
+    }
+    if (!event) {
+      return;
+    }
+
+    socket.emit(event, {
+      payload: user,
+    });
+    toggleDeclineModal(false);
     clearUser(null);
   };
 
   return (
     <React.Fragment>
-      <Row className='buttons-container'>
-        <Button color="ghost-success" onClick={toggleVerifyModal}>
+      <Row className='buttons-container mr-0 ml-0' >
+        <Button color="ghost-success" onClick={toggleVerifyModal} disabled={disabled}>
           <i className="fa fa-check"></i>&nbsp;Подтвердить
         </Button>
-        <Button color="ghost-danger" onClick={toggleDeclineModal}>
+        <Button color="ghost-danger" onClick={toggleDeclineModal} disabled={disabled}>
           <i className="fa fa-close"></i>&nbsp;Отклонить
         </Button>
         <Button color="ghost-primary" onClick={() => clearUser(null)}>
@@ -65,9 +86,12 @@ const UserPanelConrols = ({ id, role, clearUser }) => {
       <Modal
         isOpen={Boolean(isDeclineModalOpened)}
         onSubmit={onDecline}
-        onCancel={onDeclineCancel}
-        title={'Подтверждение отказа'}
-        text={'Подтвердить отказ в регистрации пользователя?'}
+        onCancel={() => onDeclineCancel(false)}
+        title={'Отменить заявку'}
+        text={'Укажите причину отмены'}
+        withInput
+        value={comment}
+        onChange={onCommentChange}
         modalStyle ={'modal-danger'}
         submitColor={'danger'}
       />
@@ -76,9 +100,9 @@ const UserPanelConrols = ({ id, role, clearUser }) => {
 };
 
 UserPanelConrols.propTypes = {
-  id: PropTypes.number.isRequired,
-  role: PropTypes.number.isRequired,
-  clearUser: PropTypes,
+  clearUser: PropTypes.func.isRequired,
+  socket: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
 };
 
 export default UserPanelConrols;

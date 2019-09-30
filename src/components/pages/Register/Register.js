@@ -43,7 +43,7 @@ const Register = ({ socket, history }) => {
         showRegModal(data.result);
       }
     });
-  }, []);
+  }, [socket]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
