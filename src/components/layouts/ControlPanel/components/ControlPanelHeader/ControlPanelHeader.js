@@ -21,7 +21,7 @@ const ControlPanelHeader = ({ onClick, alarm, socket }) => {
 
   const takeAlarmInProcessing = () => {
     socket.emit('cpPickedUpAlarm', {
-      token: { user: { id: 1 } },
+
       payload: alarm,
     });
     toggleTakenModal(false);
@@ -29,7 +29,7 @@ const ControlPanelHeader = ({ onClick, alarm, socket }) => {
 
   const sendGroup = () => {
     socket.emit('cpAlarmGbrSent', {
-      token: { user: { id: 1 } },
+
       payload: alarm,
     });
     toggleGroupSendModal(false);
@@ -38,9 +38,8 @@ const ControlPanelHeader = ({ onClick, alarm, socket }) => {
   const declineAlarm = () => {
     const payload = { ...alarm };
     payload.notes = comment;
-    console.log(payload);
     socket.emit('cpAlarmDecline', {
-      token: { user: { id: 1 } },
+
       payload,
     });
     toggleDeclineModal(false);
@@ -48,7 +47,7 @@ const ControlPanelHeader = ({ onClick, alarm, socket }) => {
 
   const closeAlarm = () => {
     socket.emit('cpAlarmClosed', {
-      token: { user: { id: 1 } },
+
       payload: alarm,
     });
     toggleDeleteModal(false);

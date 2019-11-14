@@ -1,38 +1,33 @@
-import { createStore, createEffect } from 'effector';
+/* eslint-disable no-shadow */
+import { createStore, createEvent } from 'effector';
 
-import { getAllAppUsers, getAllCpUsers } from 'apiProvider';
-
-const getAppUsers = createEffect();
-
-const getCpUsers = createEffect();
-
-getAppUsers.use(async () => {
-  const res = await getAllAppUsers();
-  console.log(res);
-  return res;
-});
-
-getCpUsers.use(async () => {
-  const res = await getAllCpUsers();
-  console.log(res);
-  return res;
-});
+const getAllAppUsers = createEvent();
+const getAllCpUsers = createEvent();
+const cpUserAdded = createEvent();
+const appUserAdded = createEvent();
 
 const defaultState = [];
 
 const appUsers = createStore(defaultState)
-  .on(getAppUsers.done, (state, { result }) => [...result]);
-
+  .on(getAllAppUsers, (oldAppUsers, appUsers) => [...appUsers.filter(user => user.role === 35)])
+  .on(appUserAdded, (oldAppUsers, newAppUser) => [...oldAppUsers, newAppUser]);
 const cpUsers = createStore(defaultState)
-  .on(getCpUsers.done, (state, { result }) => [...result]);
+  .on(getAllCpUsers, (oldCpUsers, cpUsers) => [...cpUsers.filter(user => user.role === 36)])
+  .on(cpUserAdded, (oldCpUsers, newCpUser) => [...oldCpUsers, newCpUser]);
 
-getCpUsers();
+const newAppUsers = createStore(defaultState)
+  .on(getAllAppUsers, (oldAppUsers, newAppUsers) => [...newAppUsers.filter(user => user.role === 31)]);
 
-getAppUsers();
+const newCpUsers = createStore(defaultState)
+  .on(getAllCpUsers, (oldCpUsers, newCpUsers) => [...newCpUsers.filter(user => user.role === 32)]);
 
-export {
+  export {
   appUsers,
   cpUsers,
-  getAppUsers,
-  getCpUsers,
+  newAppUsers,
+  newCpUsers,
+  getAllAppUsers,
+  getAllCpUsers,
+  appUserAdded,
+  cpUserAdded,
 };
