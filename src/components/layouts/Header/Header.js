@@ -9,6 +9,8 @@ import {
 } from 'store';
 import { useStore } from 'effector-react';
 
+import io from 'socket.io-client';
+
 import {
   Badge, UncontrolledDropdown, DropdownItem, DropdownMenu, DropdownToggle, Nav, NavItem,
 } from 'reactstrap';
@@ -20,21 +22,18 @@ import PropTypes from 'prop-types';
 import { AppHeader, AppSidebarToggler } from '@coreui/react';
 import Loading from 'components/common/Loading';
 
-const propTypes = {
-  children: PropTypes.node,
-};
-
-const defaultProps = {};
-
-const Header = () => {
+const Header = ({ socket, setUpSocket }) => {
   const appUsersFromStore = useStore(newAppUsers);
   const cpUsersFromStore = useStore(newCpUsers);
   const alarmsFromStore = useStore(alarms);
   const authFromStore = useStore(auth);
-
+  const socketUrl = process.env.REACT_APP_SOCKET;
   const logOut = (e) => {
     e.preventDefault();
     onLogout();
+    socket.disconnect();
+    const params = {};
+    setUpSocket(io(socketUrl, params));
   };
 
   return (
@@ -78,7 +77,9 @@ const Header = () => {
     </Suspense>
   );
 };
-Header.propTypes = propTypes;
-Header.defaultProps = defaultProps;
+Header.propTypes = {
+  socket: PropTypes.object.isRequired,
+  setUpSocket: PropTypes.func.isRequired,
+};
 
 export default Header;

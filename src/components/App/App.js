@@ -127,13 +127,11 @@ const App = () => {
     socket.on('srvUpdateOneCpUser', (data) => {
       console.log('srvUpdateOneCpUser', data);
       cpUserAdded(data);
-
     });
 
     socket.on('srvUpdateOneAppUser', (data) => {
       console.log('srvUpdateOneAppUser', data);
       appUserAdded(data);
-
     });
 
     socket.on('srvUpdateAllCpUserList', (data) => {
@@ -165,7 +163,7 @@ const App = () => {
         <Switch>
           <Route exact path="/login" name="Login Page" render={props => <Login {...props} socket={socket}/>} />
           <Route exact path="/register" name="Register Page" render={props => <Register {...props} socket={socket}/>} />
-          <PrivateRoute path='/' component={Main} socket={socket}/>
+          <PrivateRoute path='/' component={Main} socket={socket} setUpSocket={setUpSocket} />
         </Switch>
       </React.Suspense>
     </Router>
