@@ -29,8 +29,9 @@ const Login = ({ socket }) => {
   const [pass, onPasswordChange] = useState('');
   const handleSubmit = (e) => {
     e.preventDefault();
+    const user = { email: login, password: pass };
     socket.emit('cpSignIn', {
-      payload: { email: login, password: pass },
+      payload: user,
     });
   };
   return !authFromStore.isAuthed ? (

@@ -14,6 +14,9 @@
 .alarms-container {
   .ReactTable {
     position: static;
+    .rt-tr {
+      display: 'block',
+    }
   } 
   .rt-table {
     padding-bottom: 62px;

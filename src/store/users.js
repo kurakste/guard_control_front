@@ -19,7 +19,10 @@ const newAppUsers = createStore(defaultState)
   .on(getAllAppUsers, (oldAppUsers, newAppUsers) => [...newAppUsers.filter(user => user.role === 31)]);
 
 const newCpUsers = createStore(defaultState)
-  .on(getAllCpUsers, (oldCpUsers, newCpUsers) => [...newCpUsers.filter(user => user.role === 32)]);
+  .on(getAllCpUsers, (oldCpUsers, newCpUsers) => [...newCpUsers.filter(user => user.role === 32)])
+  .on(cpUserAdded, (prevNewCpUsers, cpUserToDelete) => {
+    
+  });
 
   export {
   appUsers,
@@ -31,3 +34,5 @@ const newCpUsers = createStore(defaultState)
   appUserAdded,
   cpUserAdded,
 };
+
+// cpUserAdded
