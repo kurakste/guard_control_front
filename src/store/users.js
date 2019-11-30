@@ -5,6 +5,8 @@ const getAllAppUsers = createEvent();
 const getAllCpUsers = createEvent();
 const cpUserAdded = createEvent();
 const appUserAdded = createEvent();
+const cpUserDeclined = createEvent();
+const appUserDeclined = createEvent();
 
 const defaultState = [];
 
@@ -19,10 +21,7 @@ const newAppUsers = createStore(defaultState)
   .on(getAllAppUsers, (oldAppUsers, newAppUsers) => [...newAppUsers.filter(user => user.role === 31)]);
 
 const newCpUsers = createStore(defaultState)
-  .on(getAllCpUsers, (oldCpUsers, newCpUsers) => [...newCpUsers.filter(user => user.role === 32)])
-  .on(cpUserAdded, (prevNewCpUsers, cpUserToDelete) => {
-    
-  });
+  .on(getAllCpUsers, (oldCpUsers, newCpUsers) => [...newCpUsers.filter(user => user.role === 32)]);
 
   export {
   appUsers,
@@ -33,6 +32,8 @@ const newCpUsers = createStore(defaultState)
   getAllCpUsers,
   appUserAdded,
   cpUserAdded,
+  cpUserDeclined,
+  appUserDeclined,
 };
 
 // cpUserAdded

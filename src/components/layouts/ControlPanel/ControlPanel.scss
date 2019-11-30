@@ -7,6 +7,9 @@
     .row {
       flex: 1;
     }
+    .ReactTable .rt-tr-group {
+      flex: 0 0 auto;
+    }
   }
   .alarms-container {
     position: relative;

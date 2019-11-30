@@ -25,6 +25,8 @@ import {
   getAllCpUsers,
   appUserAdded,
   cpUserAdded,
+  cpUserDeclined,
+  appUserDeclined,
 } from 'store';
 
 import Main from '../pages/Main';
@@ -124,13 +126,23 @@ const App = () => {
       getAllAppUsers(data);
     });
 
-    socket.on('srvUpdateOneCpUser', (data) => {
-      console.log('srvUpdateOneCpUser', data);
+    socket.on('srvUpdateCpUser', (data) => {
+      console.log('srvUpdateCpUser', data);
       cpUserAdded(data);
     });
 
-    socket.on('srvUpdateOneAppUser', (data) => {
-      console.log('srvUpdateOneAppUser', data);
+    socket.on('srvApproveAppUser', (data) => {
+      console.log('srvApproveAppUser', data);
+      appUserAdded(data);
+    });
+
+    socket.on('srvDeclineAppUser', (data) => {
+      console.log('srvDeclineAppUser', data);
+      cpUserAdded(data);
+    });
+
+    socket.on('srvDeclineCpUser', (data) => {
+      console.log('srvDeclineCpUser', data);
       appUserAdded(data);
     });
 
