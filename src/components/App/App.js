@@ -138,12 +138,12 @@ const App = () => {
 
     socket.on('srvDeclineAppUser', (data) => {
       console.log('srvDeclineAppUser', data);
-      cpUserAdded(data);
+      appUserDeclined(data);
     });
 
     socket.on('srvDeclineCpUser', (data) => {
       console.log('srvDeclineCpUser', data);
-      appUserAdded(data);
+      cpUserDeclined(data);
     });
 
     socket.on('srvUpdateAllCpUserList', (data) => {

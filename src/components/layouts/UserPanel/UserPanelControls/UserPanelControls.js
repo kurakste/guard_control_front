@@ -53,9 +53,11 @@ const UserPanelConrols = ({ user, clearUser, socket }) => {
     if (!event) {
       return;
     }
+    const userToSend = { ...user };
+    userToSend.notes = comment;
 
     socket.emit(event, {
-      payload: user,
+      payload: userToSend,
     });
     toggleDeclineModal(false);
     clearUser(null);

@@ -1,6 +1,13 @@
 /* eslint-disable no-shadow */
 import { createStore, createEvent } from 'effector';
 
+function deleteUserFromArray(arr, user) {
+  const newUsers = [...arr];
+  const index = newUsers.findIndex((userToCheck) => userToCheck.id === user.id);
+  newUsers.splice(index, 1);
+  return newUsers;
+}
+
 const getAllAppUsers = createEvent();
 const getAllCpUsers = createEvent();
 const cpUserAdded = createEvent();
@@ -18,12 +25,16 @@ const cpUsers = createStore(defaultState)
   .on(cpUserAdded, (oldCpUsers, newCpUser) => [...oldCpUsers, newCpUser]);
 
 const newAppUsers = createStore(defaultState)
-  .on(getAllAppUsers, (oldAppUsers, newAppUsers) => [...newAppUsers.filter(user => user.role === 31)]);
+  .on(getAllAppUsers, (oldAppUsers, newAppUsers) => [...newAppUsers.filter(user => user.role === 31)])
+  .on(appUserAdded, (oldAppUsers, newAppUser) => deleteUserFromArray(oldAppUsers, newAppUser))
+  .on(appUserDeclined, (oldAppUsers, newAppUser) => deleteUserFromArray(oldAppUsers, newAppUser));
 
 const newCpUsers = createStore(defaultState)
-  .on(getAllCpUsers, (oldCpUsers, newCpUsers) => [...newCpUsers.filter(user => user.role === 32)]);
+  .on(getAllCpUsers, (oldCpUsers, newCpUsers) => [...newCpUsers.filter(user => user.role === 32)])
+  .on(cpUserAdded, (oldCpUsers, newCpUsers) => deleteUserFromArray(oldCpUsers, newCpUsers))
+  .on(cpUserDeclined, (oldCpUsers, newCpUsers) => deleteUserFromArray(oldCpUsers, newCpUsers));
 
-  export {
+export {
   appUsers,
   cpUsers,
   newAppUsers,
