@@ -6,7 +6,7 @@ import Marker from './Marker';
 
 import './ControlPanelMap.scss';
 
-const ControlPanelMap = ({ track }) => {
+const ControlPanelMap = ({ track, alarm }) => {
   const lat = track[0][0];
   const lng = track[0][1];
   return (
@@ -16,7 +16,7 @@ const ControlPanelMap = ({ track }) => {
         center={{ lat, lng }}
         defaultZoom={10}
       >
-        <Marker lat={lat} lng={lng} />
+        <Marker lat={lat} lng={lng} alarm={alarm} />
       </GoogleMapReact>
     </div>
   );
@@ -24,6 +24,7 @@ const ControlPanelMap = ({ track }) => {
 
 ControlPanelMap.propTypes = {
   track: PropTypes.array.isRequired,
+  alarm: PropTypes.object.isRequired,
 };
 
 export default ControlPanelMap;

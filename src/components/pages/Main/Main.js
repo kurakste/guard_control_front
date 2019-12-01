@@ -33,7 +33,6 @@ const Main = ({
   ...props
 }) => {
   const statusFromStore = useStore(status);
-
   return (
     <React.Fragment>
       <div className="app">
@@ -63,7 +62,7 @@ const Main = ({
         </div>
       </div>
       <Modal
-        isOpen={Boolean(!statusFromStore)}
+        isOpen={statusFromStore === 'disconnecting'}
         title={'Потеряно соединение'}
         text={'Ожидается повторное соединение'}
         modalStyle ={'modal-danger'}
@@ -76,7 +75,7 @@ const Main = ({
 Main.propTypes = {
   history: PropTypes.object.isRequired,
   socket: PropTypes.object.isRequired,
-  setUpSocket: PropTypes.object.isRequired,
+  setUpSocket: PropTypes.func.isRequired,
 };
 
 export default Main;

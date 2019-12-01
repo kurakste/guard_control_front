@@ -43,6 +43,7 @@ const App = () => {
   const [socket, setUpSocket] = useState(null);
   const authFromStore = useStore(auth);
   const socketUrl = process.env.REACT_APP_SOCKET;
+
   useEffect(() => {
     const user = {
       token: localStorage.getItem('token'),
@@ -166,9 +167,20 @@ const App = () => {
 
     socket.on('disconnect', (msg) => {
       logger.log('error', msg);
+      console.log('Потеряно соедение с сервером');
       onDisconnect();
     });
+
+    const refetchIntervalID = setInterval(() => {
+      socket.emit('cpGiveMeUserList');
+    }, 1000 * 60 * 5); // 5 minutes
+
+    // eslint-disable-next-line consistent-return
+    return function clearIntervalId() {
+      clearInterval(refetchIntervalID);
+    };
   }, [socket, authFromStore, socketUrl]);
+
   return isReady ? (
     <Router>
       <React.Suspense fallback={<Loading />}>

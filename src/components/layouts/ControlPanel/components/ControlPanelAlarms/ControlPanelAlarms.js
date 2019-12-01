@@ -71,6 +71,17 @@ const Alarms = ({ alarms, alarmId, onClick }) => {
       Header: 'Телефон',
       accessor: 'User.tel',
     },
+    {
+      Header: 'Оплачен',
+      accessor: 'callIsPaid',
+      Cell: row => {
+        return (
+          <div>
+            <span>{`${row.row.callIsPaid ? 'Да' : 'Нет'} `}</span>
+          </div>
+        );
+      },
+    },
   ];
 
   const trProps = (state, rowInfo) => {
