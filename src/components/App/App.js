@@ -25,6 +25,8 @@ import {
   getAllCpUsers,
   appUserAdded,
   cpUserAdded,
+  cpUserDeclined,
+  appUserDeclined,
 } from 'store';
 
 import Main from '../pages/Main';
@@ -41,6 +43,7 @@ const App = () => {
   const [socket, setUpSocket] = useState(null);
   const authFromStore = useStore(auth);
   const socketUrl = process.env.REACT_APP_SOCKET;
+
   useEffect(() => {
     const user = {
       token: localStorage.getItem('token'),
@@ -124,16 +127,24 @@ const App = () => {
       getAllAppUsers(data);
     });
 
-    socket.on('srvUpdateOneCpUser', (data) => {
-      console.log('srvUpdateOneCpUser', data);
+    socket.on('srvUpdateCpUser', (data) => {
+      console.log('srvUpdateCpUser', data);
       cpUserAdded(data);
-
     });
 
-    socket.on('srvUpdateOneAppUser', (data) => {
-      console.log('srvUpdateOneAppUser', data);
+    socket.on('srvApproveAppUser', (data) => {
+      console.log('srvApproveAppUser', data);
       appUserAdded(data);
+    });
 
+    socket.on('srvDeclineAppUser', (data) => {
+      console.log('srvDeclineAppUser', data);
+      appUserDeclined(data);
+    });
+
+    socket.on('srvDeclineCpUser', (data) => {
+      console.log('srvDeclineCpUser', data);
+      cpUserDeclined(data);
     });
 
     socket.on('srvUpdateAllCpUserList', (data) => {
@@ -156,16 +167,27 @@ const App = () => {
 
     socket.on('disconnect', (msg) => {
       logger.log('error', msg);
+      console.log('Потеряно соедение с сервером');
       onDisconnect();
     });
+
+    const refetchIntervalID = setInterval(() => {
+      socket.emit('cpGiveMeUserList');
+    }, 1000 * 60 * 5); // 5 minutes
+
+    // eslint-disable-next-line consistent-return
+    return function clearIntervalId() {
+      clearInterval(refetchIntervalID);
+    };
   }, [socket, authFromStore, socketUrl]);
+
   return isReady ? (
     <Router>
       <React.Suspense fallback={<Loading />}>
         <Switch>
           <Route exact path="/login" name="Login Page" render={props => <Login {...props} socket={socket}/>} />
           <Route exact path="/register" name="Register Page" render={props => <Register {...props} socket={socket}/>} />
-          <PrivateRoute path='/' component={Main} socket={socket}/>
+          <PrivateRoute path='/' component={Main} socket={socket} setUpSocket={setUpSocket} />
         </Switch>
       </React.Suspense>
     </Router>

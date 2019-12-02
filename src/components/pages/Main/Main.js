@@ -26,13 +26,17 @@ import {
   AppSidebarNav,
 } from '@coreui/react';
 
-const Main = ({ history, socket, ...props }) => {
+const Main = ({
+  history,
+  socket,
+  setUpSocket,
+  ...props
+}) => {
   const statusFromStore = useStore(status);
-
   return (
     <React.Fragment>
       <div className="app">
-        <Header />
+        <Header socket={socket} setUpSocket={setUpSocket} />
         <div className="app-body">
           <AppSidebar display="lg">
             <Suspense>
@@ -58,7 +62,7 @@ const Main = ({ history, socket, ...props }) => {
         </div>
       </div>
       <Modal
-        isOpen={Boolean(!statusFromStore)}
+        isOpen={statusFromStore === 'disconnecting'}
         title={'Потеряно соединение'}
         text={'Ожидается повторное соединение'}
         modalStyle ={'modal-danger'}
@@ -71,6 +75,7 @@ const Main = ({ history, socket, ...props }) => {
 Main.propTypes = {
   history: PropTypes.object.isRequired,
   socket: PropTypes.object.isRequired,
+  setUpSocket: PropTypes.func.isRequired,
 };
 
 export default Main;

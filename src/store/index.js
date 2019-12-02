@@ -32,6 +32,8 @@ import {
   newCpUsers,
   appUserAdded,
   cpUserAdded,
+  cpUserDeclined,
+  appUserDeclined,
 } from './users';
 
 import {
@@ -55,6 +57,8 @@ export {
   getAllAppUsers,
   getAllCpUsers,
   getAllAlarms,
+  cpUserDeclined,
+  appUserDeclined,
   updateAlarm,
   operators,
   updateOperators,
