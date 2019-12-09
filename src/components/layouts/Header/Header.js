@@ -1,3 +1,4 @@
+/* global localStorage */
 import React, { Suspense } from 'react';
 import { NavLink } from 'react-router-dom';
 import {
@@ -30,6 +31,7 @@ const Header = ({ socket, setUpSocket }) => {
   const socketUrl = process.env.REACT_APP_SOCKET;
   const logOut = (e) => {
     e.preventDefault();
+    localStorage.clear();
     onLogout();
     socket.disconnect();
     const params = {};

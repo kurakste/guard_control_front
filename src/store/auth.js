@@ -1,4 +1,3 @@
-/* global localStorage */
 import { createStore, createEvent } from 'effector';
 
 const onAuth = createEvent();
@@ -14,7 +13,6 @@ const defaultState = {
 const auth = createStore(defaultState)
   .on(onAuth, (oldAuth, newAuth) => ({ isAuthed: true, token: newAuth.token, user: newAuth.user }))
   .on(onLogout, () => {
-    localStorage.clear();
     return defaultState;
   });
 
