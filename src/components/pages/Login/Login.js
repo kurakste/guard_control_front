@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useStore } from 'effector-react';
 import { Redirect, Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
 
 import {
   Button,
@@ -18,21 +17,37 @@ import {
 import {
   auth,
   errors,
+  onError,
+  onAuth,
 } from 'store';
 
 import { errorCodeChecker } from 'helpers';
 
-const Login = ({ socket }) => {
+const apiUrl = process.env.REACT_APP_URL;
+
+const Login = () => {
   const errorsFromStore = useStore(errors);
   const authFromStore = useStore(auth);
   const [login, onLoginChange] = useState('');
   const [pass, onPasswordChange] = useState('');
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const user = { email: login, password: pass };
-    socket.emit('cpSignIn', {
-      payload: user,
+    const user = new FormData();
+    user.append('email', login);
+    user.append('password', pass);
+    const response = await fetch(`${apiUrl}sign-in`, {
+      method: 'POST',
+      body: user,
     });
+    const result = await response.json();
+    if (result.success) {
+      console.log(result);
+      localStorage.setItem('token', result.payload.token);
+      localStorage.setItem('user', JSON.stringify(result.payload.user));
+      onAuth(result.payload);
+    } else {
+      onError(result.errorCode);
+    }
   };
   return !authFromStore.isAuthed ? (
     <div className="app flex-row align-items-center">
@@ -103,7 +118,7 @@ const Login = ({ socket }) => {
   ) : <Redirect to='/main' />;
 };
 Login.propTypes = {
-  socket: PropTypes.object.isRequired,
+
 };
 
 export default Login;
