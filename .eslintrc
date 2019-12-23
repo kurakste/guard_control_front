@@ -16,5 +16,9 @@
     "no-use-before-define": "off",
     "import/no-unresolved": "off",
     "react/display-name": "off",
+    "linebreak-style": "off",
+  },
+  "env": {
+    "browser": true
   }
 }

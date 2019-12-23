@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useStore } from 'effector-react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
@@ -20,14 +20,18 @@ import Modal from 'components/common/Modal';
 
 import {
   errors,
+  onError,
 } from 'store';
 
 import { errorCodeChecker } from 'helpers';
 
-const Register = ({ socket, history }) => {
+const apiUrl = process.env.REACT_APP_URL;
+
+const Register = ({ history }) => {
   const errorsFromStore = useStore(errors);
   const [firstName, onFirstNameChange] = useState('');
   const [lastName, onLastNameChange] = useState('');
+  const [middleName, onMiddleNameChange] = useState('');
   const [email, onEmailChange] = useState('');
   const [pass, onPasswordChange] = useState('');
   const [tel, onTelChange] = useState('');
@@ -36,29 +40,30 @@ const Register = ({ socket, history }) => {
 
   const [regModalIsShown, showRegModal] = useState(false);
 
-  useEffect(() => {
-    socket.on('srvNewUserWasCreated', (data) => {
-      console.log('srvNewUserWasCreated: ', data);
-      if (data.result) {
-        showRegModal(data.result);
-      }
-    });
-  }, [socket]);
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (passConfirm !== pass) {
       onValidationError('Подтверждение пароля не совпадает с паролем');
       return;
     }
-    socket.emit('cpRegisterNewCpUser', {
-      payload: {
-        firstName,
-        lastName,
-        email,
-        password: pass,
-      },
+    const user = new FormData();
+    user.append('firstName', firstName);
+    user.append('middleName', middleName);
+    user.append('lastName', lastName);
+    user.append('tel', tel);
+    user.append('email', email);
+    user.append('password', pass);
+    const response = await fetch(`${apiUrl}user-new-cp`, {
+      method: 'POST',
+      body: user,
     });
+    const result = await response.json();
+    // console.log(result);
+    if (result.success) {
+      showRegModal(result.success);
+    } else {
+      onError(result.errorCode);
+    }
   };
 
   const redirectToAuth = (e) => {
@@ -90,6 +95,19 @@ const Register = ({ socket, history }) => {
                       autoComplete="firstName"
                       value={firstName}
                       onChange={e => onFirstNameChange(e.target.value)} />
+                  </InputGroup>
+                  <InputGroup className="mb-3">
+                    <InputGroupAddon addonType="prepend">
+                      <InputGroupText>
+                        <i className="icon-people"></i>
+                      </InputGroupText>
+                    </InputGroupAddon>
+                    <Input
+                      type="text"
+                      placeholder="Отчество"
+                      autoComplete="middleName"
+                      value={middleName}
+                      onChange={e => onMiddleNameChange(e.target.value)} />
                   </InputGroup>
                   <InputGroup className="mb-3">
                     <InputGroupAddon addonType="prepend">
